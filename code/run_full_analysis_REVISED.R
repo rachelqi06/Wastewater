@@ -37,16 +37,15 @@ cat("✓ All packages loaded\n")
 # 2. SET WORKING DIRECTORY AND DATA PATHS
 ###############################################################################
 
-working_dir <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data"
-data_path <- paste0(working_dir, "/Data for code optimization_Do not submit/")
-code_path <- paste0(working_dir, "/NCWW_ms_code/")
-output_path <- paste0(code_path, "figures/")
+# Data path (absolute - in Box folder)
+data_path <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/Data for code optimization_Do not submit/"
+
+# Output path (relative to GitHub repo)
+output_path <- "code/figures/"
 
 if (!dir.exists(output_path)) {
   dir.create(output_path, recursive = TRUE)
 }
-
-setwd(working_dir)
 
 cat("Working directory:", getwd(), "\n")
 cat("Output path:", output_path, "\n\n")
