@@ -1,12 +1,9 @@
 name: Automated Analysis Pipeline
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch: {}
-  schedule:
-    # Run weekly on Mondays at 9 AM UTC
-    - cron: '0 9 * * 1'
+  # Analysis runs locally in RStudio
+  # GitHub Actions disabled due to local data paths
 
 jobs:
   run-analysis:
