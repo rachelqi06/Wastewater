@@ -353,6 +353,8 @@ durham_june_2021_idx <- which(plant_metadata$Location == "Durham" &
                                plant_metadata$Month == 6 &
                                plant_metadata$Year == 2021)
 
+cat("Number of Durham June 2021 samples found:", length(durham_june_2021_idx), "\n")
+
 # Subset plant data for Durham June 2021
 food_plant_taxa <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta" & IsFood == "Y")
 food_plant_taxa <- prune_samples(rownames(plant_metadata)[durham_june_2021_idx], food_plant_taxa)
