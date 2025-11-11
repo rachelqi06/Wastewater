@@ -340,15 +340,47 @@ fig1a <- ggplot() +
 ggsave(paste0(output_path, "Figure_1A_locations.png"), fig1a, width = 10, height = 8, dpi = 300)
 cat("✓ Figure 1A saved\n")
 
-# TODO: Figure 1B - Wastewater vs Stool validation
-# Need to clarify: where are the stool samples loaded? Are they in NCWW_allsamples_trnL or separate?
-# cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n")
-#
-# # Get plant abundance data and metadata
-# plant_otu <- as.data.frame(otu_table(NCWW_allsamples_trnL))
-# plant_metadata <- data.frame(sam_data(NCWW_allsamples_trnL))
-#
-# cat("✓ Figure 1B saved\n")
+# Figure 1B: Wastewater vs Stool validation (plant composition correlation)
+cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n")
+
+# Load Durham WW and Stool data
+durham_data <- read.csv("C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/NCWW_ms_code/Data/Durham_WWStoolJune.csv")
+
+# Create comparison dataframe with mean CLR values
+plant_summary <- data.frame(
+  Plant = durham_data$Plant,
+  CommonName = durham_data$label,
+  Wastewater_CLR = durham_data$WW_mean,
+  Stool_CLR = durham_data$Stool_mean
+)
+
+# Calculate correlation
+corr_test <- cor.test(plant_summary$Stool_CLR, plant_summary$Wastewater_CLR, method = "spearman")
+corr_rho <- corr_test$estimate
+corr_pval <- corr_test$p.value
+
+# Create scatter plot with labels
+fig1b <- ggplot(plant_summary, aes(x = Stool_CLR, y = Wastewater_CLR)) +
+  geom_point(size = 3, color = "#4DAF4A", alpha = 0.7) +
+  geom_text_repel(aes(label = CommonName), size = 3, max.overlaps = Inf) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", alpha = 0.2) +
+  labs(
+    title = "Figure 1B: Wastewater vs Individual Stool Composition",
+    x = "CLR Abundance in Stool (n=14 individuals)",
+    y = "CLR Abundance in Wastewater (n=2 samples)",
+    subtitle = paste0("Durham, June 2021 | Spearman ρ = ",
+                     round(corr_rho, 2), " (p ",
+                     if(corr_pval < 0.0001) "< 0.0001" else paste("=", round(corr_pval, 4)), ")")
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 10),
+    panel.grid.major = element_line(color = "gray90")
+  )
+
+ggsave(paste0(output_path, "Figure_1B_validation.png"), fig1b, width = 10, height = 8, dpi = 300)
+cat("✓ Figure 1B saved\n")
 
 # Figure 1C: Composition pie charts with percentage labels
 fig1c_data <- data.frame(
