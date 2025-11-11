@@ -1,0 +1,48 @@
+"0","library(pls)"
+"2","Warning: package ‘pls’ was built under R version 4.4.1"
+"2","
+Attaching package: ‘pls’
+
+"
+"2","The following object is masked from ‘package:ape’:
+
+    mvr
+
+"
+"2","The following object is masked from ‘package:vegan’:
+
+    scores
+
+"
+"2","The following object is masked from ‘package:stats’:
+
+    loadings
+
+"
+"0","# Function to calculate VIP scores"
+"0","calculate_vip <- function(model) {"
+"0","  W <- model$loading.weights           # Weight matrix"
+"0","  T <- model$scores                    # Score matrix"
+"0","  X <- model$model[, -1, drop = FALSE] # Predictor matrix"
+"0","  Y <- model$model[, 1, drop = TRUE]   # Response variable"
+"0","  comp <- ncol(T)                      # Number of components"
+"0","  p <- nrow(W)                         # Number of predictors"
+"0","  "
+"0","  # Total sum of squares for Y"
+"0","  SSY <- sum((Y - mean(Y))^2)"
+"0","  "
+"0","  # Variance explained per component"
+"0","  SSY_comp <- sapply(1:comp, function(k) {"
+"0","    fitted <- model$fitted.values[, , k] # Extract fitted values for component k"
+"0","    sum((fitted - mean(Y))^2)"
+"0","  })"
+"0","  Yvar <- SSY_comp / SSY                 # Proportion of variance explained"
+"0","  "
+"0","  # Compute VIP scores"
+"0","  vip <- numeric(p)"
+"0","  for (j in 1:p) {"
+"0","    vip[j] <- sqrt(p * sum((W[j, ]^2 * Yvar) / sum(Yvar)))"
+"0","  }"
+"0","  "
+"0","  return(vip)"
+"0","}"

@@ -1,0 +1,1327 @@
+---
+title: "Rcode_NCWW_Manuscript"
+author: "Mengyi Dong"
+date: "2025-02-10"
+output: html_document
+---
+#This is a code document for all the analysis performed in the manuscript.
+#Load library
+```{r}
+set.seed(001)
+library(phyloseq)
+library("vegan")
+library(ggplot2)
+library(ggpubr)
+library(RColorBrewer)
+library(tidyr)
+library(dplyr)
+library(ape)
+library(microbiome)
+library(stats)
+library(PathoStat)
+library(here)
+library(ggthemes)
+library(tibble)
+library(textshape)
+library(envalysis)
+library(vegan3d)
+library(scatterplot3d)
+```
+
+#Load phyloseq objects 
+```{r}
+#Read in NCWW_allsamples_animal (include all animal ASVs, taxa with same assignments were glommed, reads are normalized for pooling).
+NCWW_allsamples_animal <- readRDS("Data/NCWW_allsamples_animal.rds")
+
+#Read the trnL only phyloseq (include all assigned and unassigned ASVs, unassigned ASVs were assumed to be non-food plant, reads are normalized for pooling)
+NCWW_allsamples_trnL <- readRDS("Data/NCWW_allsamples_trnL.rds")
+```
+
+#Food vs. Non-Food Read (Fig 1b, Supplementary Table 3)
+## Animal (From NCWW_allsamples)
+```{r}
+# Animal (From NCWW_allsamples)
+food_animal <- subset_taxa(NCWW_allsamples_animal, IsFood == "Y")
+food_animal
+#total reads of food animals
+sum(taxa_sums(food_animal))
+
+#total reads of animals
+sum(taxa_sums(NCWW_allsamples_animal))
+
+#total reads of nonfood animals
+sum(taxa_sums(NCWW_allsamples_animal)) - sum(taxa_sums(food_animal))
+
+#Percent of food animal reads
+sum(taxa_sums(food_animal))/sum(taxa_sums(NCWW_allsamples_animal))*100
+```
+
+##Plant (From NCWW_allsamples_plant and ps_plant for all food plant)
+```{r}
+#Plant (From NCWW_allsamples_plants)
+NCWW_allsamples_trnL
+
+#total reads of trnL
+sum(taxa_sums(NCWW_allsamples_trnL))
+
+#Food plant
+food_plant <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta")
+food_plant
+#Food plant reads
+sum(taxa_sums(food_plant))
+
+#Non-food plant reads
+sum(taxa_sums(NCWW_allsamples_trnL)) - sum(taxa_sums(food_plant))
+
+#Percent of food plant reads in all samples
+sum(taxa_sums(food_plant))/sum(taxa_sums(NCWW_allsamples_trnL))*100
+
+#Create a table to display percentage of food plant reads in each sample
+# Get total reads per sample
+total_reads_per_sample <- sample_sums(NCWW_allsamples_trnL)
+
+# Get food plant reads per sample
+food_plant <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta")
+food_plant_reads_per_sample <- sample_sums(food_plant)
+
+# Calculate unassigned (non-food plant) reads per sample
+non_food_reads_per_sample <- total_reads_per_sample - food_plant_reads_per_sample
+
+# Calculate percentage of unassigned reads per sample
+percent_non_food_reads <- (non_food_reads_per_sample / total_reads_per_sample) * 100
+
+# Create a table
+not_assigned_reads_table <- data.frame(
+  Sample = names(total_reads_per_sample),
+  Total_Reads = total_reads_per_sample,
+  Food_Plant_Reads = food_plant_reads_per_sample,
+  Non_Food_Plant_Reads = non_food_reads_per_sample,
+  Percent_Non_Food_Reads = percent_non_food_reads
+)
+
+# Print the table
+print(not_assigned_reads_table)
+```
+
+#Generate all subsets
+```{r}
+#Remove low abundance samples samples (optional)
+samples_to_remove <- c("NCWW121720_1","NCWW121720_2","NCWW121720_10","NCWW121720_56","NCWW121720_52","NCWW121720_18","NCWW121720_21","NCWW022621_16","NCWW121720_27", "NCWW121720_6")
+
+#All samples subset to plant, animal, and fish
+ps_animal <- subset_taxa(NCWW_allsamples_animal, IsFood == "Y"& CommonName != "Emu")
+ps_animal_clr <- microbiome::transform(ps_animal,"clr")
+
+ps_plant <- subset_taxa(NCWW_allsamples_trnL, phylum =="Streptophyta")
+ps_plant_clr <- microbiome::transform(ps_plant, "clr")
+
+#Longitudinal sample set (from Charlotte-Mecklenburg county, Beaufort-Carteret county, and Greenville-Pitt county)
+NCWW_Seasonal_plant <- subset_samples(ps_plant, County %in% c("carteret","mecklenburg","pitt"))
+NCWW_Seasonal_plant <- prune_samples(!(sample_names(NCWW_Seasonal_plant) %in% samples_to_remove), NCWW_Seasonal_plant)
+NCWW_Seasonal_plant <- prune_taxa(taxa_sums(NCWW_Seasonal_plant) > 0, NCWW_Seasonal_plant)
+NCWW_Seasonal_plant_clr <- microbiome::transform(NCWW_Seasonal_plant, "clr")
+
+NCWW_Seasonal_animal <- subset_samples(ps_animal, County %in% c("carteret","mecklenburg","pitt"))
+NCWW_Seasonal_animal <- prune_samples(!(sample_names(NCWW_Seasonal_animal) %in% samples_to_remove), NCWW_Seasonal_animal)
+NCWW_Seasonal_animal <- prune_taxa(taxa_sums(NCWW_Seasonal_animal) > 0, NCWW_Seasonal_animal)
+NCWW_Seasonal_animal_clr <- microbiome::transform(NCWW_Seasonal_animal, "clr")
+
+NCWW_Seasonal_fish <- subset_taxa(NCWW_Seasonal_animal, class == "Actinopteri")
+NCWW_Seasonal_fish_clr <- subset_taxa(NCWW_Seasonal_animal_clr, class == "Actinopteri")
+
+##merge plant and animal
+ps_notree_1 <- phyloseq(NCWW_Seasonal_animal@otu_table, NCWW_Seasonal_animal@tax_table, NCWW_Seasonal_animal@sam_data)
+ps_notree_2 <- phyloseq(NCWW_Seasonal_plant@otu_table, NCWW_Seasonal_plant@tax_table, NCWW_Seasonal_plant@sam_data)
+NCWW_Seasonal_food <- merge_phyloseq(ps_notree_1, ps_notree_2)
+
+##merge CLR-transformed plant and animal 
+ps_notree_3 <- phyloseq(NCWW_Seasonal_animal_clr@otu_table, NCWW_Seasonal_animal_clr@tax_table, NCWW_Seasonal_animal_clr@sam_data)
+ps_notree_4 <- phyloseq(NCWW_Seasonal_plant_clr@otu_table, NCWW_Seasonal_plant_clr@tax_table, NCWW_Seasonal_plant_clr@sam_data)
+NCWW_Seasonal_food_clr <- merge_phyloseq(ps_notree_3, ps_notree_4)
+
+#Spatial sample set (2021 samples)
+NCWW_2021_animal <- subset_samples(ps_animal, Plate == "NCWW2021")
+NCWW_2021_animal <- prune_taxa(taxa_sums(NCWW_2021_animal) > 0, NCWW_2021_animal)
+NCWW_2021_animal_clr <- microbiome::transform(NCWW_2021_animal, "clr")
+NCWW_2021_fish <- subset_taxa(NCWW_2021_animal, class == "Actinopteri")
+NCWW_2021_fish_clr <- subset_taxa(NCWW_2021_animal_clr, class == "Actinopteri")
+
+NCWW_2021_plant <- subset_samples(ps_plant, Plate == "NCWW2021")
+NCWW_2021_plant <- prune_taxa(taxa_sums(NCWW_2021_plant) > 0, NCWW_2021_plant)
+NCWW_2021_plant_clr <- microbiome::transform(NCWW_2021_plant, "clr")
+
+##merge plant and animal
+ps_notree_5 <- phyloseq(NCWW_2021_animal@otu_table, NCWW_2021_animal@tax_table, NCWW_2021_animal@sam_data)
+ps_notree_6 <- phyloseq(NCWW_2021_plant@otu_table, NCWW_2021_plant@tax_table, NCWW_2021_plant@sam_data)
+NCWW_2021 <- merge_phyloseq(ps_notree_5, ps_notree_6)
+
+##CLR transformed, merge plant and animal
+ps_notree_7 <- phyloseq(NCWW_2021_animal_clr@otu_table, NCWW_2021_animal_clr@tax_table, NCWW_2021_animal_clr@sam_data)
+ps_notree_8 <- phyloseq(NCWW_2021_plant_clr@otu_table, NCWW_2021_plant_clr@tax_table, NCWW_2021_plant_clr@sam_data)
+NCWW_2021_clr <- merge_phyloseq(ps_notree_7, ps_notree_8)
+```
+
+#Animal reads vs. Agricultural production (Supplementary Fig 1)
+```{r}
+#Data file used:
+ps <- NCWW_2021_animal_clr
+library(readxl)
+AgriculturalProduction <- read_excel("Data/AgriculturalProduction_log_byCounty.xlsx")
+
+#Extract data frame from phyloseq object
+df <- data.frame(ps@otu_table)
+colnames(df) <- data.frame(ps@tax_table)$CommonName
+colnames(df) <- make.names(colnames(df), unique = TRUE)
+metadata <- data.frame(ps@sam_data)
+df$County <- metadata$County
+
+#Signal of major agricultural animals
+WastewaterSignals <- df[, c("County","Cattle.1","Chicken", "Turkey","Pig")]
+
+# Add columns from AgriculturalProduction to df using match()
+WastewaterSignals$Cattle_production <- AgriculturalProduction$Cattle_2021[match(WastewaterSignals$County, AgriculturalProduction$County)]
+WastewaterSignals$Hog_production <- AgriculturalProduction$Hog_2021[match(WastewaterSignals$County, AgriculturalProduction$County)]
+WastewaterSignals$Turkey_production <- AgriculturalProduction$Turkey_2021[match(WastewaterSignals$County, AgriculturalProduction$County)]
+WastewaterSignals$Chicken_production <- AgriculturalProduction$Broiler_2021[match(WastewaterSignals$County, AgriculturalProduction$County)]
+
+#Plot the scatter plots
+scatter1 <- ggscatter(WastewaterSignals, x = "Cattle_production", y = "Cattle.1", size = 4, color = "#FA8072", alpha = 0.6, repel = FALSE,  font.label = c(9, "plain", "black"),
+          add = "reg.line", add.params = list(color = "blue", fill = "lightgray"),
+          conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "spearman",
+          cor.coeff.args = list(method = "spearman", label.x.npc = "left", label.y.npc = "top"),
+          xlab = "Cattle Production (log head)", ylab = "Wastewater Signal")+
+  theme_classic() +
+  theme(panel.border = element_rect(color = "black", fill = NA), # Adds an outer frame
+        axis.line = element_line(color = "black"),               # Keeps axis lines
+        panel.grid = element_blank())                            # Ensures no inner grid lines
+scatter1
+
+scatter2 <- ggscatter(WastewaterSignals, x = "Hog_production", y = "Pig", size = 4, color = "#FA8072", alpha = 0.6, repel = FALSE,  font.label = c(9, "plain", "black"),
+          add = "reg.line", add.params = list(color = "blue", fill = "lightgray"),
+          conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "spearman",
+          cor.coeff.args = list(method = "spearman", label.x.npc = "left", label.y.npc = "top"),
+          xlab = "Hog Production (log head)", ylab = "Wastewater Signal")+
+  theme_classic() +
+  theme(panel.border = element_rect(color = "black", fill = NA), # Adds an outer frame
+        axis.line = element_line(color = "black"),               # Keeps axis lines
+        panel.grid = element_blank())                            # Ensures no inner grid lines
+scatter2
+
+scatter3 <- ggscatter(WastewaterSignals, x = "Turkey_production", y = "Turkey", size = 4, color = "#FA8072", alpha = 0.6, repel = FALSE,  font.label = c(9, "plain", "black"),
+          add = "reg.line", add.params = list(color = "blue", fill = "lightgray"),
+          conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "spearman",
+          cor.coeff.args = list(method = "spearman", label.x.npc = "left", label.y.npc = "top"),
+          xlab = "Turkey Production (log head)", ylab = "Wastewater Signal")+
+  theme_classic() +
+  theme(panel.border = element_rect(color = "black", fill = NA), # Adds an outer frame
+        axis.line = element_line(color = "black"),               # Keeps axis lines
+        panel.grid = element_blank())                            # Ensures no inner grid lines
+scatter3
+
+scatter4 <- ggscatter(WastewaterSignals, x = "Chicken_production", y = "Chicken", size = 4, color = "#FA8072", alpha = 0.6, repel = FALSE,  font.label = c(9, "plain", "black"),
+          add = "reg.line", add.params = list(color = "blue", fill = "lightgray"),
+          conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "spearman",
+          cor.coeff.args = list(method = "spearman", label.x.npc = "left", label.y.npc = "top"),
+          xlab = "Chicken Production (log head)", ylab = "Wastewater Signal")+
+  theme_classic() +
+  theme(panel.border = element_rect(color = "black", fill = NA), # Adds an outer frame
+        axis.line = element_line(color = "black"),               # Keeps axis lines
+        panel.grid = element_blank())                            # Ensures no inner grid lines
+scatter4
+```
+
+#Statistics: PERMANOVA (Supplementary Table 6 and 13)
+```{r}
+#temporal and spatial pattern of food with Charlotte, Beaufort, and Greenville data
+ps <- NCWW_Seasonal_food_clr 
+
+##Extract data frame from phyloseq object
+df <- data.frame(ps@otu_table)
+metadata <- data.frame(ps@sam_data)
+
+## Convert date to numeric variable
+metadata$Month_Date <- as.Date(metadata$Date, format = "%m/%d")
+metadata$Month_Date <- as.numeric(metadata$Month_Date)
+
+permanova <- adonis2(df ~ County + Month_Date, data = metadata, method = "euclidean", by = "terms", permutations = 999)
+print(permanova)
+
+
+#for Spatial fish consumption with 2021 data
+ps <- NCWW_2021_fish_clr #spatial food consumption with 2021 data
+
+##Extract data frame from phyloseq object
+df <- data.frame(ps@otu_table)
+metadata <- data.frame(ps@sam_data)
+permanova <- adonis2(df ~ Coast_Inland + City_Town, data = metadata, method = "euclidean", by = "terms", permutations = 999)
+print(permanova)
+```
+
+#Plant-Animal-ratio, taxa richness, and Shannon Diversity (Fig 3b,d, Supplementary Fig 6a)
+```{r}
+#Using spatial samples from 2021, calculate Shannon diversity and tax richness (alpha-diversity index: observed)
+NCWW_2021_int <- NCWW_2021
+otu_table(NCWW_2021_int) <- round(otu_table(NCWW_2021_int))
+alpha_diversity <- estimate_richness(NCWW_2021_int, measures=c("Observed", "Shannon"))
+
+#Plant-animal-ratio (Use the statewide dataset)
+ps_phylum <- tax_glom(NCWW_2021, taxrank = "phylum")
+ps_phylum <- microbiome::transform(ps_phylum, "compositional")
+otu_df <- as.data.frame(otu_table(ps_phylum))
+tax_df <- as.data.frame(tax_table(ps_phylum))
+colnames(otu_df) <- tax_df$phylum
+otu_df$PAR <- otu_df$Streptophyta/otu_df$Chordata
+
+#Combining two dataframes (otu_df and alpha_diversity) into one dataframe
+df_diversity <- data.frame(otu_df, alpha_diversity)
+df_diversity$Location <- ps_phylum@sam_data$Location
+
+df_diversity
+```
+
+#Statistics: One-way ANOVA
+```{r}
+#Test data distribution
+shapiro.test(df_diversity$Shannon)
+shapiro.test(df_diversity$Observed)
+shapiro.test(df_diversity$PAR)
+
+# ANOVA for normal distribution
+anova_result <- aov(Shannon ~ Location, data = df_diversity)
+summary(anova_result)
+
+##Significant ANOVA result followed by Tukey's HSD Post-hoc test
+TukeyHSD(anova_result)
+
+# ANOVA for normal distribution
+anova_result <- aov(Observed ~ Location, data = df_diversity)
+summary(anova_result)
+
+##Significant ANOVA result followed by Tukey's HSD Post-hoc test
+TukeyHSD(anova_result)
+
+# Kruskal-Wallis for not normal distribution
+kruskal.test(PAR ~ Location, data = df_diversity)  #No significant differences in Plant-Animal-Ratio between locations
+```
+
+# Compare wastewater plant with stool samples (Fig 1c)
+```{r}
+#Read in the organized datafile "Durham_WWStoolJune"
+Durham_WWStoolJune <-read.csv("Data/Durham_WWStoolJune.csv", header = TRUE)
+
+#Create scatter plot
+scatter <- ggscatter(Durham_WWStoolJune, x = "Stool_mean", y = "WW_mean", size = 4, color = "#B09647", alpha = 0.6, label = "label", repel = FALSE,  font.label = c(9, "plain", "black"),
+          add = "reg.line", add.params = list(color = "red", fill = "lightgray"),
+          conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "spearman",
+          cor.coeff.args = list(label.x.npc = "left", label.y.npc = "top", method = "spearman"),
+          xlab = "Stool", ylab = "Wastewater")+
+  theme_classic() +
+  theme(panel.border = element_rect(color = "black", fill = NA), # Adds an outer frame
+        axis.line = element_line(color = "black"),               # Keeps axis lines
+        panel.grid = element_blank())                            # Ensures no inner grid lines
+scatter
+```
+#Ordination plot with ggplot (Fig 2a and S. Fig 2 and 3)
+```{r}
+# Assuming 'ord' contains the ordination results
+# and 'NCWW_SeasonalFood_clr' contains the sample data
+ps <- NCWW_Seasonal_food_clr
+ord <- ordinate(ps, method="MDS", distance = "euclidean")
+
+p_ord <- plot_ordination(NCWW_Seasonal_food_clr, ord, color = "Month", shape = "County", axes = c(1, 2)) +
+ theme(text = element_text(size = 16))+
+  geom_point(size = 3, alpha = 0.5) + 
+  theme_bw()
+p_ord
+
+# First, extract ordination scores
+scores_df <- as.data.frame(ord$vectors)  # Adjust based on your specific ordination object structure
+
+# Merge scores with metadata
+metadata <- as.data.frame(ps@sam_data)
+combined_df <- cbind(scores_df, metadata)
+
+
+# Define your custom transparency levels
+alpha_values <- c("NCWW022621" = 0.3, "NCWW121720" = 0.3, "NCWW2021" = 0.9)
+
+# Create the plot with color by Month
+p_ord <- ggplot(combined_df, aes(x = Axis.4, y = Axis.3, color = Month, shape = County)) +
+  geom_point(size = 3, alpha = 0.8) +
+  #scale_color_manual(values = c("carteret" = "red", "mecklenburg" = "blue", "pitt" = "green")) +
+  scale_alpha_manual(values = alpha_values) +
+  theme_bw() +
+  theme(text = element_text(size = 16)) +
+  labs(y = "Axis3 (4.9%)", x = "Axis4 (4.1%)") +
+  guides(alpha = FALSE)  # Optionally remove the alpha legend
+
+p_ord
+
+
+# Create the plot with color by County
+p_ord <- ggplot(combined_df, aes(x = Axis.1, y = Axis.2, color = County, alpha = Plate)) +
+  geom_point(size = 3) +
+  scale_alpha_manual(values = alpha_values) +
+  theme_bw() +
+  theme(text = element_text(size = 16)) +
+  labs(x = "Axis1 (9.7%)", y = "Axis2 (6%)") +
+  guides(alpha = FALSE)  # Optionally remove the alpha legend
+
+p_ord
+
+p_ord <- ggplot(combined_df, aes(x = Axis.1, y = Axis.2, color = Month, shape = County)) +
+  geom_point(size = 3, alpha = 0.8) +
+  scale_alpha_manual(values = alpha_values) +
+  theme_bw() +
+  theme(text = element_text(size = 16)) +
+  labs(x = "Axis1 (9.7%)", y = "Axis2 (6%)") +
+  guides(alpha = FALSE)  # Optionally remove the alpha legend
+
+p_ord
+
+#Axis and Time correlation
+combined_df$time <- as.Date(combined_df$Date,format = "%m/%d")
+combined_df$time <- as.numeric(combined_df$time)
+cor.test(combined_df$Axis.1, combined_df$time, method = "spearman")
+cor.test(combined_df$Axis.2, combined_df$time, method = "spearman")
+cor.test(combined_df$Axis.3, combined_df$time, method = "spearman")
+cor.test(combined_df$Axis.4, combined_df$time, method = "spearman")
+cor.test(combined_df$Axis.5, combined_df$time, method = "spearman")
+```
+
+#Seasonal fish heatmap (Fig 2c)
+```{r}
+# Read in the organized datafile "Heatmap_SeasonalFish_byMonth"
+Heatmap_SeasonalFish_byMonth <- read.csv("Data/Heatmap_SeasonalFish_byMonth.csv", header = TRUE, row.names = 1)
+
+#Make the heatmap dataframe
+df_SUM <- Heatmap_SeasonalFish_byMonth[,6:22]
+df_SUM <- data.frame(df_SUM)
+row.names(df_SUM)<-row.names(Heatmap_SeasonalFish_byMonth)
+
+# Get taxagroup from a df
+taxagroup <- Heatmap_SeasonalFish_byMonth[,1:2]
+taxagroup <- data.frame(taxagroup)
+row.names(taxagroup) <- row.names(Heatmap_SeasonalFish_byMonth)
+
+# make log transformed table if not
+df_SUM_log <- log(df_SUM + 1)
+
+#Heatmap
+library(pheatmap)
+heatmap_abundance <- pheatmap(df_SUM_log, color = colorRampPalette(c("white", "#012169"))(100), labels_row = NULL, cluster_cols = FALSE, cluster_rows = FALSE, annotation_row = taxagroup, cellwidth = 18, cellheight = 12, border_color = "darkgray", fontsize = 12)
+
+heatmap_abundance
+```
+
+#PCA: Demographic factors (Fig 3a)
+```{r}
+#Demographic matrix
+metadata <- data.frame(NCWW_2021@sam_data)
+X <- metadata[, 27:63]
+X_scaled <- scale(X, center = TRUE, scale = TRUE)
+
+library(textshape)
+# PCA by prcomp() on count table
+pca_df <- data.frame(X_scaled)
+pca_df$Location <- metadata$Location
+
+# from combined_df, calculate the average read counts by Location
+pca_df <- pca_df %>% 
+  group_by(Location) %>%
+  summarise(across(
+    .cols = where(is.numeric),  # Selects all numeric columns
+    .fns = ~ mean(.x, na.rm = TRUE)  # Calculate the mean, remove NA values
+  )) %>%
+  ungroup() %>%  # Remove grouping
+  column_to_rownames("Location")  # Convert 'Location' column to row names
+
+# PCA
+res.pca <- prcomp(pca_df, center = TRUE, scale. = TRUE)
+pc_loadings <- res.pca$x
+
+library(factoextra)
+plot_pca <- fviz_pca_biplot(res.pca, repel = TRUE,              # label = "var" only display the labels for var.
+                col.var = "red", # Variables color
+                col.ind = "grey",  # Individuals color
+                select.var = list(contrib = 15), pointsize = 3, labelsize = 5,
+                ggtheme = theme_minimal()) + theme(text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 12))
+plot_pca
+
+Demographics_scaled <- as.matrix(pca_df)
+```
+
+#PCA:Plant (Fig 4a,b,c)
+```{r}
+#Use following subset
+NCWW_2021_plant_clr
+
+#PCA from prcomp()
+df <- data.frame(NCWW_2021_plant_clr@otu_table) #count table
+colnames(df) <- data.frame(NCWW_2021_plant_clr@tax_table)$CommonName
+
+unique_names <- make.unique(names(df), sep = ".")
+df_unique <- df
+names(df_unique) <- unique_names
+
+# PCA by prcomp() on count table
+pca_df <- df_unique
+metadata <- data.frame(NCWW_2021_plant_clr@sam_data)
+pca_df$Location <- metadata$Location
+
+# from combined_df, calculate the average read counts by Location
+pca_df <- pca_df %>% 
+  group_by(Location) %>%
+  summarise(across(
+    .cols = where(is.numeric),  # Selects all numeric columns
+    .fns = ~ mean(.x, na.rm = TRUE)  # Calculate the mean, remove NA values
+  )) %>%
+  ungroup() %>%  # Remove grouping
+  column_to_rownames("Location")  # Convert 'Location' column to row names
+
+res.pca <- prcomp(pca_df)
+pc_loadings_plant <- merge(res.pca$x, Demographics_scaled, by.x = 0, by.y = 0)
+
+library(factoextra)
+plot_pca <- fviz_pca_biplot(res.pca, repel = TRUE,              # label = "var" only display the labels for var.
+                col.var = "red", # Variables color
+                col.ind = "grey",  # Individuals color
+                select.var = list(contrib = 15), pointsize = 3, labelsize = 5,
+                ggtheme = theme_minimal()) + theme(text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 12))
+plot_pca
+
+# get PC rotations (contributions) from PCA object
+pca.contri <- data.frame(res.pca$rotation) %>%
+  rownames_to_column(var = "PlantType")
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pca.contri %>%
+  mutate(abs_value = abs(PC1)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 10 rows
+
+# Plot PC1 components
+PC1_loading <- ggplot(top_factors, aes(x = reorder(PlantType, PC1), y = PC1, fill = PlantType)) + 
+  geom_bar(stat = "identity", fill = "#B09647",linewidth = 0.2, color = "black") +  # Use geom_bar and set stat to "identity" to use actual y values
+  labs(x = "Top 20 Plant Taxa", y = "PC1 Loading") +  # Label the chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black"))+
+  coord_flip()
+
+PC1_loading
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pca.contri %>%
+  mutate(abs_value = abs(PC2)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 10 rows
+
+PC2_loading <- ggplot(top_factors, aes(x = reorder(PlantType, PC2), y = PC2, fill = PlantType)) + 
+  geom_bar(stat = "identity",fill = "#B09647",linewidth = 0.2, color = "black") +  # Use geom_bar and set stat to "identity" to use actual y values
+  labs(x = "Top 20 Plant Taxa", y = "PC2 Loading") +  # Label the chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black"))+
+  coord_flip()
+
+PC2_loading
+```
+
+#PCA: fish (Fig 5a,b,c)
+```{r}
+#Use following subset
+NCWW_2021_fish_clr
+
+#PCA from prcomp()
+df <- data.frame(NCWW_2021_fish_clr@otu_table) #count table
+colnames(df) <- data.frame(NCWW_2021_fish_clr@tax_table)$CommonName
+
+unique_names <- make.unique(names(df), sep = ".")
+df_unique <- df
+names(df_unique) <- unique_names
+
+# PCA by prcomp() on count table
+pca_df <- df_unique
+metadata <- data.frame(NCWW_2021_fish_clr@sam_data)
+pca_df$Location <- metadata$Location
+
+# from combined_df, calculate the average read counts by Location
+pca_df <- pca_df %>% 
+  group_by(Location) %>%
+  summarise(across(
+    .cols = where(is.numeric),  # Selects all numeric columns
+    .fns = ~ mean(.x, na.rm = TRUE)  # Calculate the mean, remove NA values
+  )) %>%
+  ungroup() %>%  # Remove grouping
+  column_to_rownames("Location")  # Convert 'Location' column to row names
+
+res.pca <- prcomp(pca_df)
+pc_loadings_fish <- merge(res.pca$x, Demographics_scaled, by.x = 0, by.y = 0)
+
+library(factoextra)
+
+df_locations <- data.frame(
+  Location = row.names(pca_df),
+  Coast_Inland = metadata$Coast_Inland[match(row.names(pca_df), metadata$Location)]
+)
+
+plot_pca <- fviz_pca_biplot(res.pca, repel = TRUE, 
+                habillage = df_locations$Coast_Inland,
+                #label = "var",
+                col.var = "black", # Variables color
+                col.ind = "gray",  # Individuals color
+                alpha.ind = 0.8,
+                #invisible = "var", # choose to not show var or ind or none
+                select.var = list(contrib = 15), pointsize = 5, labelsize = 5,
+                ggtheme = theme_void()) + theme(panel.grid.major = element_blank(),  # Remove major grid lines
+    panel.grid.minor = element_blank(),  # Remove minor grid lines,
+    text = element_text(size = 10),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 12)) + scale_color_brewer(palette="Dark2")
+plot_pca
+
+
+# get PC rotations (contributions) from PCA object
+pca.contri <- data.frame(res.pca$rotation) %>%
+  rownames_to_column(var = "Fish")
+
+# Filter for the top 20 factors with the highest absolute values
+top_factors <- pca.contri %>%
+  mutate(abs_value = abs(PC1)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 20 rows
+
+# Plot PC1 components
+PC1_loading <- ggplot(top_factors, aes(x = reorder(Fish, PC1), y = PC1, fill = Fish)) + 
+  geom_bar(stat = "identity", fill = "#FA8072", color = "black", linewidth = 0.2) +  # Use geom_bar and set stat to "identity" to use actual y values
+  labs(x = "Fish type", y = "PC1 Loading") +  # Label the chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black"))+
+  coord_flip()
+
+PC1_loading
+
+# Filter for the top 20 factors with the highest absolute values
+top_factors <- pca.contri %>%
+  mutate(abs_value = abs(PC2)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 20 rows
+
+PC2_loading <- ggplot(top_factors, aes(x = reorder(Fish, PC2), y = PC2, fill = Fish)) + 
+  geom_bar(stat = "identity", fill = "#FA8072", color = "black", linewidth = 0.2) +  # Use geom_bar and set stat to "identity" to use actual y values
+  labs(x = "Fish type", y = "PC2 Loading") +  # Label the chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black"))+
+  coord_flip()
+
+PC2_loading
+
+#Scatter plot: distance to coast and fish PC1
+scatter <- ggscatter(pc_loadings_fish, x = "DistancetoCoast", y = "PC1", size = 4, color = "#FA8072", alpha = 0.6, repel = FALSE,  font.label = c(9, "plain", "black"),
+          add = "reg.line", add.params = list(color = "blue", fill = "lightgray"),
+          conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "spearman",
+          cor.coeff.args = list(method = "spearman", label.x.npc = "left", label.y.npc = "top"),
+          xlab = "Distance to coast (mi)", ylab = "PC1")+
+  theme_classic() +
+  theme(panel.border = element_rect(color = "black", fill = NA), # Adds an outer frame
+        axis.line = element_line(color = "black"),               # Keeps axis lines
+        panel.grid = element_blank())                            # Ensures no inner grid lines
+scatter
+```
+
+#PLSR
+```{r}
+library(pls)
+# Function to calculate VIP scores
+calculate_vip <- function(model) {
+  W <- model$loading.weights           # Weight matrix
+  T <- model$scores                    # Score matrix
+  X <- model$model[, -1, drop = FALSE] # Predictor matrix
+  Y <- model$model[, 1, drop = TRUE]   # Response variable
+  comp <- ncol(T)                      # Number of components
+  p <- nrow(W)                         # Number of predictors
+  
+  # Total sum of squares for Y
+  SSY <- sum((Y - mean(Y))^2)
+  
+  # Variance explained per component
+  SSY_comp <- sapply(1:comp, function(k) {
+    fitted <- model$fitted.values[, , k] # Extract fitted values for component k
+    sum((fitted - mean(Y))^2)
+  })
+  Yvar <- SSY_comp / SSY                 # Proportion of variance explained
+  
+  # Compute VIP scores
+  vip <- numeric(p)
+  for (j in 1:p) {
+    vip[j] <- sqrt(p * sum((W[j, ]^2 * Yvar) / sum(Yvar)))
+  }
+  
+  return(vip)
+}
+```
+
+#PLSR: Plant-Animal-Ratio, taxa richness, Sharon diversity (Fig 3c,e, Supplementary Fig 6b)
+```{r}
+#Make the list
+Y_richness <- df_diversity$Observed
+Y_Shannon <- df_diversity$Shannon
+Y_PAR <- df_diversity$PAR
+NCWW_diversity <- list(X_scaled, Y_richness, Y_Shannon, Y_PAR)
+
+# PLSR model Plant-Animal-Ratio ~ Demographics
+pls_model <- plsr(Y_PAR ~ X_scaled, ncomp = 10, data = NCWW_diversity, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y_PAR ~ X_scaled, ncomp = optimal_components, data = NCWW_diversity, validation = "CV")
+summary(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+
+# calculate RMSE-predicted
+RMSEP(pls_model)
+
+#Plot coefficients
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y_PAR.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:10)  # Select the top 10 rows
+
+# Plot with VIP labels
+PLSC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y_PAR.1.comps), y = Y_PAR.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#7BAFD4", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 10 Demographic Factors", y = "Loading", title = "Demographic factors predicting Plant-Animal-Ratio") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PLSC1_coefficients
+
+# PLSR model Shannon Diversity ~ Demographics
+pls_model <- plsr(Y_Shannon ~ X_scaled, ncomp = 10, data = NCWW_diversity, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y_Shannon ~ X_scaled, ncomp = optimal_components, data = NCWW_diversity, validation = "CV")
+summary(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+
+# Calculate RMSE-predicted
+RMSEP(pls_model)
+
+#Plot coefficients
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y_Shannon.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:10)  # Select the top 10 rows
+
+# Plot with VIP labels
+PLSC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y_Shannon.1.comps), y = Y_Shannon.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#7BAFD4", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 10 Demographic Factors", y = "Loading", title = "Demographic factors predicting Shannon Diversity") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PLSC1_coefficients
+
+# PLSR model Richness ~ Demographics
+pls_model <- plsr(Y_richness ~ X_scaled, ncomp = 10, data = NCWW_diversity, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y_richness ~ X_scaled, ncomp = optimal_components, data = NCWW_diversity, validation = "CV")
+summary(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+
+# Calculate RMSE-predicted
+RMSEP(pls_model)
+
+#Plot coefficients
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y_richness.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:10)  # Select the top 10 rows
+
+# Plot with VIP labels
+PLSC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y_richness.1.comps), y = Y_richness.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#7BAFD4", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 10 Demographic Factors", y = "Loading", title = "Demographic factors predicting taxa richness") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PLSC1_coefficients
+```
+
+#PLSR: plant PC ~ Demographic (Fig 4d,e)
+```{r}
+#Picking up from PCA pc_loadings
+pc_loadings_plant
+
+##PCs from plant PCA
+Y1 <- pc_loadings_plant$PC1
+Y2 <- pc_loadings_plant$PC2
+
+NCWW_plantPC <- list(Demographics_scaled, Y1, Y2)
+
+# Fit the PLS model
+pls_model <- plsr(Y1 ~ Demographics_scaled, ncomp = 10, data = NCWW_plantPC, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y1 ~Demographics_scaled, ncomp = optimal_components, data = NCWW_plantPC, validation = "CV")
+summary(pls_model)
+plot(RMSEP(pls_model), legendpos = "topright")
+
+# Plot results
+plot(pls_model)
+RMSEP(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+vip_scores
+
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y1.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:10)  # Select the top 10 rows
+
+# Plot with VIP labels
+PC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y1.1.comps), y = Y1.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#7BAFD4", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 10 Demographic Factors", y = "Loading", title = "PC1 Loading with VIP Scores") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PC1_coefficients
+
+# Fit the PLS model
+pls_model_PC2 <- plsr(Y2 ~ Demographics_scaled, ncomp = 10, data = NCWW_plantPC, validation = "CV")
+
+# Examine the model summary
+summary(pls_model_PC2)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model_PC2), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model_PC2$validation$PRESS)
+pls_model_PC2 <- plsr(Y2 ~ Demographics_scaled, ncomp = optimal_components, data = NCWW_plantPC, validation = "CV")
+summary(pls_model)
+plot(RMSEP(pls_model_PC2), legendpos = "topright")
+
+# Plot results
+plot(pls_model_PC2)
+RMSEP(pls_model_PC2)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model_PC2)
+vip_scores
+
+loadingplot(pls_model_PC2, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+pls.contri <- data.frame(pls_model_PC2$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y2.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:10)  # Select the top 10 rows
+
+
+# Plot with VIP labels
+PC2_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y2.1.comps), y = Y2.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#7BAFD4", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 10 Demographic Factors", y = "Loading", title = "PC2 Loading with VIP Scores") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PC2_coefficients
+```
+
+#PLSR: Fish PC ~ Demographic (Fig 5d)
+```{r}
+pc_loadings_fish
+
+Y1 <- pc_loadings_fish$PC1
+Y2 <- pc_loadings_fish$PC2
+NCWW_fishPC <- list(Demographics_scaled, Y1, Y2)
+
+# Fit the PLS model
+pls_model <- plsr(Y1 ~ Demographics_scaled, ncomp = 10, data = NCWW_fishPC, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y1 ~ Demographics_scaled, ncomp = optimal_components, data = NCWW_fishPC, validation = "CV")
+summary(pls_model)
+
+# Calculate RSME-P
+RMSEP(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+vip_scores
+
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y1.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:10)  # Select the top 10 rows
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 10 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y1.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:10)  # Select the top 10 rows
+
+# Plot with VIP labels
+PC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y1.1.comps), y = Y1.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#7BAFD4", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 10 Demographic Factors", y = "Loading", title = "PC1 Loading with VIP Scores") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PC1_coefficients
+```
+
+#PLSR: Income ~ Plant or Animal taxa (Fig 4f, Supplementary Fig 8d)
+```{r}
+#Income ~ Plant taxa
+ps<- NCWW_2021_plant_clr
+
+X <- data.frame(ps@otu_table)
+colnames(X) <- data.frame(ps@tax_table)$CommonName
+X <- as.matrix(X)
+
+Y <- ps@sam_data$Per_capita_income_k
+Y <- as.numeric(Y)
+
+#change all columns in X into number format
+X <- apply(X, 2, as.numeric)
+
+NCWW_Income <- list(X, Y)
+
+# Fit the PLS model
+pls_model <- plsr(Y ~ X, ncomp = 10, data = NCWW_Income, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y ~ X, ncomp = optimal_components, data = NCWW_Income, validation = "CV")
+
+summary(pls_model)
+
+# Calculate RSME-P
+RMSEP(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+
+##Loading plot
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 20 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 20 rows
+
+# Plot with VIP labels
+PLSC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y.1.comps), y = Y.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#B09647", color = "black", linewidth = 0.2) + # Bar plot #FA8072 for animal, #B09647 for plant
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 3, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 20 Taxa", y = "Loading", title = "Food taxa predicting per capita income") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black")) +
+  coord_flip()
+
+PLSC1_coefficients
+
+#Income ~ Animal taxa
+ps<- NCWW_2021_animal_clr
+
+X <- data.frame(ps@otu_table)
+colnames(X) <- data.frame(ps@tax_table)$CommonName
+X <- as.matrix(X)
+
+Y <- ps@sam_data$Per_capita_income_k
+Y <- as.numeric(Y)
+
+#change all columns in X into number format
+X <- apply(X, 2, as.numeric)
+
+NCWW_Income <- list(X, Y)
+
+# Fit the PLS model
+pls_model <- plsr(Y ~ X, ncomp = 10, data = NCWW_Income, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y ~ X, ncomp = optimal_components, data = NCWW_Income, validation = "CV")
+
+summary(pls_model)
+
+# Calculate RSME-P
+RMSEP(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+
+##Loading plot
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 20 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 20 rows
+
+# Plot with VIP labels
+PLSC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y.1.comps), y = Y.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#FA8072", color = "black", linewidth = 0.2) + # Bar plot #FA8072 for animal, #B09647 for plant
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 3, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 20 Taxa", y = "Loading", title = "Animal taxa predicting per capita income") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black")) +
+  coord_flip()
+
+PLSC1_coefficients
+```
+#PLSR: Seasonal food (Fig 2b, Supplementary Fig 4)
+```{r}
+#Time ~ Plant
+ps <- NCWW_Seasonal_plant_clr
+
+Y <- as.Date(ps@sam_data$Date,format = "%m/%d")
+Y <- as.numeric(Y)
+
+X <- data.frame(ps@otu_table)
+colnames(X) <- data.frame(ps@tax_table)$CommonName
+X <- as.matrix(X)
+
+#change all columns in X into number format
+X <- apply(X, 2, as.numeric)
+
+SeasonFood <- list(X, Y)
+
+# Fit the PLS model
+pls_model <- plsr(Y ~ X, ncomp = 10, data = SeasonFood, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y ~ X, ncomp = optimal_components, data = SeasonFood, validation = "CV")
+summary(pls_model)
+
+# RMSE-P
+RMSEP(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+vip_scores
+
+# Loading plot
+pls_model <- plsr(Y ~ X, ncomp = optimal_components, data = SeasonFood, validation = "CV")
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 20 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 10 rows
+
+# Plot with VIP labels
+PLSC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y.1.comps), y = Y.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#B09647", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors, fill = "#FA8072" for animal, fill = "#B09647" for plant
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 20 Plant Taxa", y = "Loading") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PLSC1_coefficients
+
+#Time ~ Animal
+ps <- NCWW_Seasonal_animal_clr 
+
+Y <- as.Date(ps@sam_data$Date,format = "%m/%d")
+Y <- as.numeric(Y)
+
+X <- data.frame(ps@otu_table)
+colnames(X) <- data.frame(ps@tax_table)$CommonName
+X <- as.matrix(X)
+
+#change all columns in X into number format
+X <- apply(X, 2, as.numeric)
+
+SeasonFood <- list(X, Y)
+
+# Fit the PLS model
+pls_model <- plsr(Y ~ X, ncomp = 10, data = SeasonFood, validation = "CV")
+
+# Examine the model summary
+summary(pls_model)
+
+# Cross-validation plot to determine the optimal number of components
+plot(RMSEP(pls_model), legendpos = "topright")
+
+#Fit the model with optimal components
+optimal_components <- which.min(pls_model$validation$PRESS)
+pls_model <- plsr(Y ~ X, ncomp = optimal_components, data = SeasonFood, validation = "CV")
+summary(pls_model)
+
+# RMSE-P
+RMSEP(pls_model)
+
+# Calculate VIP scores
+vip_scores <- calculate_vip(pls_model)
+vip_scores
+
+# Loading plot
+pls_model <- plsr(Y ~ X, ncomp = optimal_components, data = SeasonFood, validation = "CV")
+loadingplot(pls_model, comps = 1:optimal_components, legendpos = "topright",
+            xlab = "Contributor", ylab = "Loadings",
+            main = "PLS Loadings Plot")
+
+##Plot coeffients
+pls.contri <- data.frame(pls_model$coefficients)
+pls.contri <- rownames_to_column(pls.contri, var = "Factor")
+
+# Add VIP scores to the data frame
+pls.contri <- pls.contri %>%
+  mutate(VIP = vip_scores)
+
+# Filter for the top 20 factors with the highest absolute Y_ratio.1.comps
+top_factors <- pls.contri %>%
+  mutate(abs_value = abs(Y.1.comps)) %>%  # Create a column for the absolute values
+  arrange(desc(abs_value)) %>%  # Sort by absolute value in descending order
+  slice(1:20)  # Select the top 10 rows
+
+# Plot with VIP labels
+PLSC1_coefficients <- ggplot(top_factors, aes(x = reorder(Factor, Y.1.comps), y = Y.1.comps)) + 
+  geom_bar(stat = "identity", aes(alpha = VIP), fill = "#FA8072", color = "black", linewidth = 0.2) + # Bar plot #7BAFD4 for demographic factors, fill = "#FA8072" for animal, fill = "#B09647" for plant
+  geom_text(aes(label = round(VIP, 2)),  # Set label position to the 0 line
+            hjust = -0.2, size = 4, color = "black") +  # Adjust label alignment and size# Map alpha to VIP
+  scale_alpha_continuous(range = c(0.3, 1)) +  # Set transparency range: lower scores are more transparent
+  labs(x = "Top 20 Animal Taxa", y = "Loading") +  # Label chart and axes
+  theme_classic() +
+  theme(text = element_text(color = "black", size = 12)) +
+  coord_flip()
+
+PLSC1_coefficients
+```
+
+#Statistics: Chi square test (Fig 4g and 2b)
+```{r}
+# Create a contingency table from food source and income (Fig 4g)
+data <- matrix(c(10, 1, 3, 5), nrow = 2) # Example data
+rownames(data) <- c("Higher Income", "Lower Income")
+colnames(data) <- c("Immigrant", "Non-Immigrant")
+
+# Perform the chi-square test
+chisq_test_result <- chisq.test(data)
+
+# View the results
+print(chisq_test_result)
+
+# Create a contingency table from seasonal plant table (Fig 2b)
+data <- matrix(c(0,8,2,3,5,2), nrow = 2) # Example data
+rownames(data) <- c("Later", "Earlier")
+colnames(data) <- c("Summer","Year-round", "Fall/Winter")
+
+# Perform the chi-square test
+chisq_test_result <- chisq.test(data)
+
+# View the results
+print(chisq_test_result)
+```

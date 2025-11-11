@@ -1,0 +1,794 @@
+Seq,superkingdom,phylum,class,order,family,genus,species,assignment,correspondingTaxa,name,IsFood,FoodGroup,BigGroup,Tissue,CommonName
+ATCCTGGGTTACGCGAACAAAACAGAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Brassica,Brassica oleracea,Brassica oleracea,"Brassica oleracea, Brassica oleracea var. capitata, Brassica oleracea var. gemmifera, Brassica oleracea var. gongylodes, Brassica oleracea var. italica, Brassica oleracea var. alboglabra","Brassica oleracea (Cabbage, Brussels sprout, Kohlrabi, Broccoli, Gai lan)",Y,VegeBrassica,E_Vegetable,"Leaf,Stem,Flower",Cabbage  relatives 2
+ATCCGTGTTTTGAGAAAACAAGGGGTTCTCGAACTAGAATACAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,NA,NA,Poaceae,"Secale cereale, Secale cereale subsp. ancestrale, Secale cereale subsp. dighoricum, Secale cereale subsp. rigidum, Secale cereale subsp. segetale, Secale cereale subsp. vavilovii, Triticum aestivum, Triticum carthlicum var. fuliginosum, Triticum dicoccoides, Triticum dicoccum, Triticum ispahanicum, Triticum macha, Triticum monococcum, Triticum monococcum subsp. aegilopoides, Triticum spelta, Triticum spelta var. duhamelianum, Triticum timopheevii, Triticum timopheevii subsp. araraticum, Triticum turgidum, Triticum turgidum subsp. durum, Triticum urartu, Triticum urartu var. nigrum","Poaceae (Rye,  Wheat)",Y,Grains,B_Grains,Seed,"Rye, Wheat"
+ATCCATGTTTTGAGAAAACAAGCGGTTCTCGAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Oryza,Oryza sativa,Oryza sativa,Oryza sativa,Oryza sativa,Y,Grains,B_Grains,Seed,Rice
+GCTCGCCGAAGGCAGGTCGAAGGACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCTGAAGGCAGGTCGAAGGACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAGGGGGGTTCTCGAACTAGAATACAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Avena,Avena sativa,Avena sativa,Avena sativa,Avena sativa,Y,Grains,B_Grains,Seed,Oat
+ATCCCTTTTTTGAAAAACAAGTGGTTCTCAAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,NA,NA,Poaceae,"Coix lacryma-jobi, Coix lacryma-jobi var. ma-yuen, Zea mays","Poaceae (Adlay, Corn)",Y,Grains,B_Grains,Seed,Corn
+ATCCGGTTTTCTGAAAACAAACAAGGATTCAGAAAGCAATAATAAAGGG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Cannabaceae,Humulus,Humulus lupulus,Humulus lupulus,Humulus lupulus,Humulus lupulus,Y,FlavoringSeed,"G_Herb, Spice, Flavoring",Seed,Hops
+ATCCTTCTTTCTGAAAACAAATAAAAGTTCAGAAAGTGAAAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Pisum,Pisum sativum,Pisum sativum,"Pisum sativum, Pisum sativum subsp. elatius",Pisum sativum,Y,VegePods,E_Vegetable,"Pod,Seed",Pea
+ATCCTGTTTTCCGAAAACAAAGAAAAGTTCATAAAGTGATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA,Fabaceae,"Cyamopsis tetragonoloba, Glycine max, Mucuna pruriens","Fabaceae (Guar bean, Soybean, Velvet Bean)",Y,OilSeed,I_OilPlant,Seed,"Soybean, Guar"
+ATCCCGTTTTATGAAAACAAACAAGGGTTTCAGAAAGCGAGAATAAATAAAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA,Rosaceae,"Fragaria chiloensis, Fragaria chiloensis subsp. lucida, Fragaria chiloensis subsp. pacifica, Fragaria chinensis, Fragaria corymbosa, Fragaria daltoniana, Fragaria gracilis, Fragaria iinumae, Fragaria iturupensis, Fragaria mandshurica, Fragaria moschata, Fragaria moupinensis, Fragaria nilgerrensis, Fragaria nipponica, Fragaria nubicola, Fragaria orientalis, Fragaria pentaphylla, Fragaria sp. 301, Fragaria sp. CFRA 538, Fragaria tibetica, Fragaria vesca, Fragaria vesca f. alba, Fragaria vesca subsp. americana, Fragaria vesca subsp. bracteata, Fragaria vesca subsp. vesca, Fragaria virginiana, Fragaria virginiana subsp. glauca, Fragaria virginiana subsp. platypetala, Fragaria virginiana subsp. virginiana, Fragaria viridis, Fragaria x ananassa, Rosa rugosa, Rosa rugosa f. alboplena, Rosa rugosa x Rosa sertata, Rubus caesius, Rubus chamaemorus, Rubus illecebrosus, Rubus phoenicolasius, Rubus plicatus, Rubus ulmifolius","Rosaceae (Strawberries, Beach Rose, Chinese Kushui Rose, Dewberry, Cloudberry, Strawberry Raspberry, Wineberry, Blackberry)",Y,FruitBerry,F_Fruit,"Fruit,Seed",Strawberries
+ATCCTGTTTTCCGAAACCAAAGGTTCAGAAAGTGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Gentianales,Rubiaceae,Nauclea,Nauclea orientalis,Nauclea orientalis,Nauclea orientalis,Nauclea orientalis,Y,wild/ forage,wild/ forage,Fruit,Kratom
+ATCCTTATTTTGAGAAAACAAAGGTTTATAAAACTAGAATTTAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Zingiberales,Musaceae,Musa,NA,Musa,"Musa acuminata, Musa acuminata subsp. burmannica, Musa acuminata subsp. halabanensis, Musa acuminata subsp. malaccensis, Musa acuminata subsp. microcarpa, Musa acuminata subsp. siamea, Musa acuminata subsp. truncata, Musa acuminata var. breviformis, Musa acuminata var. flava, Musa acuminata var. nakaii, Musa acuminata var. zebrina, Musa balbisiana, Musa balbisiana var. balbisiana, Musa troglodytarum, Musa velutina, Musa x paradisiaca",Musa,Y,FruitSeed,F_Fruit,"Fruit,Seed",Banana
+ATCCTGTTTTCTGAAAACAAACAAAGGTTCAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Solanales,Solanaceae,NA,NA,Solanaceae,"Lycium barbarum, Lycium barbarum var. auranticarpum, Lycium chinense, Physalis angulata, Physalis peruviana, Physalis philadelphica, Solanum americanum, Solanum betaceum, Solanum lasiocarpum, Solanum linearifolium, Solanum muricatum, Solanum nigrum, Solanum tuberosum, Solanum tuberosum subsp. andigenum","Solanaceae (Goji berry, Gooseberry, Pepino, Tamarillo, Potato)",Y,FruitSeed,F_Fruit,"Fruit,Seed",Potato
+ATCCTGGGTTACGCGAACAAACCAGAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,NA,NA,Brassicaceae,"Brassica napus, Brassica juncea var. juncea, Brassica nigra, Brassica oleracea var. italica, Brassica rapa, Brassica rapa subsp. chinensis, Brassica rapa subsp. oleifera, Brassica rapa subsp. pekinensis, Brassica rapa subsp. rapa, Brassica rapa x Raphanus sativus, Eruca vesicaria, Eruca vesicaria subsp. sativa, Sinapis alba","Brassicaceae(Canola, Mustard, Broccoli, Turnip, Bok Choy, Napa Cabbage, Arugula, Radish)",Y,VegeBrassica,E_Vegetable,"Leaf,Seed,Root,Flower","Canola, Mustard"
+GCTCGCCGAAGGCAGGTCGAAGGATCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGCTTTCGGAAAACAAACAAAAAAAGTTCAGAAAGTTAAAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Cicer,Cicer arietinum,Cicer arietinum,Cicer arietinum,Cicer arietinum,Y,Pulse,C_Legume,Seed,Chickpea
+ATCCTATTTTCCAAAAACAAACAAAGGCCCAGAAGGTGAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Apiales,Apiaceae,NA,NA,Apiaceae,"Anethum foeniculum, Anethum graveolens, Angelica archangelica, Arracacia xanthorrhiza, Cuminum cyminum, Daucus carota, Pastinaca sativa, Petroselinum crispum",Apiaceae,Y,VegeStem,E_Vegetable,Stem,Celery/Carrot
+ATCCTGTTTTTCTAAAACAAACAAAGATTCCGAAAGCGAAAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Ericales,Theaceae,Camellia,NA,Camellia,"Camellia japonica, Camellia japonica subsp. rusticana, Camellia sinensis, Camellia sinensis var. assamica, Camellia sinensis var. pubilimba",Camellia,Y,TeaFlower,H_Tea and Med,Flower,Camellia
+ATCCCGTTTTCTGAAAAAAAGAAAAATTCAGAAAGTGATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Phaseolus,NA,Phaseolus,"Phaseolus lunatus, Phaseolus vulgaris","Phaseolus (lima bean, common bean)",Y,Pulse,C_Legume,Seed,"Lima bean, Common bean"
+ATCCGTGTTTTGAGAAGGGATTCTCGAACTAGAATACAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Hordeum,Hordeum vulgare,Hordeum vulgare,"Hordeum vulgare, Hordeum vulgare subsp. spontaneum, Hordeum vulgare subsp. vulgare, Hordeum vulgare var. distichon",Hordeum vulgare,Y,Grains,B_Grains,Seed,Barley
+ATCCTGTTTTCAGAAAACAAGGGTTCAGAAAGCGAGAACCAAAAAAAGGATAG,Eukaryota,Streptophyta,Magnoliopsida,Laurales,Lauraceae,NA,NA,Lauraceae,"Persea americana, Persea americana var. americana, Persea americana var. americana x 'guatemalensis', Persea americana var. costaricensis (nom. inval.), Persea americana var. drymifolia, Persea americana var. guatemalensis (nom. inval.), Cinnamomum aromaticum, Cinnamomum verum, Laurus nobilis","Lauraceae (Avocado, Cinnamon, Bay Leaf)",Y,SpiceFruit,"G_Herb, Spice, Flavoring","Fruit,Stem,Leaf","Avocado, Cinnamon, Bay Leaf"
+ATCCTGTTTTCTCAAAACAAAGGTTCGGAAAACGAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Pedaliaceae,Sesamum,Sesamum indicum,Sesamum indicum,Sesamum indicum,Sesamum indicum,Y,OilSeed,I_OilPlant,Seed,Sesame
+ATCCTATTATTTTATTATTTTACGAAACTAAACAAAGGTTCAGCAAGCGAGAATAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Malvales,Malvaceae,Theobroma,NA,Theobroma,"Theobroma cacao, Theobroma grandiflorum",Theobroma,Y,FlavoringSeed,"G_Herb, Spice, Flavoring",Seed,Cocoa
+ATCCTGTTTTCTGAAAACAAAGAAAAATTCAGAAAGTTATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA,Fabaceae,"Lablab purpureus, Vigna angularis, Vigna mungo, Vigna mungo var. mungo","Fabaceae (Hyacinth bean, Adzuki bean, Black Gram)",Y,Pulse,C_Legume,Seed,Black gram
+ATCCTATTTTATGAGAACAAAAACAAACAAGGGGTCAGAACGGGAGAAAGAG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Anacardiaceae,Pistacia,Pistacia vera,Pistacia vera,Pistacia vera,Pistacia vera,Y,Nut,D_Nut and Seed,Seed,Pistachio
+GCTCACTGAAGGCAGACCGCAAGGTCGGTAGGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTAGGGGTATTAGAAATGAGGGAGTTTCCCCAATCTAAGATCAATACCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCCGAAAACAAACAACGGTTCAGAAAGCGAAAATCAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Asterales,Asteraceae,Lactuca,Lactuca sativa,Lactuca sativa,"Lactuca sativa, Lactuca sativa var. angustana",Lactuca sativa,Y,VegeLeaf,E_Vegetable,Leaf,Lettuce
+ATCCTGTTTTCTAAAAACAAATTAAGGGTTCATAAAGCGAGAATCAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fagales,Juglandaceae,Carya,Carya illinoinensis,Carya illinoinensis,Carya illinoinensis,Carya illinoinensis,Y,Nut,D_Nut and Seed,Seed,Pecan
+ATCCTATTTTCTGAAAACAAATAAAGGTTCAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Solanales,Solanaceae,Capsicum,NA,Capsicum,"Capsicum annuum, Capsicum baccatum, Capsicum baccatum var. baccatum, Capsicum baccatum var. pendulum, Capsicum baccatum var. praetermissum, Capsicum chinense, Capsicum frutescens, Capsicum pubescens",Capsicum,Y,VegeFruit,E_Vegetable,Fruit,Chili peppers
+ATCTTTATTTTTTGAAAAACAAGGGTTTAAAAAAGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Asparagales,Amaryllidaceae,Allium,NA,Allium,"Allium ampeloprasum, Allium ampeloprasum subsp. ampeloprasum, Allium ampeloprasum var. babingtonii, Allium cepa, Allium chinense, Allium fistulosum, Allium schoenoprasum, Allium tuberosum","Allium (Leek, Onion, Chives)",Y,VegeAllium,E_Vegetable,"Leaf,Bulb","Leek, Onion, Chives"
+ATCCTTCTTTCCGAAAACAAATCAAAGTTCAGAAAGTGAAAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Lens,Lens culinaris,Lens culinaris,Lens culinaris,Lens culinaris,Y,Pulse,C_Legume,Seed,Lentil
+ATCCTGTTTTATGAAAATAAACAAGGGTTTCATAAACCGAAAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA,Rosaceae,"Amelanchier alnifolia, Aronia melanocarpa, Chaenomeles speciosa, Cormus domestica, Cydonia oblonga, Malus domestica, Malus domestica subsp. chinensis, Malus spectabilis, Malus sylvestris, Mespilus germanica, Pyrus communis, Pyrus communis subsp. caucasica, Pyrus pashia, Pyrus pyrifolia, Pyrus ussuriensis, Pyrus ussuriensis x Pyrus communis, Pyrus x bretschneideri, Rhaphiolepis bibas","Rosaceae (Saskatoon serviceberry, Black Chokeberry, Quince, Service Tree, Apples, Pears, Medlar, Loquat)",Y,Fruit,F_Fruit,Fruit,"Apples, Pears"
+ATCCTGTTTTCCGAAAACAACCAAGGGTTCAGAAAACGATAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Vitales,Vitaceae,NA,NA,Vitaceae,"Cissus hypoglauca, Vitis labrusca x Vitis vinifera, Vitis rotundifolia, Vitis vinifera, Vitis vinifera subsp. caucasica, Vitis vinifera subsp. sylvestris, Vitis vinifera x Vitis labrusca",Vitaceae (grapes),Y,Fruit,F_Fruit,Fruit,Grapes
+CTCCTTTTTTCAAAAGCAAGAATAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Caryophyllales,Chenopodiaceae,Spinacia,NA,Spinacia,"Spinacia oleracea, Spinacia tetrandra",Spinacia,Y,VegeLeaf,E_Vegetable,Leaf,Spinach
+ATCCTGTGTTACGCGAACAAACCAGAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Brassica,Brassica rapa,Brassica rapa,Brassica rapa,Brassica rapa,Y,VegeRoot,E_Vegetable,Root,Turnip
+ATCCGGTTTTCTGAAAACAAACAAGGATTCAGAAAGCAATAATAAAAAAGAATAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Cannabaceae,Cannabis,Cannabis sativa,Cannabis sativa,Cannabis sativa,Cannabis sativa,Y,MedSeed,H_Tea and Med,"Leaf,Seed",Hemp
+ATCCTGTTTTCCGAAAACAAACAAAGGTTCAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTGAAAAACAAGGTTTTAAAAAATAGAATAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Asparagales,Amaryllidaceae,Allium,Allium sativum,Allium sativum,Allium sativum,Allium sativum,Y,VegeAllium,E_Vegetable,"Root,Bulb",Garlic
+ATCCTGTTTTCTGAAAACAAATAAAAATTCAGAAAGTGATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Vigna,Vigna unguiculata,Vigna unguiculata,"Vigna unguiculata, Vigna unguiculata subsp. sesquipedalis, Vigna unguiculata subsp. unguiculata",Vigna unguiculata,Y,Pulse,C_Legume,Seed,Black-eyed pea
+ATCCTATTTTTCGGAAAACACGAGTTCAGAAAGCGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Piperales,Piperaceae,Piper,NA,Piper,"Piper cubeba, Piper guineense, Piper longum, Piper nigrum, Piper retrofractum, Piper sarmentosum","Piper (Cubeb, Ashanti Pepper, Long Pepper, Black Pepper, Javanese Long Pepper, Wild Betel)",Y,SpiceSeed,"G_Herb, Spice, Flavoring",Seed,Black peppers
+ATCCTGTTTTCTGAAAACAAACCAAGGTTCAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Solanales,Solanaceae,Solanum,Solanum lycopersicum,Solanum lycopersicum,"Solanum lycopersicum, Solanum lycopersicum var. cerasiforme",Solanum lycopersicum,Y,VegeFruit,E_Vegetable,"Fruit,Seed",Tomato
+ATCCTATTTTCCAAAAACAAACAAAGGCCCAGAAGGTGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Apiales,Apiaceae,Coriandrum,Coriandrum sativum,Coriandrum sativum,Coriandrum sativum,Coriandrum sativum,Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Coriander
+ATCCTGTTTTCTGAAAACAAAGAAAAATTAAGAAAGTTATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Vigna,NA,Vigna,"Vigna radiata, Vigna radiata var. radiata, Vigna radiata var. sublobata, Vigna unguiculata",Vigna,Y,Pulse,C_Legume,Seed,"Mung bean, black eye peas"
+ATCCTTTTTTCTCAAACAAAACAAAGGTTCAAAAAACGAAAAACAAGG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,NA,NA,Lamiaceae,"Lavandula angustifolia, Salvia elegans, Salvia hispanica","Lamiaceae (Common Lavender, Pineapple Sage, Chia seed)",Y,Herb,"G_Herb, Spice, Flavoring","Leaf,Seed","Common Lavender, Pineapple Sage, Chia seed"
+ATCCTGTTTTCTAAAAACAAATAAGGGTTCATAAAGCGAGAATCAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fagales,Juglandaceae,Juglans,NA,Juglans,"Juglans major x Juglans regia, Juglans nigra, Juglans regia",Juglans,Y,Nut,D_Nut and Seed,Seed,Walnut
+GCCCATCGAAGGCAGGTTGCAAAACCGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAAGAAATAAAAGTTTAAAAAGTGATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Cajanus,Cajanus cajan,Cajanus cajan,Cajanus cajan,Cajanus cajan,Y,Pulse,C_Legume,Seed,Pigeon pea
+ATCCTATTTTACGAGAACAAAAACAAACAGGGGGTCAGAACGGGAGAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Anacardiaceae,Anacardium,Anacardium occidentale,Anacardium occidentale,Anacardium occidentale,Anacardium occidentale,Y,Nut,D_Nut and Seed,Seed,Cashew
+ATCCTTTTTTTTGGCAAACAAATAAAGATTCCGAAAGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Ericales,Ericaceae,Vaccinium,NA,Vaccinium,"Vaccinium angustifolium, Vaccinium corymbosum, Vaccinium pallidum, Vaccinium vitis-idaea",Vaccinium,Y,FruitBerry,F_Fruit,"Fruit,Seed",Blueberry
+GCTTAAGCCTTGTGACTAGAGAGAGGAGATATGTATGCCTAAATTTAGCCCCAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTCCGAAAACAAAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Cucurbitales,Cucurbitaceae,NA,NA,Cucurbitaceae,"Luffa acutangula, Luffa acutangula var. amara, Luffa acutangula var. forskalii, Cucurbita moschata, Luffa aegyptiaca, Benincasa hispida, Citrullus lanatus, Cucurbita ficifolia, Cucurbita maxima, Cucurbita pepo, Lagenaria siceraria","Cucurbitaceae (Chinese okra, Squash, Pumpkin, Sponge Gourd, Wax Gourd, Watermelon, Fig-leaf gourd, Winter Squash, Calabash)",Y,VegeSquash,E_Vegetable,"Fruit,Seed","Gourd, Squash"
+ATCCTGTTTTCCGAAAACAAAAAAGATTCATAAAGACAGACTAAAACAG,Eukaryota,Streptophyta,Magnoliopsida,Malpighiales,Linaceae,Linum,Linum usitatissimum,Linum usitatissimum,Linum usitatissimum,Linum usitatissimum,Y,Seed,D_Nut and Seed,Seed,Flax
+ATCCTATTTTACAAAAACAAACAAAGGCCCAGAAGGTGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Apiales,Apiaceae,Apium,Apium graveolens,Apium graveolens,Apium graveolens,Apium graveolens,Y,VegeStem,E_Vegetable,Stem,Celery
+ATCCTATTTTACGAAAACAAATAAGGGTTCAGAAGAAAGCAAGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,NA,Quercus,"Quercus robur, Quercus robur subsp. pedunculiflora, Quercus infectoria, Quercus infectoria subsp. infectoria, Quercus infectoria subsp. veneris, Quercus robur subsp. robur",Quercus,Y,wild/ forage,wild/ forage,Seed,Oak
+GCTTATCCTCCTATAAGGTAATACACAAGTAGATAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTGAAAAAAAGAAAAATTCAGAAAGTGAGAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Phaseolus,NA,Phaseolus,Phaseolus,Phaseolus,Y,Legume,C_Legume,Seed,Beans
+ATCTTTATGTTTAGAAAAACAAGGGTTTTAATTTAAAAACTAGAAGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Asparagales,Asparagaceae,Asparagus,NA,Asparagus,"Asparagus cochinchinensis, Asparagus officinalis",Asparagus,Y,VegeStem,E_Vegetable,Stem,Asparagus
+ATCCTATTTTACGAGAACAAAAACAAACAAGGGGTCAGAACGGGAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Anacardiaceae,NA,NA,Anacardiaceae,"Bouea macrophylla, Bouea oppositifolia, Mangifera foetida, Mangifera indica, Mangifera laurina, Mangifera odorata","Anacardiaceae (Gandaria, Burmese Plum, Bachang, Mango, Egg Mango, Fragrant Mango)",Y,Fruit,F_Fruit,Fruit,Mango
+ATCCTGGGTTACGCAAACAAACCAGAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Diplotaxis,Diplotaxis tenuifolia,Diplotaxis tenuifolia,Diplotaxis tenuifolia,Diplotaxis tenuifolia,Y,VegeLeaf,E_Vegetable,"Leaf,Flower,Seed",Arugula
+GCTCGTCGAAGGCAGGTTGGAAGACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTGTCCGAAAACAAAGAAAGATTCAGAAAGCAAGAATAACACAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTGTTTTTTTTTTTGAGAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Alismatales,Araceae,Colocasia,NA,Colocasia,"Colocasia antiquorum, Colocasia esculenta, Colocasia esculenta var. antiquorum, Colocasia esculenta var. fontanesii",Colocasia,Y,VegeRoot,E_Vegetable,Root,Taro
+ATCTTTTTTGGGGGAAAACAAGGGTATAAAACTAGAATAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Bromeliaceae,Ananas,Ananas comosus,Ananas comosus,"Ananas comosus, Ananas comosus var. bracteatus, Ananas comosus var. microstachys, Ananas comosus var. parguazensis",Ananas comosus,Y,Fruit,F_Fruit,Fruit,Pineapple
+GCCTAGAGGTATTAGAAATGAGGGAGTTTCCCCAATCTAAGATCAATACCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAAATAAAAGTTCAGAAAGTTAAAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Trifolium,NA,Trifolium,"Trifolium pratense, Trifolium repens",Trifolium,Y,wild/ forage,wild/ forage,Leaf,Clover
+ATCACGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Asterales,Asteraceae,NA,NA,Asteraceae,"Taraxacum officinale, Arctium lappa, Echinacea purpurea, Helianthus annuus, Helianthus tuberosus","Asteraceae (Dandelion, Bat Weed, Purple Coneflower, Sunflower, Sunchoke)",Y,wild/ forage,wild/ forage,Flower,"Dandelion, Sunflower"
+ATCCTGTTTTATTAAAACAAACAAGGGTTTCATAAACCGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Rosaceae,Prunus,NA,Prunus,"Prunus avium, Prunus spinosa, Prunus armeniaca, Prunus domestica, Prunus domestica subsp. insititia, Prunus dulcis, Prunus grayana, Prunus mume, Prunus persica, Prunus persica var. nucipersica, Prunus salicina, Prunus salicina x Prunus armeniaca","Prunus (Apricot, Sweet Cherry, Plum, Almond, Japanese Bird Cherry, Peach, Nectarine, Chinese Plum, Sloe)",Y,FruitStone,F_Fruit,Fruit,Prunus
+ATCCTGTTTTCCGAAAACAAACAAAAGTTCAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Solanales,Convolvulaceae,Ipomoea,NA,Ipomoea,"Ipomoea aquatica, Ipomoea batatas",Ipomoea,Y,VegeLeaf,E_Vegetable,Leaf,Sweet potato
+ATCCTAGGTTACGCGAACAAACCAAAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Brassica,Brassica oleracea,Brassica oleracea,"Brassica oleracea, Brassica oleracea var. capitata, Brassica oleracea var. gemmifera, Brassica oleracea var. gongylodes, Brassica oleracea var. italica, Brassica oleracea var. alboglabra","Brassica oleracea (Cabbage, Brussels sprout, Kohlrabi, Broccoli, Gai lan)",Y,VegeBrassica,E_Vegetable,"Leaf,Stem,Flower",Cabbage relatives 1
+ATCCGTGTTTTAAGAAAACAAGCGGTTCTTGAATTAGAATCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Oryza,Oryza sativa,Oryza sativa,Oryza sativa,Oryza sativa,Y,Grains,B_Grains,Seed,Rice
+ATCCTGGGTTACGCGAACAAACCAAAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Brassica,Brassica oleracea,Brassica oleracea,"Brassica oleracea, Brassica napus, Brassica insularis, Diplotaxis catholica, Brassica cretica, Diplotaxis virgata","Brassica oleracea, Brassica napus, Brassica insularis, Diplotaxis catholica, Brassica cretica, Diplotaxis virgata",Y,OilSeed,I_OilPlant,Seed,Canola
+GCTCGCCGAAGGCAGGTTGAAGAACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAATAAAAGTTCAGAAAGTTAAAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGAGAAAACAAGGGTTTATAAAACTAGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Arecales,Arecaceae,NA,NA,Arecaceae,"Acrocomia aculeata, Adonidia merrillii, Arenga pinnata, Bactris gasipaes, Bactris gasipaes var. chichagui, Bactris gasipaes var. gasipaes, Borassus flabellifer, Chamaedorea tepejilote, Elaeis guineensis, Euterpe oleracea, Lodoicea maldivica, Phoenix dactylifera, Phoenix reclinata",Arecaceae,Y,OilFruit,I_OilPlant,"Fruit,Seed",Palm/Coconut
+ATCCTTCTTTCCGAAAATAAAAAAATAAAAGTTCAGAAAGTTAAAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Trigonella,Trigonella foenum-graecum,Trigonella foenum-graecum,Trigonella foenum-graecum,Trigonella foenum-graecum,Y,SpiceSeed,"G_Herb, Spice, Flavoring",Seed,Fenugreek
+ATCCTGTTTTCCGAAAACAGAAAAAGTTTCATAAAAACAGAAAAAAACAAGGAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGATTTTCTGAAAACAAACAAGGATTCAGAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGGTCGAACGACCGGTAGGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCGAAAACAAAGAAAAGTTCAGAAAGCGAGAATATAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTATTTTGAGAAAACAAGGGTTTATAAAACTAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Arecales,Arecaceae,Cocos,Cocos nucifera,Cocos nucifera,Cocos nucifera,Cocos nucifera,Y,OilFruit,I_OilPlant,Fruit,Coconut
+ATCCTGTTTTCTCAAAACAAACAAAGGTTCAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Solanales,Solanaceae,Solanum,NA,Solanum,"Solanum aethiopicum, Solanum anguivi, Solanum macrocarpon, Solanum melongena, Solanum torvum",Solanum,Y,VegeFruit,E_Vegetable,"Fruit,Seed",Eggplant
+ATCCTATTTTTTTACGAAAACCAACAACAAGGGTTTAGAAAGCGAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCCAAAACAAAGGTTCAGAAAGAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,NA,NA,NA,NA,Oleaceae,Oleaceae,Oleaceae,Y,OilFruit,I_OilPlant,Fruit,Olive
+ATCATGGGTTACGCGAACAAACCAAAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Brassica,Brassica oleracea,Brassica oleracea,"Brassica oleracea, Brassica napus","Brassica oleracea, Brassica napus",Y,OilSeed,I_OilPlant,Seed,"Cabbage, Canola"
+ATCCTATTATTTTACGAAAATAAACATGAACAAAAGTTCAGCAAGCGAGAATAATAATAATAAAAAAAGGAAAG,Eukaryota,Streptophyta,Magnoliopsida,Malvales,Malvaceae,Abelmoschus,Abelmoschus esculentus,Abelmoschus esculentus,Abelmoschus esculentus,Abelmoschus esculentus,Y,VegePods,E_Vegetable,"Fruit,Seed",Okra
+ATCCAGTTTTTTGATAACAAACAAGGATTCAAAAAGCAATAATAAATGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTGGTGTTCTGAAAACAAACAAGGATTCAAAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTATGAAAACAAAACAAACAGGGGTTCAGAAAGTGAGAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Sapindaceae,NA,NA,Sapindaceae,"Blighia sapida, Dimocarpus longan, Litchi chinensis, Nephelium lappaceum, Pometia pinnata",Sapindaceae,Y,FruitSoapberry,F_Fruit,Fruit,"Ackee, Lychee, Rambutan, Marang"
+ATCTTGGGTTACGCGAACAAACCAGAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Brassica,NA,Brassica,"Brassica napus, Brassica oleracea var. italica","Brassica (Canola, Broccoli)",Y,VegeBrassica,E_Vegetable,"Flower,Seed","Canola, Broccoli"
+ATCCTGTTTTCTGAAAAAAAGAAAAATTAAGAAAGTGAGAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Phaseolus,Phaseolus lunatus,Phaseolus lunatus,Phaseolus lunatus,Phaseolus lunatus,Y,Pulse,C_Legume,Seed,Lima bean
+ATCCTATTTTCCAAAAACAAAGAAAAGTTCAGAAAGCGAGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Cyamopsis,Cyamopsis tetragonoloba,Cyamopsis tetragonoloba,Cyamopsis tetragonoloba,Cyamopsis tetragonoloba,Y,AdditiveGum,K_Additive,Seed,Guar
+GCTTGCTGAAGGCAGGTTGCAAGACCGGTAAGCAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGTCGCAAGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAGGTGCAAAAAGCTCGCGGGCTTTTCCTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAGGTTCAGAAAACGCCAAAGGCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCCGAAGGCAGGTCGAAGGACTGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCCGAAAACAAATAAGGGTTCATAAAGCGAGAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTCTTTTTTGAAAAACAAGGGTTTAAAAAAGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Asparagales,Amaryllidaceae,Allium,Allium cepa,Allium cepa,Allium cepa,Allium cepa,Y,VegeAllium,E_Vegetable,"Root,Bulb",Onion
+GCTAGTCAAATAGGCATAATAGTAGACTA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGATTTTCGAAAACAAACAAAGATTCAGAAAGCGAAAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Ericales,Ebenaceae,Diospyros,NA,Diospyros,"Diospyros blancoi, Diospyros digyna, Diospyros kaki",Diospyros,Y,Fruit,F_Fruit,Fruit,Persimmons
+GCTTGCTGAAGGCAGGTCGAAAGACCGGTAGGCAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTGCTTTCAAAAAGGAAAGAAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAATAAAAAAAAGTTCAGAAAGTGAAAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Trifolium,Trifolium repens,Trifolium repens,Trifolium repens,Trifolium repens,Y,wild/ forage,wild/ forage,"Leaf,Flower",Clover
+ATCCCGTTTTCGGAAAGGAAATAAACATTAAGAAAGCGAGAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Arachis,Arachis hypogaea,Arachis hypogaea,Arachis hypogaea,Arachis hypogaea,Y,OilSeed,I_OilPlant,Seed,Peanut
+ATCCTTAGTTTTATCAAACTAGAATAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Zingiberales,Zingiberaceae,Zingiber,NA,Zingiber,"Zingiber officinale, Zingiber zerumbet",Zingiber,Y,SpiceRoot,"G_Herb, Spice, Flavoring",Root,Ginger
+ATCCTATTTTTTTTACGAAAACCAACAACAAGGGTTTAGAAAGCGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Myrtales,Lythraceae,Punica,Punica granatum,Punica granatum,Punica granatum,Punica granatum,Y,FruitSeed,F_Fruit,"Fruit,Seed",Pomegranate
+ATCCTGTTTTATGAAAAAAAACAAGGGTTTCATAAACCGAAAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Rosaceae,Pyrus,Pyrus communis,Pyrus communis,"Pyrus communis, Pyrus communis subsp. caucasica",Pyrus communis,Y,Fruit,F_Fruit,Fruit,Pear
+ATCACGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATCAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,NA,NA,NA,NA,Asteraceae,Asteraceae,Asteraceae,Y,OilSeed,I_OilPlant,Seed,Sunflower family
+ATCCTTTTTTTCGAAAACAAACAAAGATTCAGAAAGCGAAAATAAAACAAG,Eukaryota,Streptophyta,Magnoliopsida,Ericales,Actinidiaceae,Actinidia,NA,Actinidia,"Actinidia chinensis, Actinidia deliciosa",Actinidia,Y,FruitSeed,F_Fruit,"Fruit,Seed",Kiwifruit
+ATCCTTGTTTACGCGAACAAACCTGAGTTTAGAAAGCGAGATAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Armoracia,Armoracia rusticana,Armoracia rusticana,Armoracia rusticana,Armoracia rusticana,Y,VegeRoot,E_Vegetable,Root,Horseradish
+ATCTGTGTTTTGAGAAAACAAGGGGTTCTCGAACTAGAATACAAAGGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCCGAAGGCAGGTCGCACGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCGGATCGCGAGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTCTTCTCTTTTCCAAGAACAAACAGGGGTTCAGAAAGCGAAAAAGGGG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Rutaceae,NA,NA,Rutaceae,"Citrus reticulata, Aegle marmelos, Citrus aurantiifolia, Citrus aurantium, Citrus australasica, Citrus australis, Citrus garrawayi, Citrus glauca, Citrus hystrix, Citrus inodora, Citrus japonica, Citrus japonica var. margarita, Citrus limon, Citrus limon var. pompia, Citrus limonia, Citrus maxima, Citrus medica, Citrus sinensis, Citrus trifoliata, Citrus wintersii, Citrus x latifolia, Citrus x microcarpa, Citrus x paradisi, Murraya caloxylon, Triphasia trifolia","Rutaceae (Oranges, Trifoliate orange, Bael, Limes, Kumquat, Lemon, Pomelo, Grapefruit)",Y,FruitCitrus,F_Fruit,Fruit,Citrus fruits
+ATCCATGTTTTGAGAAAACAAGTGGTTCTCGAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Oryza,NA,Oryza,"Oryza rufipogon, Oryza sativa","Oryza (red rice, rice)",Y,Grains,B_Grains,Seed,"Rice, Wild rice"
+ATCCTCTTTTCCGAAAACAAACAAAGGTTGAGAAGGCGAAAAAGGG,Eukaryota,Streptophyta,Magnoliopsida,Apiales,Apiaceae,Centella,Centella asiatica,Centella asiatica,Centella asiatica,Centella asiatica,Y,VegeLeaf,E_Vegetable,Leaf,Indian pennywort
+ATCCTGTTTTCCAAAAACAAATAACGGTGCAGAAGGCGAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACGAGAACAAACAAAACAAGAGTTCAGAAAGCGAGAAAAGGGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Caricaceae,Carica,Carica papaya,Carica papaya,Carica papaya,Carica papaya,Y,Fruit,F_Fruit,Fruit,Papaya
+ATCCTGTTTTCCCAAAACAAATAAAACAAATTTAAGGGTTCATAAAGCGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fagales,Betulaceae,Corylus,Corylus avellana,Corylus avellana,Corylus avellana,Corylus avellana,Y,Nut,D_Nut and Seed,Seed,Hazelnut
+ATCCTGAGTTACGCGAACAAACCAGAGTTTAGAAAGCGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Raphanus,NA,Raphanus,"Raphanus raphanistrum, Raphanus raphanistrum subsp. landra, Raphanus sativus",Raphanus,Y,VegeRoot,E_Vegetable,Root,Radish
+GCCTAGGGAACGGCAGATAAGTACCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTTCAAAAGAAAAAAAATAAGGATTCCGAAAACAAGAATAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Caryophyllales,Chenopodiaceae,Beta,Beta vulgaris,Beta vulgaris,"Beta vulgaris, Beta vulgaris subsp. maritima, Beta vulgaris subsp. vulgaris",Beta vulgaris,Y,VegeRoot,E_Vegetable,Root,Beet
+ATCCTTGTTTTGAGAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Alismatales,Araceae,NA,NA,Araceae,"Amorphophallus konjac, Xanthosoma helleborifolium, Xanthosoma sagittifolium, Amorphophallus paeoniifolius, Amorphophallus paeoniifolius var. bangkokensis, Amorphophallus paeoniifolius var. campanulatus, Cyrtosperma merkusii, Lasia spinosa, Xanthosoma sp. Barabe 107",Araceae,Y,VegeRoot,E_Vegetable,Tuber,"Konjac, yam, taro"
+ATCCTGTTTTCCCAAAACAAAGGTTTCAAAAAACGAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,Mentha,NA,Mentha,"Mentha arvensis, Mentha gattefossei, Mentha suaveolens, Mentha x piperita","Mentha (Wild mint, Apple Mint, Peppermint, Mentha gattefossei)",Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Mint 2
+ATCGCTCGGCCTGCCCCATACAACAAACCTTCACCTCGTCGTGAGGTGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTATGAAAATAAGGGTTCATAAAGCGATAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCGAAAACAAAGCGAAAATCAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Aquifoliales,Aquifoliaceae,Ilex,Ilex paraguariensis,Ilex paraguariensis,Ilex paraguariensis,Ilex paraguariensis,N,Z_NonFood,Z_NonFood,Unknown,Yerba Mate
+ATCCACTTTTTTCAAAAAAGTGGTTCTCAAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Sorghum,Sorghum bicolor,Sorghum bicolor,Sorghum bicolor,Sorghum bicolor,Y,Grains,B_Grains,Seed,Sorghum
+ATCCTGTTTTACGAAAACAAACACAAGGATTCAGAAAGCGAGAAAAGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCGCCGAAGGCAGGTCGAAAGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCCAAAACAAAGGTTTCAAAAAACGAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,Mentha,NA,Mentha,"Mentha canadensis, Mentha longifolia, Mentha spicata, Mentha spicata subsp. condensata, Mentha suaveolens, Mentha x piperita, Mentha x rotundifolia, Mentha x verticillata","Mentha (American Wild Mint, Horse Mint, Spearmint, Apple Mint, Peppermint, Whorled Mint)",Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Mint 1
+ATCCTATTTTTCAAAAACAAAGGCCCAGAAGGTGAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Apiales,Apiaceae,Carum,Carum carvi,Carum carvi,Carum carvi,Carum carvi,Y,SpiceSeed,"G_Herb, Spice, Flavoring",Seed,Caraway
+ATCCCTTTTTTGAAAAAACAAGTGGTTTTCAAACTAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTTGTTTTACGAGAATAAAACAAAGCAAACAAGGGTTCAGAAAGCGAGAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Sapindaceae,Acer,NA,Acer,"Acer saccharum, Acer saccharum subsp. leucoderme, Acer saccharum subsp. nigrum",Acer saccharum,Y,Sweetener,"G_Herb, Spice, Flavoring",Sap,Maple
+ATCCGTGTTTTGAGAAAAGAAGGGGTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAATAAACAAACAAAGGTTCAGCAAGGGAGAATAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Malvales,Malvaceae,Corchorus,Corchorus olitorius,Corchorus olitorius,Corchorus olitorius,Corchorus olitorius,Y,VegeLeaf,E_Vegetable,Leaf,Jute
+GCCCAGAACCTTTAGAGTTGAGAATTGATTTTGGGGTTAAATCCAAAACTCAAATTCCAAAGTTAAAATTCCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCAGAAAACAAAGAGGGGTTCAGAAAGCAAGAAAACGG,Eukaryota,Streptophyta,Magnoliopsida,Proteales,Proteaceae,Macadamia,Macadamia integrifolia,Macadamia integrifolia,Macadamia integrifolia,Macadamia integrifolia,Y,Nut,D_Nut and Seed,Seed,Macadamia Nut
+GCCCAGAAAATCTGGAAATTGAACATCGGAAATCCGAAATTCAAATTTACAAAGATTATTCATCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGTTCTGGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGGTTCTCGAACTAGAATACAAAGGAAAAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGTTCTCAAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGATTTCTAGAGACAATAGTTTCCTTTCCGAGAACGG,Eukaryota,Streptophyta,Pinopsida,Cupressales,Cupressaceae,Juniperus,Juniperus communis,Juniperus communis,"Juniperus communis, Juniperus communis var. communis, Juniperus communis var. depressa, Juniperus communis var. oblonga, Juniperus communis var. saxatilis",Juniperus communis,Y,FlavoringFruit,"G_Herb, Spice, Flavoring",Fruit,Juniper
+ATCCTATTTTACGAAAAACAAATAAGGGTTCAGAAGAAAGCAAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCAGAAAAAAATTAAGGTATTTCTGAAAGCGAGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Ranunculales,Papaveraceae,Papaver,Papaver somniferum,Papaver somniferum,"Papaver somniferum, Papaver somniferum subsp. setigerum",Papaver somniferum,Y,Seed,D_Nut and Seed,Seed,Opium poppy
+ATCCTGGTTTACGCGAACAAACCGGAGTTTAGAAAACGAGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAAAAACTAAAAGTTCAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Vicia,Vicia faba,Vicia faba,"Vicia faba, Vicia faba var. major, Vicia faba var. minor",Vicia faba,Y,Pulse,C_Legume,Seed,Fava bean
+ATCTTTATTTTGAAAACAAGATAAAACTAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATATGGTTTTTTGATAACAAACAAGGATTCCAAAAGCAATAATAAATGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTCATGAAGACAATGTTTCTTCTCCTAAGATAGGAAGGG,Eukaryota,Streptophyta,Pinopsida,Pinales,Pinaceae,Pinus,NA,Pinus,"Pinus albicaulis, Pinus armandii, Pinus bungeana, Pinus cembra, Pinus gerardiana, Pinus koraiensis, Pinus monophylla, Pinus pinea, Pinus pumila, Pinus sibirica",Pinus,Y,OilFruit,I_OilPlant,Fruit,Pine
+ATCCTGTTTTACGAAAACCAACAAAACAATAAGGGTTCATAAAGCGCGAATAAAAAAAGGATAG,Eukaryota,Streptophyta,Magnoliopsida,Myrtales,Myrtaceae,Psidium,Psidium guajava,Psidium guajava,Psidium guajava,Psidium guajava,Y,FruitSeed,F_Fruit,"Fruit,Seed",Guava
+ATCCGATTTATAGAGACAATAGTTTCCTTTCCGAGAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGATTTTTTGAAAAACAAACAATGATTCAGAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCAGTTTTCTGAAAACAAACAAGGGTTCAGAAGGCGATAAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCTGAAGGTAGGTCGAAGGACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACTAAATAGGGGAGATACATATGCCTAGATTTAGTCCCAGAAAATGTGAACTTGAAGATTGCTCTAGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCCGAAGGCAGGTTGCAAAACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCTGAAAAACAAACAATGATTCAGAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAGGTTCAAAAAACGAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,NA,NA,Lamiaceae,"Agastache foeniculum, Melissa officinalis, Salvia rosmarinus","Lamiaceae (Anise Hyssop, Lemon Balm, Rosemary)",Y,Herb,"G_Herb, Spice, Flavoring",Leaf,"Anise Hyssop, Lemon Balm, Rosemary"
+GCCTAGAGGTATTAGAAACGAGGGAATTTCCCCAGTCTAATATCAATACCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACCAAGAAGAGTTCAGAAAGGGAGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA,Fabaceae,"Caesalpinia pulcherrima, Parkia speciosa, Senna alata, Senna siamea","Fabaceae (Peacock Flower, Bitter Bean, Ringworm Bush, Siamese Senna)",Y,Legume,C_Legume,Seed,"Legume, Pea, Bean"
+ATCCGGTTTTTTGTAAAACAAACAATGATTCAGAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTGTCAAAAGCAAAAAATAAAGATTCAGAAAGCAACAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Caryophyllales,Chenopodiaceae,Chenopodium,NA,Chenopodium,"Chenopodium pallidicaule, Chenopodium quinoa",Chenopodium,Y,VegeLeaf,E_Vegetable,Leaf,Goosefoot
+ATCCCTTTTTTTGAAAAAACAAGCGGTTCTCAAACTAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACGAGAACAAACAAGGGTTCAGAACACGAGAAAGGG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Burseraceae,NA,NA,Burseraceae,"Canarium decumanum, Canarium indicum, Canarium odontophyllum, Canarium vulgare, Dacryodes edulis, Dacryodes rostrata",Burseraceae,Y,Nut,D_Nut and Seed,Seed,"Pili nut, Java almond, Dabai, Safou"
+ATCCTGTGTTCAGAAAACAAGGTTCAGAAAGCGAGAATCAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Magnoliales,Annonaceae,Annona,NA,Annona,"Annona cherimola, Annona glabra, Annona mucosa, Annona reticulata, Annona squamosa, Annona muricata","Annona (Cherimoya, Pond apple, Pinha, Custard apple, Sugar apple, Soursop(",Y,Fruit,F_Fruit,Fruit,Annona
+ATCCTGTTTTCCGAAAACAAAGAACAAAGAAAAAGAAGAGTTTAGAAAGCGAGAATAAAAAATCAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Tamarindus,Tamarindus indica,Tamarindus indica,Tamarindus indica,Tamarindus indica,Y,FlavoringSeed,"G_Herb, Spice, Flavoring","Pod,Seed",Tamarind
+ATCCGTGTTTTGAGAAAACAAGAGGTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTTCTGAAAACAAAGAAAAATTCAGAAAGTTATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Vigna,Vigna angularis,Vigna angularis,"Vigna angularis, Vigna angularis var. angularis, Vigna angularis var. nipponensis",Vigna angularis,Y,Pulse,C_Legume,Seed,Adzuki bean
+ATCCTTCTTTCTTAAAAAAAATAAAAGTTTAGAAAGTGAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTCTTTCCAAAAGGAAGACAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTTCAAAAGCAAGAATAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTGTTTACTCGAATAAACCCGAGTTTAGAAAGCGAGAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTAAAAACAAATTAAGGGTTCATAAAGCGAGAATCAAAAAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAAGTTCAGAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Solanales,Convolvulaceae,Ipomoea,Ipomoea alba,Ipomoea alba,Ipomoea alba,Ipomoea alba,Y,VegeRoot,E_Vegetable,Tuber,Sweet potato
+ATCCTATTTTTCGGAAAACATGAGTTCAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAAGTTCAAAAAACGAAAAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,Ocimum,Ocimum basilicum,Ocimum basilicum,Ocimum basilicum,Ocimum basilicum,Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Basil
+ATCCCTTTTTTGAAAAAACAAGTGGTTCTCAAACTAGAACCCAAATGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,NA,NA,Poaceae,"Eleusine indica, Eragrostis tef","Poaceae (Indian Goosegrass, Teff)",Y,Grains,B_Grains,Seed,"Indian Goosegrass, Teff"
+GTCTGTCAAAGGCAGGTCGCAAAGACCGGTAGACAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAAACAAGCGGTTTTCAAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Digitaria,Digitaria exilis,Digitaria exilis,Digitaria exilis,Digitaria exilis,Y,Grains,B_Grains,Seed,Fonio
+ATTCGTGTTTTGAGAGGGGGGTTATCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTGTTCAGAAAACAAGGGTTCAGAAAGCGAGAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Magnoliales,Magnoliaceae,Magnolia,Magnolia denudata,Magnolia denudata,Magnolia denudata,Magnolia denudata,Y,wild/ forage,wild/ forage,Flower,Yulan magnolia
+ATCCTTAGTTTGATAAACCTTAGTTTTATCAAACTAGAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Zingiberales,Zingiberaceae,Curcuma,NA,Curcuma,"Curcuma longa, Curcuma zedoaria","Curcuma (Zedoary, Turmeric)",Y,SpiceRoot,"G_Herb, Spice, Flavoring",Root,"Zedoary, Turmeric"
+GCCCGCCGAAGGCAGGTCGTAAGACCAGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTATCCACCTATAAGGGTAATACACAAGTAGATAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAAACAAGCGGTTTTCAAACTAAAACCCAAAAGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTTTGATAACAAACAAGGATTCCAAAAGCAATAATAAATGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTGTTTTCAGAAAACAAAGAAAAATGAAGAAAGTGATAAAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Vigna,Vigna subterranea,Vigna subterranea,Vigna subterranea,Vigna subterranea,Y,Pulse,C_Legume,Seed,Bambara groundnut
+ATCCCTTTTTTTAAAAACAAGTGGTTCTCAAACTGGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACGAGAACAAACAAGGGTTCAGAAAGCGAGAAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Moringaceae,Moringa,Moringa oleifera,Moringa oleifera,Moringa oleifera,Moringa oleifera,Y,MedLeaf,H_Tea and Med,Leaf,Moringa
+CTCCTCCTTTCCAAAAGGAAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCTGGAAACAAGTAAAGGATCAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTGTTCCGAAAACAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGGTCGAATGACCGGTAGGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGGTTCTCGAACTAGAATACAGAGGAAAAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTCTTTAAAAAAGGAAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Caryophyllales,Polygonaceae,Rheum,Rheum rhabarbarum,Rheum rhabarbarum,Rheum rhabarbarum,Rheum rhabarbarum,Y,VegeStem,E_Vegetable,Stem,Rhubarb
+GCCTTTGAAGGGGTGAAGGAAATACCTAATTTCTGGAACTTCTTGATCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAAGCAAGAAGAGTTCAGAAAGGGAGAATCAAAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Leucaena,Leucaena leucocephala,Leucaena leucocephala,Leucaena leucocephala,Leucaena leucocephala,Y,FlavoringSeed,"G_Herb, Spice, Flavoring",Seed,River tamarind
+ATCCGGTTTTCTGAAAACAAACAAGGGTTCAGAAGGCGATAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Moraceae,Ficus,NA,Ficus,"Ficus carica, Ficus auriculata, Ficus pumila, Ficus racemosa",Ficus (Fig),Y,FruitSeed,F_Fruit,"Fruit,Seed",Fig
+ATCCTATTTTACGAAAACAAATAAGGGTTCAGAAGAAAGCGAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTGTTCAGAAAACAAGGGTTCAGAAAGCGGGAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Magnoliales,Magnoliaceae,Magnolia,Magnolia grandiflora,Magnolia grandiflora,Magnolia grandiflora,Magnolia grandiflora,Y,wild/ forage,wild/ forage,Flower,Southern magnolia
+ATCCTATTTTGTACGAAAACCAACAACAAGGGTTTAGAAAGCGAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTCTTCTCAAAATCAAAATAAAGGTTCAGAAAGCGAGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Plantaginaceae,Plantago,Plantago ovata,Plantago ovata,Plantago ovata,Plantago ovata,Y,Seed,D_Nut and Seed,Seed,Psyllium
+ATCCTGTTTTCCGTAAACAAAGAAAAAAACAGAAAGTTATAATTAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCTGAAAACAAATAAAAGTTAAGAAAGTGAAAATGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACTAAATAGAGGAGATACATATGCCTAGATTTAGTCCCAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGAGTTACGCAAACAAACCAGAGTTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGCATCGAATTCAGACCCGGAAACCTCCATCGGTCATTCAGCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGTCGAAAGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCTGAAGACAGGTCGAAAGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCACCGAAGGCAGGTCGTTATTCGATCGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAAAACCAACAACAAGGGTTTAGAAAGCGAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTCCAAAAACAAACAAAGGTTCAGAAGGTGAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Apiales,Apiaceae,Eryngium,Eryngium foetidum,Eryngium foetidum,Eryngium foetidum,Eryngium foetidum,Y,Herb,"G_Herb, Spice, Flavoring","Leaf,Stem",Culantro
+GCTCGCTGAAGGCAAGTCGCAAGACTGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCCGAAGGTGGGTCGAAAGACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAGGTTCAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCCGAAAACAAGCAAAGGTTCAGAAAGCGAAAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Asterales,Asteraceae,Bellis,Bellis perennis,Bellis perennis,Bellis perennis,Bellis perennis,Y,TeaFlower,H_Tea and Med,Flower,Daisy
+ATCCTGTTTACAGAAAACAAGGGTTCCTTTCCTAGAAAGCGAGAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Nymphaeales,Nymphaeaceae,Nymphaea,NA,Nymphaea,"Nymphaea lotus, Nymphaea lotus var. dentata, Nymphaea nouchali var. caerulea, Nymphaea odorata, Nymphaea odorata subsp. odorata, Nymphaea odorata subsp. tuberosa, Nymphaea nouchali",Nymphaea,Y,wild/ forage,wild/ forage,"Flower,Seed,Root",Water lily
+GCTCACTGAAGGCAGGCCGTAAGGTCGGTAAGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCAAAAACAAATAAAAGTTCAGAAAGTTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCAGAAAACAAACAAGGGTTCAGAAAACGAGAAAAAAAAAAAGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCTGAAGGCAGGTCGCAGGACCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTTTTGGCAAACCAATAAAGATTCCGAAAGAAATAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAAACAAGTGGTTCTAAAACTGGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTCATTTTTTTGAAAAACAAGGGTTTGGAAAAGAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTCTTCTCAAAATAAAGGTTCAGAAAGCGAGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCACCGAAGGCGGACAGCGGGCGCGACCCTCCAGGTCATGGCCCTGTCGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGAGTTCTCAAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAATAAACAAAGGTTCAACAAGCGAGAATAATAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Malvales,Malvaceae,Durio,NA,Durio,"Durio oxleyanus, Durio zibethinus",Durio,Y,Fruit,F_Fruit,Fruit,Durian
+ATCCTGCTTTCCGAAAACAAAGAAAAGTTCAGAAAGCGAGAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGGTTTACGCGAACAAACCGGAGTTTAGAAAACGAGAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Lepidium,Lepidium meyenii,Lepidium meyenii,Lepidium meyenii,Lepidium meyenii,Y,VegeRoot,E_Vegetable,Root,Maca
+ATCCGGTTTTCCAAAAACAAACAAAGGTTCGTATCATACAGATAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Malpighiales,Phyllanthaceae,Phyllanthus,Phyllanthus emblica,Phyllanthus emblica,Phyllanthus emblica,Phyllanthus emblica,Y,FruitBerry,F_Fruit,"Fruit,Seed",Indian gooseberry
+ATCCTGTTTTCTGAAAACAAACAAGGATTCAGAAAGTGATAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Rhamnaceae,NA,NA,Rhamnaceae,"Hovenia dulcis, Ziziphus jujuba, Ziziphus mauritiana",Rhamnaceae,Y,wild/ forage,wild/ forage,Fruit,"Japanese rasin, Jujube"
+ATCCTTTTTTTTCGAAGACAAACAAAGATTTAGAAAGCGAAAATAAAAAACG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCTGAAAACAAATAAAAGTTCCGAAAGTGAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTGTTTTTTTTTTTTGAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAGGGGGGTTCTCGAACTAGGATATAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTAGGGAACGGCAAATAAGTACCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTGCCGAAAGACAAACATGTAGGCAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCGAAAACAAAAAAGGGGGGTTCATAAAGTGAAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCGGAAAACACGAGTTCAGAAAGCGAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTGTCAAAAGCAAAAAATAAAGATTCAGAAAGCAACAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCATGTTTTCTAAAAACAAACAACGGCTCAAAAAAAAAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGTGGTTCTCGAACTAGAATCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Bambusa,Bambusa vulgaris,Bambusa vulgaris,Bambusa vulgaris,Bambusa vulgaris,Y,VegeStem,E_Vegetable,Stem,Bamboo
+ATCATGTTTTCCGAAAACAAACAAAAGTTCAGGAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACGAGAATAAATAAGGGTTCAGAACGCGAGAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Anacardiaceae,NA,NA,Anacardiaceae,"Dracontomelon dao, Spondias dulcis, Spondias purpurea","Anacardiaceae (Argus Pheasant-Tree, hog plum, ambarella)",Y,Nut,D_Nut and Seed,Seed,"Argus Pheasant-Tree, hog plum, ambarella"
+GCCGAAGCGATAGTGCCAAGTGCAGGGTTCTGTGTTTTGAGTTGATTCTTTCACTCAAGACTCCAACCTTTTCTCTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAATAAATAAAAGTTCAGAAAGTTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTTCTCAAAACAAAGGTTCAGAAAACGAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTAGATTCACTAGGCAGACGTCAGCGATATTTCTTTCTAGAATTGATGCTGTAGTCCCAAAGGCGATCTA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTTTGAAAAACAAACAATGATTCAGAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTATGAAAACAAACAAGGGTTTCAGAAATCGAGAATAAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAGGTGCAAAAAGCTTGCGGGCTTTTCCTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGGATTACGCGAACAAAACAGAGTTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCTGAAAAGAAACAAGGATTCAGAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCCAAAATAAAGGTTCAGAAAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGAGAAAACAAAGGTTTATAAAACTAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Arecales,Arecaceae,Areca,Areca catechu,Areca catechu,Areca catechu,Areca catechu,Y,Nut,D_Nut and Seed,Seed,Betal nut
+GCCCGCCGAAGGTGACCGCCGTGTCCGGGCCGCAAGGCCGGGATCAGGGTGGTGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTAGTTTTCGGAAAACACGAGTTTAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTTCGAAACCAAAGGCTCAAAAAGTGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTCCGAAAACAACGAAAAGTTCAGAAAGCGATAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Psophocarpus,Psophocarpus tetragonolobus,Psophocarpus tetragonolobus,Psophocarpus tetragonolobus,Psophocarpus tetragonolobus,Y,VegePods,E_Vegetable,"Pod,Seed",Winged bean
+ATCCTGTTTTCCGAAAGCAAAGAAAAGTTCATAAAGTTATAATAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGAGAAAAAACAAGGTTTTTAAAAACTAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACTAGAACAAACAAGGGTTCAGAACACGAGAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTATGAGAACAAAAACAAACAAGGGGTCTTAACGGGAGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCTGAAGACAGGTCGGAAGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGGGTTACGCGAAAAAACCAGAGTTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTATGAAAACAAACAAAGGTTTCAGAAACCGAGAATAAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTGAAAAAAAAGAAAAATTCAGAAAGTGATAATAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTTAACTTCTCAAAAAAAAAGTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAAGCGATTATTTAATAAATAACGCTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACCAGAAAACGCTAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTGGTTTTTTGATAACAAACAAGGATTCCAAAAGCAATAATAAATGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAATCAAAATTCAGAAAGTTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAACAAGTGGTTCTTAAACTAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGATCGCAAGATCGGTAGGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGCAAACAAAAAAAGAGTTCAGAAAGTGAAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACGAAAACCAACAAAACAATAAGGGTTCATAAAGCGAGAATAAAAAAAGGATAG,Eukaryota,Streptophyta,Magnoliopsida,Myrtales,Myrtaceae,NA,NA,Myrtaceae,"Acca sellowiana, Corymbia calophylla, Myrciaria vexator, Pimenta dioica, Plinia cauliflora, Psidium cattleyanum, Syzygium cumini, Syzygium jambos, Eugenia stipitata, Eugenia uniflora","Myrtaceae (Feijoa, Jabuticaba, Surinam Cherry, Araza, Marri, Blue Grape Tree, Allspice, Strawberry Guava, Java Plum, Rose-apple)",Y,Fruit,F_Fruit,"Fruit,Seed","Feijoa, Jabuticaba, Surinam Cherry, Araza, Marri, Blue Grape Tree, Allspice, Strawberry Guava, Java Plum, Rose-apple"
+GTCGATGAATTGTGCTAACAGCTAATAGCCAAAAGCTAATAGCCATTCATC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGCAGTTTGCATGAGCAAGCGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTAGGGGTATTAGAAATGAGGGAGCTTCCCCAATCTAAGATCAATACCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACAACGCTGATGAGAACTTCGAGTTACTTTGTAAGCGATGTCATCAGATAGAACATGAATGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAAGAAGAGTTCAGAAAGTGAGAATAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCGGACGAACTGGTAATGAACGTTGTTTGTTTGAGTAGTCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGGGTTACGCGAATAAAACAGAGTTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCAATGAAATCACAAGCTGCTCATAGGGGAATGCTTCAGAAATTGCTTTGTGTTTTTTTATTCGTACACCACATTCATGCCCTCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGATCGAATCGCTTCGGAAACTGGAAAACTGAAATATCCATCCAAAGATATTGAGCGATCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACAACGCTGATGAGAACTTCGAGCTCTTATGCAAGAGATGTCATCAGATTGAACATGAATGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGGTTTTCGCCAAAATAAAGAAAAGTTAAGAAAGGGAGAATAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Aspalathus,Aspalathus linearis,Aspalathus linearis,Aspalathus linearis,Aspalathus linearis,Y,Tea,H_Tea and Med,Leaf,Rooibos
+ATCCTGGGTTACACGAACAAAACAGAGTTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCTTGATTAGATATTGTGAAATAATCGGATCAAGTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAGGGGGGTTCTCGAATTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAGAACAAAAACAAACAAGGGGTCATAACGGGAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTACATGTTCGAACACAGTAAGCATGTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCTGCTGAAAAGGTGAAGTAAGCAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAAGTTCAAAAAACGAAAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTGAAAAACAATGTTTTAAAAAATAGAATAACAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACACGCGGTTCTCGAACTAGAATCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Zizania,Zizania palustris,Zizania palustris,Zizania palustris,Zizania palustris,Y,Grains,B_Grains,Seed,Wild rice
+ATCCGTGTTTTGAGAAAATAAGAGGGTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCGAAAACAAACAAAAAAACAAACAAAGGTTCATAAAGACAGAATAAGAATACAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTTCATTTTAAAAACAAGTGGTTCTCAAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,Eleusine,NA,Eleusine,"Eleusine coracana, Eleusine coracana subsp. africana, Eleusine coracana subsp. coracana, Eleusine indica",Eleusine,Y,Grains,B_Grains,Seed,Finger millet
+ATCCTTCTTTCCGAAAACAAATCAAAGTTCAGAAAGTTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACTAAACAGGAGGTAATATGCCTAAATTTGGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAGGTTCAAAAAACGAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,Salvia,Salvia rosmarinus,Salvia rosmarinus,Salvia rosmarinus,Salvia rosmarinus,Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Rosemary
+ATCTTTATTTTGAGAAGACAAGGGTTTATAAAACTAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAAACAAGCGGTTCTCAAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,NA,NA,Poaceae,"Coix lacryma-jobi, Cymbopogon citratus","Poaceae (Job's Tears, lemongrass)",Y,Grains,B_Grains,"Seed,Stem","Adlay, Lemongrass"
+GCCTAGAGGTATTAAAAATGAGGGAGTTTCCCCAGTCTAATATAAATACCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATGTTTAGAAAAACAAGGGTTTTAATTTAAAAACTAGAAGAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGAGAAAACGAACAAGGGTTTAAAAACTAGAATCAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Asparagales,Iridaceae,Iris,Iris germanica,Iris germanica,Iris germanica,Iris germanica,Y,EdibleFlower,M_GarnishFood,Flower,Bearded iris
+ATCCGGTTTTCTGAAAAAAAACAAGGATTCAGAAAGCAATAATAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTCCAAAAGAAAAGTAAACAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCTGAAAACAAATAAAATTTCAGAAAGTTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTAGGAAAATAAACAAAGGTTCAGCAAGCGAGAATAATAAAGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAGGGGAGTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCATGTTTTGAGAAAACAAGCGGTTCTCGAACTAGAAACCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATTTTTTTTCTTTATAGAAATGAATAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAACCGGAGCGAGATTTTCCCTTGCATCAAGTCTTGCGGGGACTCCTGAAGGTTGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTCCGAAACCAAAGGAAAGGTTCAGAAAGTGAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Gentianales,Rubiaceae,Coffea,Coffea arabica,Coffea arabica,Coffea arabica,Coffea arabica,Y,TeaSeed,H_Tea and Med,Seed,Coffee
+GCTTAAGCCTTGTGACTAAACAGGAGGTAATATGCCGAAATTTGGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCGCCGAAGGCAGGTCGTCAGACCGGTAGGCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCATCGAAGGCAGGTTGCGAAACCGGTAGATGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGGGTTATGCGAACAAAACAGAGTTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCGGATGGTGGCCACGGCCTGCACGGATGTGGCCCTGTCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACCGAAGGCAGATCGCAAGATCGGTAGGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGAGTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAGATGATTAGAAATGCGGGAGTTTCCCCAATCTAATATCAACACTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCTGAAGGCAAGTCGCAAGACTGGTAAGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCATGTTTTCTAAAAACAAACAACGGCTCAAAAAAAAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTCTTTTTTGAAAAACAAGGGTTTAGAAAAGAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGGGTTACGTGAACAAAACAGAGTTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTGTTTACGCAAACAAACCGGAGTTTAGAAAGCGAGAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAGGTTCAGAAGGCGAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Apiales,Araliaceae,Panax,Panax ginseng,Panax ginseng,Panax ginseng,Panax ginseng,Y,MedRoot,H_Tea and Med,Root,Ginseng
+ATCACGTTTTCCGAAAACAAGCAAAGGTTCAGAAAGCGAAAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTTGAAAATAAATGAAGGTTCAGAAGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTGAAAACAAACAAAGATTCAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCCGAAGGCAAGTCCGTCGGACTGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAATAAGGGGTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTATGAAAACAAAAAAGGGTTTCAGAAAGCGAGAATAAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAAAAAATAAAAGTTCAGAAAGTTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACGAGAACAAACAAGGGTTCAGAACGCGAGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCTGAAAACAAACAAAGGTTCAGAAAGCGAAAATCAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCGGACGAAATGGCAACGAACCCCTAAGGTTCGAGTAGTCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCCTCGTATGATGCCGAAACACAGCTTCAACGCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTTGTTTTCTCAAAACAAAGGTTCAAAAAACGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTGCGGAACGGTGTAAGAGTACGCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCAAAAACAAACAAAGGCCCAGAAGGTGAAAAAGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCAGAAAACAAGGGTTCAGAAAGCTAGAACCAAAAAAAGGATAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTGTATTATTCAATTGAATTTCGGGCGATGAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTTGGACGAACTGGTAATGAACGTTGTTTGTTAGAGTAGTCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTATTATTGGTATCGCTAAACTAATTTTAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCGCGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCCTCGCAGGAGGCTTGAAACATAGCTTCAGCGCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAAGTTCAAAAAACGAAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGTTGAAAGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCATGTTTTGAGAAAACAAGAGGTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTAGATAACACGCAATACCCATTACCAAGCATAGTAGTATGAATTGGTTGTGTATGAAAATGGGTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCGGAAAACACAAGTTCAGAAAGCGAAGAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTGTTCAGAAAACAAGGTTCAAAAAGCAAGAATCAAAATAAAG,Eukaryota,Streptophyta,Magnoliopsida,Magnoliales,Annonaceae,Asimina,Asimina triloba,Asimina triloba,Asimina triloba,Asimina triloba,Y,wild/ forage,wild/ forage,Fruit,Pawpaw
+ATCACGTTTTCCGAAACTAAACAAAGGTTCAGAAAGCGAAAATCAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Asterales,Asteraceae,Cynara,Cynara cardunculus,Cynara cardunculus,"Cynara cardunculus, Cynara cardunculus var. scolymus",Cynara cardunculus,Y,VegeFlower,E_Vegetable,Flower,Artichoke
+GCCCGCCGAAAGGCAGGTCGCAAGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAGTTTGCGAAAGCGAGAATAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTTTACAAAAACAAACAAGGGTTCAGAAAGCGAAAAAAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAAAACCAACACCGGGGGTTTAGAAAGCGAGAAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAAAAAAGTTAAGCTACAACTCTTAACTCTACAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCCAAAACAAATAAAACAAATTGAAGGGTTCATAAAGCGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fagales,Betulaceae,Corylus,Corylus avellana,Corylus avellana,Corylus avellana,Corylus avellana,Y,Nut,D_Nut and Seed,Seed,Hazelnut
+ATCCTGTTTTATGAAAAAAAACAAGGGTTTCAGAAAGCGAGAATAAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATATTTCGGAAAACACGAGTTCAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTTTTTTTCGAAAATAAAGAAAGATTCAGAAAGCGAAAAAAAAAA,Eukaryota,Streptophyta,Magnoliopsida,Ericales,Ericaceae,Arbutus,Arbutus unedo,Arbutus unedo,Arbutus unedo,Arbutus unedo,Y,FruitBerry,F_Fruit,Fruit,Arbutus berry
+ATCCTATTTTATGAAAAACAAATAAGGGTTCAGAAGAAAGCAAGAATAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGATAAAATAGGGGTTTAATTTATAAAACTAGAATAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTGAAAACCAAGAAGAGTTCAGAAAGGGAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAATAAAGGACAAAAGTAATTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAGGGGGGTTCTCGAAATAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAATAACGGTGCAGAAGGCGAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTCTTCTAAAAACAAAGATTCAGAAAGTTCAAAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGCAGTTTGCACGAGCAAGCGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCAAAAACAAATAAAGGCCCAGAAGGTGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCGCCGAAGGCAGGTCGAAAGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTCTTTTTTTTATTATTTTAAGAAAACAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTTAGGTAAATGGTTAGCATTGAATCATTGATGCAGTAGCCT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCATGTTTTGAGAAAACAAGCGGTTCTCGAAATAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAACCAAGGGTTCAGAAAACGATAATAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Vitales,Vitaceae,Vitis,Vitis rotundifolia,Vitis rotundifolia,"Vitis rotundifolia, Vitis rotundifolia var. munsoniana",Vitis rotundifolia,Y,Fruit,F_Fruit,Fruit,Muscadine grape
+ATCTTTATTTTGATAAAATAGGGGTTTAATTTATAAAACTAGAATCAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAATAAATAAAAGTTCAGAAAGTGAAAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAACAAGTGGTTCTCAAACCAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTATTTTACGAAAACAAATAAGGGTTCAAAAGAAAGCGAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTGTTTTACAAGAACAAACAAGGGTTTAGAAAGCGAGAAAACAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGGAAACAAATCAAAGTTCAGAAAGTTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCTGAAAACAAGTAAAGGTTCAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTACGGAGACATTATTCTCCCAGGAAGAGAAGG,Eukaryota,Streptophyta,Ginkgoopsida,Ginkgoales,Ginkgoaceae,Ginkgo,Ginkgo biloba,Ginkgo biloba,Ginkgo biloba,Ginkgo biloba,Y,Nut,D_Nut and Seed,Seed,Ginkgo
+ATCCTATTTTTTGAAAACAAATAAAGGTTCTAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTGTCCGAAAAAAAAGAAAGATTCAGAAAGCAAGAATAACACAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambucus,Sambucus nigra,Sambucus nigra,Sambucus nigra,Sambucus nigra,Y,FruitBerry,F_Fruit,"Fruit,Seed",Elderberry
+ATCCTATTTTTCGAAAAACACGAGTTCAGAAAGCGAAAAAGC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGGTTACAATTCGTGTAACAGCGAGAAGAACGTATCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTTCCTAAACTTCTTTTCTAAGGAAAGGAAGCACGGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTCTGAAAACAAACAAAGGTTCAGAAAGCGATAATAAAAAAGGATAGATAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTATGAAAACAAACAAAGGTTTCAGAAAGCGAGAATAAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTGAAAAACAAGGGTTTAAAAAAGAGAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTTCTAAAACAAACAAAGATTACGAAAGCGAAAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTTTTTAATAAAAAAAGTTTATATAGACAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Malpighiales,Violaceae,Viola,Viola tricolor,Viola tricolor,Viola tricolor,Viola tricolor,Y,EdibleFlower,M_GarnishFood,Flower,Wild pansy
+ATCTTTATTTTTTGAGAAACAAGTGTTTAAAAAAGAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGGCCGCAAGGTCGGTAAGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGTCGAAAGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCATGTTTTCTAAGAACAAACAACGGCTCAAAAAAAAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCAAAAAACAAACAAGGGTTCAGAAAGCGAGAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Proteales,Nelumbonaceae,Nelumbo,Nelumbo nucifera,Nelumbo nucifera,"Nelumbo nucifera, Nelumbo nucifera subsp. nucifera",Nelumbo nucifera,Y,VegeRootSeed,E_Vegetable,"Root,Seed,Stalk",Sacred lotus
+GCCAAACCAAAGGGAGATTTTCCCTCGCGCCAAATCTGAGGTGTGGGGATTCCCCAAGGTTAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTAGATAACACGCAATACCCATTACCAAGCATACTAGTATGAATTGGTTGTGTATGAAAATGGGTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTTCAAAAACAAGAATAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTGTCAAAAGCAAAAAATACTCAAAAGAAAAAAATAATAAAAAAGCAAGAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAGAAGCGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAAAAAGGGGGTTCTCAAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCCGAAAACAAGCAAAGGTTCAGAAAGCGAAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ACCCCTCATCATGTTGTAAACAAAACGATGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCTTTATTTTTTGAAAAACAAGGGTTTAAAAAAGAGAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAGGGGGTTTCTCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTTACAAGAACAAACAAGGGTTCAGAAAGCGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Meliaceae,Azadirachta,Azadirachta indica,Azadirachta indica,Azadirachta indica,Azadirachta indica,Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Neem
+ATCCTGTTTTCTGAAAACAAACAAAGGAAAGGTTCAGAAAGCGATAATAAAAAAGGATAGAGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTGAAAAACAAGGGTTTAAAAAAGAGAATAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCGTGTTTTCCGAAAACAAGCAAAGGTTTAGAAAGCGAAAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTAAAAACAAATTAAGGTTTCATAAAGCGAGAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAGAAAGTCATGAGTGTTGAGTGCTGAGTAAATTTAAAACTCTAACTCCTAACTCCTAACTCATAACTGTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTTACGAAAACCAACACCAAGTGTTTCGAAAGCGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Myrtales,Lythraceae,Trapa,NA,Trapa,Trapa,Trapa,Y,AsianFood,L_CultureFood,Fruit,Water chestnut
+ATCCTTTTTTCGCAAACAAACAAAGATTTCGAAAGCTAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGTCGCAAGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAAAACAAATAAGGGTTCAGAAGAAAGCGAGAATAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fagales,Fagaceae,Castanea,Castanea sativa,Castanea sativa,Castanea sativa,Castanea sativa,Y,Nut,D_Nut and Seed,Seed,Chestnut
+GCTTAAGCCTTGTGACTAAATATGGGAGATACATATGCCTAGATTTAGTCCCAGAAAATGTGAACTTGAAGATTGCTCTAGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAACCGGAGCGAGATTTTCCCTTGCATCAAGTCTTGCGGGGACTCCTGAAGGTTTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAAACAGGTGGTTCTCAAACTAGAACCCAAAGGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTCTTTTTTGAAAAACAAAGGGTTTTAAAAACTAGAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTTGAAAACATGAGTTCAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTGTTTTCTGAAAACAAAGGTTAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTGTCAAAATCAAAAAAGAAAGATTCAGATAGCAACAATAGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTTGGACGAACTGGTAATGAACGTTGTTTGTTGGAGTAGTCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGAGAAAAGTCGAACCACTACAATATAGTTATTTAAGAAAAAAGATAGGTACAGAGACTGTAAGCTATTCGAAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTGAAAACAAGGTTTTAAAAAATAGAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATTTTTATTTTTTGAAAAACAAGGGTTAAAAAAGAGAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTGAAAAACAAGGGTTTTAAAAAGAGAATAAAAAAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTGAAAACAATCCAAGGTTCAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGGCCGCAAGGCCGGTAAGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAATAAACATAAACAAAAGTTCAACAAGCGAGAATAATAATAATAAAAAAAGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAGTGAAAAGTCAATAGAGTAACTTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTCTTTTCGCAAGACAAAGGTTCAGAAAACGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAACCGAAGCGAGATTTTCCCTTGCACCAAGTCTTGCGGGGACTACTGAAGGTTTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTACTGAATGGTGTATCTTTAATTAGATATGTAAGTAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTTGAAGGGGTGAAGGAAATATATAATTTCTGGAACTTCTTTATGC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTATGAAAATAAGGGTTCATAAAGCAATAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTTCAAAAGCAAAAAAAGAAGGATTCCGAAAGCAAGAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Caryophyllales,Chenopodiaceae,Dysphania,Dysphania ambrosioides,Dysphania ambrosioides,Dysphania ambrosioides,Dysphania ambrosioides,Y,TeaHerb,H_Tea and Med,Leaf,Epazote
+GCTTGCTGAAGGCAGGTCGAAGGACCAGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAACCGAAGCGAGATTTTCCCTTGCACCAAGTCTTGCGGGGACTCCTGAAGGTTTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCGGACGAAATGGTGACGGACGAATAGTTCGGGTAGTCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGTAAACAAAGAAAGAAACAGAAAGTTATAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGTGACCGCCGTGTCCGGGCCGCGAGGCCGGGATCAGGGTGGTGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTAATTGTCTCCTAAAAAAAACGGATTCAAAAAGCAAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTGTGTTTTGAGAAAACAAGGGGTTCTTGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAAAACAAATAAGGGTTCAGAAGAAAGAAAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTCCAATGACCCGGCGTTCGCGTCGGCAGGGTGGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCATGTTTTTTTGAAAACAAACAAAGGTTCAAAAAGCGAAAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGGGACTAAATAGAGGAGATACATATGCCTAGATTTAGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTATAGAAACATAGTTTTCTTTCCTAGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATAAAAAAA,Eukaryota,Streptophyta,Magnoliopsida,Asterales,Asteraceae,NA,NA,Asteraceae,"Dahlia coccinea, Chrysanthemum indicum, Cosmos sulphureus, Dahlia coccinea var. coccinea, Dahlia pinnata","Asteraceae (Red Dahlia, Indian Chrysanthemum, Sulfur Cosmos, Garden Dahlia)",Y,Garnish,H_Tea and Med,Flower,"Dahlia, mums, sunflower"
+GCGCACGGAAGGCGGGCCGCGAGGCTGGTACGTGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCAGAAATTTAAGGGATTTCTGAAAGCGAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CGCACGGCGAAATCCCTTCGTAGATAAATGCCTTTGCCTCTGTGCGGTGCTGGAATGGCCAGACCTGACCCGACCTTAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCGGTGAAGGCCAGCGTCAACCGGCGCAGTAACC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TTGTAATGCAAAATTGGCCATTTTACTTCATTAATGGGATTGCAACGGCTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCTACGAAGCATTCAGTATATAACAGGTTGATTGCGAAGTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTATTATTTTACGAAAATAAAAATAAACAAAGGTTCAGCAAGCGAGAATAATAAAAAAGGAAAG,Eukaryota,Streptophyta,Magnoliopsida,Malvales,Malvaceae,Hibiscus,Hibiscus rosa-sinensis,Hibiscus rosa-sinensis,Hibiscus rosa-sinensis,Hibiscus rosa-sinensis,Y,EdibleFlower,M_GarnishFood,Flower,Chinese hibiscus
+GCCAGCCGCGATCGCCCCAGGGCCAGCCGCTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCGGATGGTGGTCACGGCCTGCACGGACGTGGCCCTGTCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTTCAAAAGAAAAAAAATAAGGATTCCGAAAACAAGAATAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Caryophyllales,Chenopodiaceae,Beta,Beta vulgaris,Beta vulgaris,Beta vulgaris,Beta vulgaris,Y,VegeRoot,E_Vegetable,Root,Beet
+ATCCTGTTTTCAGAAAACAAACAAGGGTTCAGCAAGCGAGAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTAGTTTGATAAACCTTAGTTTTATCAAACTAGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Zingiberales,Zingiberaceae,NA,NA,Zingiberaceae,"Boesenbergia rotunda, Hedychium coronarium, Zingiber montanum",Zingiberaceae(Ginger),Y,SpiceRoot,"G_Herb, Spice, Flavoring",Root,Ginger
+ATCCTATTTTCATAAAACAAGAGTTCAGAAAGCGAGAATCAAATAAAAAAAATG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTAAAGCAGGTTATGAGTCGTGAGTTAAGTTAAACACTCAAAACTCAAATCTCTTTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAATAAACAAACAAAGGTTCAGCAAGGTAGAATAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAGCCCAAACCGCTGTTCACCAACGGCACCGGGCTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACCAAGAAGAGTTCAGAAAGCGCGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Ceratonia,Ceratonia siliqua,Ceratonia siliqua,Ceratonia siliqua,Ceratonia siliqua,Y,FlavoringPod,"G_Herb, Spice, Flavoring",Pod,Carob
+ATCTTTATTTTGTGAAAAAAAAGGGTTTAAAAAAGAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCTGCTGAATGATGAATCGCAAGATTAGTAGGCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTGTTTTCCAAAAGAAAGAATAAATACAG,Eukaryota,Streptophyta,Magnoliopsida,Caryophyllales,Polygonaceae,Fagopyrum,Fagopyrum esculentum,Fagopyrum esculentum,"Fagopyrum esculentum, Fagopyrum esculentum subsp. ancestrale",Fagopyrum esculentum,Y,Grains,B_Grains,Seed,Buckwheat
+ATCCAGTTTTCCGAAAACAAGGGTTTAGAAAGCAAAAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTATGAAAACAAAGGTTTCAGAAAGCGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACTAAATAGGGGAGATACATATGCCTAGATTTAGTCTCAGAAAATGTGAACTTGAAGATTGCTCTAGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TTCTTTATTTTTTGAAAAACAATGGTTTAAAAAAGAGAACAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTTTTTTTCAAAAAGGAGGGTTTAATTTGTAATTTATAGTTTTAATATTATATTAATATAAAAATATCAAAATTAAACTACAATCAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTCTTCTAAAAACAAAGGTTCAGAAAGCTAAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CGAGTCGATGTGCATGGGGATGCAGTCGAGCAGGTCGTGATCGTC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAGGTTCAGCAAGCGAGAATAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCCCCTGCTTTCTTGCAAAAGCACGAAGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCCTTTGCAAAGAAGTAACAGACAGGTTCTCCTGTCAAAGCTTCGCAAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTATTAAAACAAAAAAGGGTTTCATAAACCGAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAGGTTTCAAAAAACGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTCCCAATGTAAAAGGTGGGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCGAAAACAAACACAAGGATTCAGAAAGCGAGAAAAGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGTAGATTGTGATCCAATCAGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAGGGAAATAGCTGAGTTTAAGCGTATTTTCTCTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTGTTTTATGAAAATAAACAAGGGTAAACCGAAAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCATGTTTTCCGAAAACAAACAAAGGTTTAGAAAGCGAAAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGTGGCGGCTGCGAACGACCAGACCGGTCGGTTCGGGGCCGCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACAACGCTGATGATAACTTCGAGCTCTTATGCAAGAGATGTCATTAGATTGAACATGAATGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAACCGGAGCGAGATTTTCCCTTGCACCAAGTCTTGCGGGGACCCCTGAAGGTTTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATCTTCTGAAAACAAATAAAGGTTTAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCCTCGTATGAGGCTTAAAACAAGGCTTCAACGCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGGCCGAAGGCAGGTCGTAAGACCAGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATATTGTTTTCAGAAAACAAGATTTCAAAAGAGTGAATCATAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCCGAAAACAAACAAAAGTTGAAAAAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACCGAAGGCAGATCGAAAGATCGGTAGGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGCTTTCCGAAAACAAAGAAAAGTTCAGAAAGCGAGAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA,Fabaceae,"Glycyrrhiza glabra, Glycyrrhiza glabra x Glycyrrrhiza uralensis, Sesbania grandiflora","Fabaceae (Licorice, Vegetable-Hummingbird)",Y,FlavoringRoot,"G_Herb, Spice, Flavoring","Root,Leaf,Flower",Licorice
+ATCCTGGGTTACGCGAACAAACCAAAATTTAGAAAGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACTAAATAGGGGAGATACATATGCCTAAATTTAGTCCTAGAGAATGTGAACTGGAAGATTGCTCTAGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCCGAAAAACAAAGTCAGAAAGCGAAAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTCTTTTTTGAAAAACAAGTGGTTCTCAAACTAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCAAAGGCAGTTTGCATTAGCAAGCGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTTACAAGAACAAACAAGAGTTCAGAAAGCGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCTTTTTTTTTGTTTTGAAAAAACAAGCGGTTTTCAATCTAGAATCAAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCATGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCTGAAGGCAGGCCCGATGGGCCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTCTTTTCCAAGAACAAACAAGGGTTCAGAAAGTGAAAAAGGGA,Eukaryota,Streptophyta,Magnoliopsida,Sapindales,Rutaceae,Zanthoxylum,Zanthoxylum simulans,Zanthoxylum simulans,Zanthoxylum simulans,Zanthoxylum simulans,Y,SpiceSeed,"G_Herb, Spice, Flavoring",Seed,Chinese pepper
+ATCGCGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAAGAAAAAAAA,Eukaryota,Streptophyta,Magnoliopsida,Asterales,Asteraceae,Glebionis,Glebionis coronaria,Glebionis coronaria,Glebionis coronaria,Glebionis coronaria,Y,VegeLeaf,E_Vegetable,Leaf,Crown daisy
+ATCCTCTTTTCCAAGAACAAAGAAGGGTTCAGAAAGCGAAAAAGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTAGTATTTTAAAAACAAGAATCTAGAAGAAAAGAAAAAATATTAAAGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCATGAAAGTGGTGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAGTTTTAGAAAGCGAGAATAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Oxalidales,Oxalidaceae,Averrhoa,NA,Averrhoa,"Averrhoa bilimbi, Averrhoa carambola",Averrhoa,Y,Fruit,F_Fruit,Fruit,"Bilimbi, Star Fruit"
+GCTATTTACTCGTTAAATTTTAAATTTTCGTAAATA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCAGAAAACAAAAAAGGGTTCAGAAAGCGAGACTCAAAAATG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCTGAAGGGAGGTCGGCACCGTTCTGTGCGGAGCCGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCAAAAACAAATAAAGGTTCAAAAAGACAGAATAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTACTTTTTGAAAAATAAGGGTTTAAAAAAGGGAATAGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAGCTAGAGCGAGATTTTCTCTTGCACCCAGTCT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAACAATTTGAGATTTGAGATTGTTATTCAATTGAAAACTCAAAACTAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTGTTTACGCGAACAAACCGGAGTTTAGAAAGCGAGAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Brassicales,Brassicaceae,Nasturtium,Nasturtium microphyllum,Nasturtium microphyllum,Nasturtium microphyllum,Nasturtium microphyllum,Y,Garnish,M_GarnishFood,Leaf,Onerow watercress
+ATCGTTATTTTGTTTTAAACAATGGTTTAAAAAAGAGAATTAAAAAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTGTTTTCCGAAACCAAACCCAAATACATGGGTTCAAAAAGCGAGAATCAAAAAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAGCGATTTTAGATTTCAGATTCAAGATTTTAGATTGGCACTCAATCCAAAATCCAAAATCTAGAATCCAAAACAGTTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTATGAGAACAAAATAAACAAGGGTTCAGAAAGCGAGAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGGTTCTCAAACTAGAATACAGAGGAAAAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTAAAAAACAAGGGTTTAAAAAAGAGAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCGGAAAATACGAGTTCAAAAATCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAATCCTTTTTCCGTAAACAAAAAGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAAAGAAGATTGTAAAAGTATTTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAGTCGGTGGTGGTAGCTCGTCTACCCAAAAGCGTCTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTTTGGGAAACCACGATGGATCCCGCTGTGAGACGACTGCTGAAAGTCCAGATTGAGGACGC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTGTCGAATGGACTTAAAGTAGGCAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACAACGCTAATGAGAACTTCGAGCTCTTATGCAAGAGATGTCATCAGATTGAACATGAATGACACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTAGATAACACGCAATACCCATTACCAAGCATTAGTATGAATTGGTTGTGTATGAAAATGGGTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCTGAAAACAAACAAGGGTTCAGAAAGCGATAATACAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Rosales,Moraceae,Morus,NA,Morus,"Morus alba, Morus alba var. alba, Morus nigra, Morus rubra",Morus,Y,FruitBerry,F_Fruit,"Fruit,Seed",Mulberry
+ATCCTGTTTTCCGAAAACAACTAAGGGTTCAGAAAACGATAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCGTCCCATGAGGCTGCCACGCCCAGGCTTCGCAGGTCCACCGTGCGCAGCCCCGCATAGCCGCAGGGGTTGATGCGCTCAAAGGGCGCCAGATCCATGGCCACGTTCAGCGCCAGGCCGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTGTTCCTGGAGACCCAAATCGGGGTGGAGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAAAAAGATTCATAAAGACAAACTAAAACAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTAAAAAACAAGGGTTTAAAAAAGAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCGCACGGAAGGCAGGCCGCAAGGCCGGTACGTGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGCGAAGGGCAGGTCCGGAGCACGGGTAGGGTGCCCGTGCGACCATCGGACGGGTTCCGCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCCTAAATAGTTAGAAATAACTACATGGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ACTGTGAGAACGCTGCAAGCTCTCTGTACTGAGCCAGCTCTACTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTATTTACTCGTTAAATTTTAAATTTTTGTAAATA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTTCAAAAACAAAAAAACAACAAAGGTTCATAAAGACAGAATCAGAATAAATAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CCCGGAACAGGCATACCGGAGCTGTTTAGGGTTATTGAGCCTCAGCCGGAAATACAGCGAACAACGACTGGAGCAAGCCTGTTGTGATGCGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TTCCATCATGATTACACGCATGTAATCTACTCTTTTTGGCATTTCTATACCAAGAAGTTTTTCTACTGTCATGTGCCAACCAATGTTATT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAAAGCAGCGAAAGCTAAACATCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCCGAAAACACGAATTCAAAAAGCAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGGGGGTATAAAACTTTAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGTTCTCGAACTAGAATACAAAGGAAAAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCCTAAACCGGTCCTTCAGGACTGGCACGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTCGCCGTTACTTTGTAAAGTTAAAAAGCGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ACCATGGCCGACAATCCCGAAGTGTTTGAAAGGGTTCAATTTATGAAGTATTTCAGCGACCACAAGGGATGATAATTTCTTATTTAAGATTCTTTTTACATCAAGTATTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTCCGTCTTGTTTCTAGAATAAGGGTGGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCCGAAAACAGGGGTTTAGAAAGCAAAAATCAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Dipsacales,Caprifoliaceae,Lonicera,NA,Lonicera,Lonicera,Lonicera,Y,FruitBerry,F_Fruit,Fruit,Honeysuckle
+GCCAAATTAAGTGAAAAGTTCTGAGTGCTGAGTGCTGAGTGTTTTTAACTCCGCGCCTCCTAACTCCTAACTCCTAACTATTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAAGTCGAAAGACTGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAAAAAATCTGAAATTTGAGATGAAAAGTTCTCAAATTAAAGACTGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAGAACCTTTAGAGTTGAGAATTGATTTTGGGGTTAAATCCAAAACTCAAATTTCAAAGTTAAAATTCCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCTGGTGGGGTACTACTGGCGACGGAAGGCTTTTAGGGTTGCTGTATA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+AATGGCGTCCAGAATGGCATCAGAAATCTGGTCAGCGACTTTGTCAGGATGGCCTTCAGAGACAGATTCTGAAGTGAAGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCTGAAGGCAGACCTGATGGGTCGGTAGGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTGAGAAAAAGGGTTTAATTTATAGTTTTTTTAATATAAAACTACAATAAAAAAA,Eukaryota,Streptophyta,Magnoliopsida,Liliales,Liliaceae,Lilium,Lilium lancifolium,Lilium lancifolium,Lilium lancifolium,Lilium lancifolium,Y,EdibleFlower,M_GarnishFood,Flower,Tiger lily
+GTTTCGAACTACGGGTTAAAAATATATATTAACTTATATTTCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACAACGCTGATGAGAACTTCGAGTTACTTTGTAAGCGATGTCATCAGATAGAACATGAATGACACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAGAAAATCTGGAAATTGAACATCGGAAATCCGAAATTCAAATTTACAAAGATTGTTCATCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGCAGTTTGCATGAGCAAACGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GACTACTGAATCTAGTAATTGATGTTTTAACAAGTGAGTTAAAACAGTATGTAAGTA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTGCCGCGCAGACGGTGCCCAGGACGCGGCCATCCTGCGATCT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTCCAATGACCCGGCCGCCAGCCGGGTGGGTGGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACTAGAGAAAGGAGATATGTATGCCTAAATTTAGTCCTAGAGAATGTGAACTGGAAGATTGCTCTAGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTAGATTCACTAGGCAGACGTCAGCGATATTTTTTTCTAGAATTGATGCTGTAGTCCCAAAGGCGATCTA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACAACGCTGATGATAACTTCGAGCTCTTATGCAAGAGATGTCATCAGATTGAACATGAATGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TGCAGCTTGACCTGACCGGCCTGGCTCGGCGTTGGC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAGGGTATTAGAAATGAGGGATTTTCCCCAATCTAACATCGACACTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACCAAGAAGAGTTCAGAAAGGGAGAATCAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Mimosa,Mimosa pudica,Mimosa pudica,Mimosa pudica,Mimosa pudica,Y,MedFlower,H_Tea and Med,"Flower,Leaf",Shameplant
+GCATGGAGAATACAATGAAAGTATCCAT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCAGGCCGACAAGGCGCTCACGCAGCGGCTCAAGGAAGCACTGGGGCTGATCGAGGTGCGCACGCTGGATCATATTATTGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ACCTATTCACCTTTATGGTAAAAGTCAAAGTAGATA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCATACTGTATGATAGATATTTTAGAGGAAAACATGTGCTCTAATCTATTATTAACCATACAGGTTAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GGTTCCTCCTGCCCCTTATACTGCTCCCCGTATAGAATACCGGTCACCGTGACCCAGGAATCGCTCTCCAGTTCTGACACGTTGCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGTAGATCGTGATCCGATCAGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGCAGTTTGCGTTAGCAAATGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCCTGCCGTTTTATTTCGTAGAACGAAATAGCGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCTATCGAAGAGTATAAAAGTAGATA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTCTTGTAAATAACGTTGCGAAAACGGTTTATTCAAGTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTCCATGTTCGATCACAGCATGCATGGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAATAAAGTGAAAAGTTCTGAGTGCTGAGTGCTGAGTGCTGAGTGTTTTAACTCCTAACTCCTAACTCCTAATTCCTAACTCCTAACTCTTTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACCAAGAAGAGTTCAAAAAGCGCGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCATCCCTGTTTTCTTGAGAAATCAAGAAGGGGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTAGTATTTTAAAAATAAAACTAGAATCTAGAAAAAAAAAATAAAAGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCAAGCCTTGTGATTAAACAGGAGGTAATATGCCTAAATTTGGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATGCTATTTTTAAAAAACACAAGTTCAAGAAGAGATAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAAAAGGTCGAGTGGGTTGGTTAACTGCCTGACTTGACAGCTTTTGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+AGGCATCGCCGTGAACAGTCCGCCCAGGACCACGCCAGTCAGGCATATCGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CAACGCCCCTTCATGGAAACCGGACAGGATCAGCTTCAGCTTGCCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAAGAGCGAAAGCTAACCATCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+AGAGTTCATCCCAAGCCGGCTCACGACACCTCTCGC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GAGGAAGTGACCAAGGCTCGGCAGATGAATCGTTTCCAGCGCCTCGTGGCGCCGGTCGACG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGTGGCGGCTGCGAGCGACCGGACCGGTCGCCTCTTAGCCGCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCCTCGAATGAGGCTGACAACAGCTTCAGCGCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGGAAAATCTGAAAATTGAAAATCGGAAATCCGAGATTTAAATTTACAAGGATTGTTCATCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTCTCGATGAACCGGTCGGCAAGACCGGGAGGGCGAGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGCCCGATGGGCCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAAAACTGGAGACTGGAACGCTGGAGAAATCCCAGCCACTAGAAATTAAGTTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTTGAAATGAAAAAAAGTTTATATAGACAGAATAAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACAACGCTGATGAGAACTTCGAGTTACTTTGTAAGCGATGCCATCAGATAGAACATGAATGCCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TGCGGGGTCAGCGCCTCCTGATGGTTCAGGGCTTCGTCCACCTCGTCGCGCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTAGAAACTTTAGATTTTAGATTTACGATTGGTCTTCAATCCAAAATCCAAAATCCAAAATCGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GAAAACAGGGCTATCAGTACAATGCACCTATAACAATAGGCAAGAACTGCTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGTGACCGCCTCGTCCGGGCCGCAAGGCCGGGACCAGGGCGGTGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAGCGAAAAGTCAAAATAGTACCTTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+AATAGCTTTATTCATGACTGACAAGGGCATGGCTGCAAGCTCTTTAGGTGTGTAAATCTTCACTGGATCAAGCAAAGGGAAGATTACTTC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCGAAAACAAACAAAGGTTCATAAAGACAGAATAAGAATACAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTCTATTACAAAATAGAATTTAGAAAAGAAAAAATGTGGTTTCTAAATTTGTAGACATTGTAATGAATG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTGCGCCTGACTTTTCAATTCGCCGACGCCAGCGTCTTGGGCACTGTAGCCAACTGGCAGCAGTTCAAGACCACAGGCGCACTGGAGGTGTCATCTGAGCCCCGCTTTGGTGATCCCAACTTTGTGCAGCT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CCGATACTGCGAGAGCTCCAGCGGTTCAAGAAACTCCGTCAACAGGATCACGCCAGGGTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTGCCTGTTATCCCCGCGAAAGCGGGGATCAAAAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTAAGAAGCTAATAGCTAATAGCTAATAGCTTTTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CAATCAAGCCTTTGATGAGTAATTTTACTTCATCATATGACATAGACTCCGTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGCCCTATATCAACCCTAGATCGTTCCAGAGTTGGTTCCGGCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ACTGTGAGAATGCTGCAAGCTCTCTGTACTGAGCCAGCTCTACTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CGCCCTGCTGTTCGCCGTTCACATATACCGTCACCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTTTCGAAATAGCACGGTATTGTAGTATTTTATCACACTAGTTCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CAGATAACACTCAGTTCTCCTTCCACTTTCTGGGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+AGCGGTTCTACGACTACATCGCCACCTATTCGCCCTACGACAACCTCGAAGCCAGGGCCTACCCGGCGATGTTCGTCGGCACCGGCCTGTGGGATTC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTACTCACGCTGTTCACCACGCCGGTCATTTACCTCACGTTCGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGATTGAGTAAGGAGAGATGTATGCCTAAATTTAGTCCTAGAGAATGTGAACTGGAAGATTGCTCTAGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAAAAAACAAGGGGTTCTCGAACGAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCATGTTTTGAGAAAACAAGCGGTTCTCGAACTAGAAGACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTGAAAACAAAGAAAAATTCAGAAAGTTATAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAACAAGTGGTCCTCAAACTAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCACGTTTTCCGAAAACAAACAAAGTTCAGAAAGCGAAAATCAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAATAAACAGAAACAAAAGTTCAGCAAGCGAGAATAATAAAAAAAGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTATTATTTTACGAAAATAAACATGAACAAAGGTTCAGCAAGCGAGAATAAGAAAAAAAGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTTTTTCCGAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Cucurbitales,Cucurbitaceae,Cucumis,Cucumis melo,Cucumis melo,Cucumis melo,Cucumis melo,Y,Fruit,F_Fruit,Fruit,Melon
+ATCCTGTTTTCCGAAAACAAAGGTTCAGAAAGTTAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGATCAGTAATGGTCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAAGTTCAAAAAACGAAAAAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,Ocimum,Ocimum basilicum,Ocimum basilicum,Ocimum basilicum,Ocimum basilicum,Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Sweet basil
+ATCCTTTTTCCGAAAAAAAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Cucurbitales,Cucurbitaceae,Cucumis,Cucumis sativus,Cucumis sativus,Cucumis sativus,Cucumis sativus,Y,VegeSquash,E_Vegetable,"Fruit,Seed",Cucumber
+ATCCCTTTTTTGAAAAAACAAGTGGTTCTCAAACTAGAACCCAAAGGAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Poales,Poaceae,NA,NA,Poaceae,"Panicum miliaceum, Setaria italica","Poaceae (Proso Millet, Foxtail Millet)",Y,Grains,B_Grains,Seed,Millet
+GCCAAGGTGATTGAGACTCGATGCTGTGGAATCGGTTAAACCGGTCCCTCAGTACTCAATACAGCCTTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTGTTTTCCGAAAACAACCAAGGGTTCAGAAAACAATAATAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCATAAAAAAAAAAAGAGTTCAGAAAGCGAAAATCAAATCAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Piperales,Saururaceae,Houttuynia,Houttuynia cordata,Houttuynia cordata,Houttuynia cordata,Houttuynia cordata,Y,Herb,"G_Herb, Spice, Flavoring",Leaf,Fish mint
+ATCCCGTTTTCTGAAATAAAAATCAAACACAAGGGTTCAAAAAACGAAAATAAAAAAAGAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTCTTTTTTGAAAAACAATGGTTTAAAAAAGAGAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTGCTTTCAAAAAGGAAAGAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGTTATCGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCATGTTTTGAGAAAACAAGCGGTTATCGAACTAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAAACAAGGGGTTCTTGAACTAGAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTCAAAAGAAAAAAAATAAGGATTCCGAAAACAAGAATAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCACGTTTTTCGAAAATAAACAAAGTTCATAAAGCGAAAATAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCAGAAAACACGAGTTTAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTGAAAACAAGGGTTCAGAAAGCGAGAATCAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Magnoliales,Myristicaceae,Myristica,Myristica fragrans,Myristica fragrans,Myristica fragrans,Myristica fragrans,Y,SpiceSeed,"G_Herb, Spice, Flavoring",Seed,Nutmeg
+ATCCATGTTTTGAGAAAACAAGCGTTTCTCGAACTAGAACCCAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAAAACCAACACCGGGGGTTTAGAAAGCGAGAAAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTGATTTGAGAAAACAAGGATTCCGAAATCGGGAATCCAAAAAAGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTGTTTACGCGAACAAACCTGAGTTTAGAAAGTGAGATAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCACCGAAGGCAGGTCGCGATCCGACCGGTAGGTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTTCAAAAGCAAAAAAAGGTATTAAGAAAGCAAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTATTATTTTACGAAACTAAACAAAGGTTAAGCAAGCGAGAATAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTGTTTTGAAAAAAAAAAACAAAAAAAAGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTTACAACGCTGATGAGAACTTCGAGCTCTTATGCAAGAGATGTCATCAGATTGAACATGAATGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCAAAAAACAAACAAAGATTCATAAAGACAGAAATAAAGG,Eukaryota,Streptophyta,Magnoliopsida,NA,NA,NA,NA,Malpighiaceae,Malpighiaceae,Malpighiaceae,Y,Fruit,F_Fruit,Fruit,Barbados cherry
+ATCCTGTTTTCTCAAAGCAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGTCACAAGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGATCGCAAGGTCGGTAAGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAGAACAAAAACAAAAAGGGGGTCAGAACGGGAGAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGTGTTTTGAGAAGGGATTCTCGAACTATAATACAAAGGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTCTTTCCGAAAACAAATAAAAGTTCAGAAAGTGAAAATAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATGTTTCGGAAAACATGAGTTTAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTACGAGAACAAAAACAAACAAGGGTTCAGAACGGGAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTGCTTAAAGCAAAGGTTCCGAAAGGAAAAAGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACAATAACAAACAAGGGTTCAGAAAGCGAAAAAAAAAAGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTCTTTTTCGAAAACAAAGATTTAAAAGAAAAAAGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCGAAAATAAACAAAGATTCAGAAAGCGAAAATAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Ericales,Sapotaceae,NA,NA,Sapotaceae,"Argania spinosa, Chrysophyllum cainito, Chrysophyllum oliviforme, Lucuma campechiana, Manilkara zapota, Mimusops elengi, Pouteria caimito, Synsepalum dulcificum, Vitellaria paradoxa",Sapotaceae,Y,wild/ forage,wild/ forage,Fruit,Sapotaceae evergreen fruit
+ATCTTTTTTTTTTGAAAAACTGATGAATCGGACAAGAATAAAAAAA,Eukaryota,Streptophyta,Magnoliopsida,Asparagales,Asphodelaceae,Aloe,Aloe vera,Aloe vera,Aloe vera,Aloe vera,Y,VegeLeaf,E_Vegetable,Leaf,Aloe
+ATCCCGCTTTCCGAAAATAAATAAAAATTCCGGAAGCGAGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCGGACGAATTGGCAGCAAACCGCAGGGTTTGAGTAGTCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACAAAGGTTCAGAAAGCGAAAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACGAGAATAAAACAAAGCAAACAAGGGTTCAGAAAGCGAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAATAAACATTAACAAAAGTTCAGCAAGCGAGAATAATAATAATAAAAAAAGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCAGAAAACACGAGTTCAGAAAGCGAAAAAGG,Eukaryota,Streptophyta,Magnoliopsida,Piperales,Piperaceae,Piper,NA,Piper,"Piper auritum, Piper methysticum","Piper (Mexican Pepperleaf, Kava)",Y,VegeLeaf,E_Vegetable,Leaf,"Mexican Pepperleaf, Kava"
+ATCCCGCTTTCCGAAAATAAAGAAAAATTCCGGAAGCGAGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTATTAGTATTAGGAAAAAATAAGAATTCAGAAAACAAGAATAAAAAAAAAACAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTATTAGTTTACGAAAATAAACATGAACAAAGTTTCAGCAAGCGAGAATAAGAAAAAAGGGAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAATGCCATTGAGACTCGATGCTGTGGAATCGGTCAAGCCAGTTCCTCAGTACTCAATGCAGCATTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTCTTTCCAAAAGGAAGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAACCGGAGCGAGATTTTCCCTTGCACCAAGTCTTGCGGGGACTACTGAAGGTTTAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTAGTTTGATAAACCTTAGTTTTATCAAACTAGAAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Zingiberales,Zingiberaceae,Curcuma,NA,Curcuma,Curcuma,Curcuma,Y,SpiceRoot,"G_Herb, Spice, Flavoring",Root,Turmeric
+ATCCTATTTTACGAAAACCAACAACAAGGGTTTAGAAAACGAGAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACGAAGGTTCGGAAAGCGAAAATCAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTACAAGAATAAATAAGGGTTCAGAAAGCAAAAAAGGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTTCCTTTATTCATTTGAATAAGGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATACAGTTTTCCGAAAACAAACAAAGGTTCAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAACACAAGGGTTCAGAAAGCGAGAATAAAAATCAAAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCCGAAAACAAGCAAAAGTTCAGAAAGCTAAAATCAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCGAAGGCAGGTCGCAGGACCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTCCGAAATCAAAATCAAACACAAGGGTTCAAAAAACGAAAATAAAAAAAGAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTATTTTTTAAAAAAAAGGGTTTAGAAAAGAGAATAAAGAAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCATATTTTCCGAAAACAAATAAAGGTTCAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAATGCCATTGAGACTCGATGCTGTGGAACAGGTTAAACCCGTCCCTCAGTACTCAACACAGCATTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCAAAAAACACGAGTTTAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCTGAAAACAAACAAGGATTCAGAAAGCGATAAGAAAAAAGAATCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAATGCCATTGAGACTCGATGCTGTGGAATCGGTCAAGCCAGTTCCTCAGTACTCAATACAGCATTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCATAAAATCTAAAATTTGAGATGAAAATTTCTCAAGTTAAAGACCATGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGATTTCTAGAAACAATAGGTTCCTTTCCGAGAACGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTCAAAAACAAGGGTTTAAAAAAGAGAATAAAATAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTATGAAAACCGTCAAAACAATAGGGTTCATAAAGCGCGAATAAAAAAAGGATAGGATAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCTTTATTTTTTGAAGAACAAGGGTTTAAATAAGAGAATAAAATG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCTCAAAACAAAGGTTCAAAAAACGAAAAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Lamiales,Lamiaceae,NA,NA,Lamiaceae,"Lavandula dentata, Salvia officinalis","Lamiaceae (French Lavender, Sage)",Y,Herb,"G_Herb, Spice, Flavoring",Leaf,"French Lavender, Sage"
+ATCCTGTTTTCCAAAAACCAAGAAGAGTTCAGAAAGGGAGAATAAAATAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTATTTTACGAAAATAAACAAACAAAGGTTCAGCAAGGGAGAATAAAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGTTTTCGCAAGACAAAGGTTCAGAAAACGAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCAAACCAGAGGAAGATTTTCCTTTGCGCCAAATCTGAGGTGCGAGGCTTCCCCAAGGTTAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTACGAAAGGTATAAAAGTAGTGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTTCGAAAACAAACAAAGATTCATAAAGCGAAAAGAAAATAAAAAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Ericales,Lecythidaceae,Bertholletia,Bertholletia excelsa,Bertholletia excelsa,Bertholletia excelsa,Bertholletia excelsa,Y,Nut,D_Nut and Seed,Seed,Brazil Nut
+ATCCTATTTTCCAAAAACAAAAAAAAAAAGGGTTCAGAAAGTGAAAAAGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCCTCGCATGAGGCTTGAAACAAAGCTTCAGCGCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTCATAGTGATACACGCAACATATGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTTTTTCAAAAGGAAAAAAAGAAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTCCTTCTTTCCAAAAGGAAGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTATGCAGCAACCAGCATATCATATGCTGAATGCGAAGTCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTACACATGAAGAAACATCTTGTAGTTCTTCTTTGTTGTGTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTACACATGAAAAAATATTTTGTAGCTTTTATTTCTTGTGTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTTAGTTTGATAAACCTTAGTTTTCTCAAACTAGAATAAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAGAAAATATGGAAATTAGAAATCGGAAGTCCGAAATTCAAATTTACCAGGATTATTGACTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTGCCGAATGGATTTAAAGTAGGCAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCTGCCGAAGGCAGGACGGCATCGGCGATCGACGCGAGTCGATGCCTGTGCCGTCCGGTAGGCAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GACGACTGAATTCTTTACTTATGTATGCTGAAAAAGAGCTACATGATTACATTGTAAGTC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCGCCGAAGGCAGGTCGCGATCCGACCGGTAGGTG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGCAAGTCGCAACCCGACTGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATTTTTAATTTTTGAAACACAAGGTTTTAAAAAATAGAATAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCTTTTTTGAAAAAACAAGCTGTTTTCAAACTAAAACCCAAAAGAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCACCGAAGGCAAGTCGAAAGACTGGTAGGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAGAAAATCTAAAATTTGAGATAAAAATTTCTCAAGTTAAAGACCATGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTGCTGAAGGCAGGTCGCAAGACCGGTAGGCAA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCCGTTTTTTCGAAAAAACAAAGAAAAGTTCAGAAAGCGAAAATAAAAAG,Eukaryota,Streptophyta,Magnoliopsida,Fabales,Fabaceae,Lupinus,Lupinus albus,Lupinus albus,"Lupinus albus, Lupinus albus subsp. graecus",Lupinus albus,Y,Pulse,C_Legume,Seed,White lupin
+ATCGGACGAAATGGTGACGAACGAATAGTTCGGGTAGTCC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCAGAAACAAACAAAGGTTCAGGAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCCACGTTTTTTGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CGAGGACGGGCGCGTTACGGTGACCGGTCCGGCGCCGCAGCCTTTCGTGGCGGAGCAGGTCGAAGGCTCGGTCAAGCTGAGCTCCTACAAGAAGCCGATCGACGTCCAGACGCAGATGCGGGTCGGCGGAGGAAAGCTCGCGTTGCAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTTCATAAAACACGAGTTCAGAAAGCGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTATTTTCCGAAACCAAAGGTTCAGAAAGTGAAAAAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGATTTCTAGAGACAATAGTTTCCTTTCTGAGAATAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTGACCGAAAGGCAATAAGTAGGTCA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTATCAAAACAAACAAGTGATAATAAAAAAGATAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCAGAAAAATACTTGACTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCTGCTTTCCGAAAACAAAGAAAATTTCAGAAAGCGAGAATAAAAAAAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CATCCCCGCTGTTTCGTTTTGTTGAGTAAAACGAAACAAAGCGGCGGGGAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCTCAGGCCGACAAGGCGCTCACGCAGCGGCTCAAGGAAGCACTGGGGCTGATCGAGGTGCGCACGCTGGATCATATTATTGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGATCGAAAGATCGGTAAGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCGCTGAAGGCAGACCGCAAGGTCGGTAGGCGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ACCTATTCACCTTTATGGTAATTACAAAGTAGATA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGATGAGATTATGAGTGTTGAAGTAAAAAATTAACTCATACTTCAAAACTCAAAATTAATTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCCGCCAGATTTGTTTCGCAAATCTAATCGGCGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTGCCAAAGCGTTGGATAACACGGTTATTGAATGCGGAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GTCCAGAAAATATGGAAATTAGAAATCGGAAGTCCGAAATTCAAATTTACCAGGATTATTGACTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ATCCGGTTTTCTGAAAACAAACAAGGATTCAGAAAGCGATAATAAAAAAGAATCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCGAAGCCGCGCAATTGAGATTGTGAACCAATCAATCATCGCGATCGCTTCG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+AACTCGAAAAAATTAATAGACCTTTAAGTAGTCGTATGTTATAATACGCACATAAATACTTAAAGGAGACTATTATGTCAAGAATAAACAACGTCTTGACACGTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCTACGAAGCACTCGGTAATTTAAGTATCGGTTGCGAAAGAGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TTGATGGCGATAATGGTATCCCCCCTGATGGTGAGGATTTCGGCGTTGACCGTTCCCGGCTGAGCCGTGAGAGCCGTTTCCTGGTCTTCCCGTACTTTTTTAATCGTTTCCCGGATTTGTTGATGGCCGTTTTTGAAGTCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CTGGCTTACGTCGACCAGTACGCACTGGAAGGTGGAAACTACACCGTCACTGACACA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TGCGGTTGAGGTACATGCTATTAATAATAGGTACTTGTTTAGCTCCTCTGAATAGCTC,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+CCACAAAGAGATTGATCGGCATAGCAGACGATCTTCGGCAGAAGCCACTAGACGGCGATGCAAAAGCATTCACCGGCCTCGAAGTCTACAACGTCAACCACTACGACATCTTCCGCAACCCCGTCCAAGCCAAAGAGTTGCTGATCGAGGCGCT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCGCTGAAGGCAGGTCGAAAGATCGGTAGGCGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCACTGAAGGCAGATCGCAAGATCGGTAAGTGA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GGCAGTTTTCGCGAGTCGACGTCGCGTGGTTCCAGACCGGCGAGTTCTCCGAGACTTCCAGGCATTCGGCCTTGTCGCCGCTCTTCGTGACCTTGGCGAAGACCGCGATGCGACGGGCGTCGGCGGCATCCTCGCGGGTCAGGAAACGGCCGTCGGCGAGCGAGCGTTCGAGGT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACTAAATAGAGGAGATACCTATGCCTAGATTTAGTCCCAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+TCGACATCCCCCCACGAAACAGCGTTGCTCAACGAATACCTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCCCCGAAACTTATACCTGAATAAAACAAATTTAAGGTAAATGTTTCGGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTCATGTCACTTGTAATAGCAAGATGGTGTGG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+ACCTGTCCACCTTTATGGTAAAATCAAAGTAGATA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+AGCCTTACGAAAACCTGTTGAGCTTGGATGCGGAAGGCCTTTTAAAAATGGTTCTGAACGGCTGAAGCCGGTCTCAACGAATATTCAAGGAAAAGAGCATGAGCAAACGGAGAGCGTTCGGTGATGTTGTCCAGGTGCAG,NA,NA,NA,NA,NA,NA,NA,,,,,,,,
+GCTTAAGCCTTGTGACCAACAGGGGGTATTATGCCTAAATTTGGTCCGAGAATGTGTCATCAAATTGAACATGAATGTCACAAGGCTTTT,NA,NA,NA,NA,NA,NA,NA,,,,,,,,

@@ -1,0 +1,69 @@
+Fish,Source,Farmed/Wild,Marine/Freshwater,Market,TotalCount,Charlotte_Jun,Charlotte_Sept,Charlotte_Oct,Charlotte_Nov,Charlotte_Dec,Beaufort_Jun,Beaufort_Jul,Beaufort_Aug,Beaufort_Sept,Beaufort_Oct,Beaufort_Nov,Beaufort_Dec,Greenville_Jun,Greenville_Sept,Greenville_Oct,Greenville_Nov,Greenville_Dec
+Atlantic salmon,Imported,farmed,marine,global,5913,108,4424,603,246,113,4,3,5,8,181,9,21,149,17,0,15,8
+Tilapia,Imported,farmed,fresh,global,1150,120,481,245,150,147,3,0,0,0,0,0,0,0,0,0,4,0
+Nile tilapia,Imported,farmed,fresh,global,219,0,0,15,3,199,0,0,0,0,0,0,0,0,0,0,0,1
+Swai,Imported,farmed,marine,global,30,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Barramundi,Imported,farmed,fresh,global,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0
+Branzino,Imported,farmed,marine,global,5,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Striped bass,Atlantic,Both,marine,national,34,0,0,0,24,11,0,0,0,0,0,0,0,0,0,0,0,0
+Lagodon,Atlantic,Both,marine,global,10,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,0
+Catfish,Inland,Both,both,national,15,0,7,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0
+Black drum,Atlantic,wild,marine,global,918,0,93,661,33,1,0,1,4,6,78,14,11,0,0,14,0,0
+Red drum,Atlantic,wild,marine,regional,324,0,0,293,0,0,0,4,23,0,0,0,4,0,0,0,0,0
+Tunas,Atlantic,wild,marine,global,279,24,16,18,6,24,39,74,11,0,5,4,5,0,0,53,0,0
+Scup,Atlantic,wild,marine,regional,201,15,0,163,23,0,0,0,0,0,0,0,0,0,0,0,0,0
+Spotted seatrout,Atlantic,wild,marine,regional,155,57,0,0,0,0,3,8,39,0,35,3,8,0,0,0,0,2
+Striped Mullet,Atlantic,wild,marine,regional,150,0,28,0,11,0,34,42,0,8,2,22,3,0,0,0,0,0
+King mackerel,Atlantic,wild,marine,national,119,8,5,25,1,27,3,1,0,4,0,0,45,0,0,0,0,0
+Atlantic menhaden,Atlantic,wild,marine,global,109,6,80,3,6,2,0,0,0,0,0,8,0,0,4,0,1,0
+Red snapper,Atlantic,wild,marine,national,92,16,15,32,9,0,21,0,0,0,0,0,0,0,0,0,0,0
+Spanish mackerel,Atlantic,wild,marine,national,86,5,0,0,0,0,81,0,0,0,0,0,0,0,0,0,0,0
+Shad or herring,Atlantic,wild,marine,regional,79,0,0,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0
+Mahi-mahi,Atlantic,wild,marine,global,76,0,39,0,6,0,16,5,0,0,0,5,0,5,0,0,0,0
+Black sea bass,Atlantic,wild,marine,regional,63,0,0,0,0,4,24,0,0,0,28,0,6,0,0,0,0,0
+Bluefish,Atlantic,wild,marine,regional,60,0,0,9,8,0,14,20,0,4,0,0,0,0,0,0,4,0
+Atlantic spadefish,Atlantic,wild,marine,regional,54,54,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Grey triggerfish,Atlantic,wild,marine,regional,49,0,0,0,0,0,37,0,4,8,0,0,0,0,0,0,0,0
+Weakfish,Atlantic,wild,marine,regional,42,0,0,0,0,0,0,0,0,0,41,1,0,0,0,0,0,0
+Southern flounder,Atlantic,wild,marine,national,27,0,0,0,2,0,3,0,0,7,11,1,2,0,0,0,0,0
+Chub or Blue mackerel,Atlantic,wild,marine,national,26,0,0,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Other snapper,Atlantic,wild,marine,regional,26,0,0,0,0,0,26,0,0,0,0,0,0,0,0,0,0,0
+American conger,Atlantic,wild,marine,global,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Gulf kingcroaker,Atlantic,wild,marine,regional,23,0,0,0,7,9,5,0,0,0,0,0,2,0,0,0,0,0
+Atlantic mackerel,Atlantic,wild,marine,global,22,0,17,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0
+Fluke,Atlantic,wild,marine,national,19,0,5,5,4,0,0,5,0,0,0,0,0,0,0,0,0,0
+Atlantic croaker,Atlantic,wild,marine,regional,17,0,0,0,4,0,13,0,0,0,0,0,0,0,0,0,0,0
+Lane snapper,Atlantic,wild,marine,regional,14,11,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0
+Butterfish,Atlantic,wild,marine,regional,10,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,4
+White mullet,Atlantic,wild,fresh,regional,10,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0
+Atlantic herring,Atlantic,wild,marine,regional,9,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0
+Atlantic horse mackerel,Atlantic,wild,marine,global,8,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0
+Swordfish,Atlantic,wild,marine,global,8,0,0,0,6,0,0,2,0,0,0,0,0,0,0,0,0,0
+Grunts,Atlantic,wild,marine,regional,7,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0
+Eel,Atlantic,wild,marine,global,7,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0
+Wahoo,Atlantic,wild,marine,global,7,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,1
+Southern puffer,Atlantic,wild,marine,regional,6,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0
+Lizardfish,Atlantic,wild,marine,regional,4,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0
+Rainbow runner,Atlantic,wild,marine,global,3,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0
+Blue runner,Atlantic,wild,marine,regional,3,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0
+Sockeye or pink salmon,Pacific,wild,marine,global,4557,22,435,552,1223,1877,21,351,9,0,15,23,9,0,0,19,1,0
+Chinook salmon,Pacific,wild,marine,global,110,22,40,48,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Coho salmon,Pacific,wild,marine,global,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Redfish/Ocean perch,Pacific,wild,marine,regional,11,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0
+Sardinops,Pacific,wild,marine,national,8,0,0,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0
+Pacific ocean perch,Pacific,wild,marine,regional,3,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0
+Black crappie,Inland,wild,fresh,regional,47,0,35,0,12,0,0,0,0,0,0,0,0,0,0,0,0,0
+Green sunfish,Inland,wild,fresh,regional,44,0,0,0,0,0,0,0,0,0,0,0,0,44,0,0,0,0
+Bluegill,Inland,wild,fresh,regional,35,17,0,8,0,0,0,0,0,0,7,2,0,0,0,0,0,0
+Suckers,Inland,wild,fresh,regional,30,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+White bass,Inland,wild,fresh,regional,15,0,1,0,0,6,0,0,0,0,0,0,0,8,0,0,0,0
+Charr,Inland,wild,fresh,regional,8,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0
+White perch,Inland,wild,fresh,regional,4,4,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Southern platyfish,Inland,wild,fresh,regional,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pompano,Imported,wild,marine,global,70,14,5,0,2,44,0,0,0,0,0,0,0,4,0,0,0,0
+Anchovy,Imported,wild,marine,global,55,0,0,0,10,0,0,0,0,0,0,0,0,0,0,45,0,0
+Ilish,Imported,wild,marine,global,29,0,0,29,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Siamese fighting fish,Imported,wild,fresh,global,7,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0
+European anchovy,Imported,wild,marine,global,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Yellow croaker,Imported,wild,marine,regional,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Indian mackerel,Imported,wild,marine,global,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0

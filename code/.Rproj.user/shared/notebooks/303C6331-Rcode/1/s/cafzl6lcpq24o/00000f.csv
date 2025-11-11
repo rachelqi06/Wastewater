@@ -1,0 +1,134 @@
+"0","set.seed(001)"
+"0","library(phyloseq)"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"0","library(""vegan"")"
+"2","Warning: package ‘vegan’ was built under R version 4.4.1"
+"2","Loading required package: permute
+"
+"2","Warning: package ‘permute’ was built under R version 4.4.1"
+"2","Loading required package: lattice
+"
+"2","This is vegan 2.6-8
+"
+"0","library(ggplot2)"
+"2","Warning: package ‘ggplot2’ was built under R version 4.4.1"
+"0","library(ggpubr)"
+"2","Warning: package ‘ggpubr’ was built under R version 4.4.1"
+"0","library(RColorBrewer)"
+"0","library(tidyr)"
+"2","Warning: package ‘tidyr’ was built under R version 4.4.1"
+"0","library(dplyr)"
+"2","Warning: package ‘dplyr’ was built under R version 4.4.1"
+"2","
+Attaching package: ‘dplyr’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"0","library(ape)"
+"2","Warning: package ‘ape’ was built under R version 4.4.1"
+"2","
+Attaching package: ‘ape’
+
+"
+"2","The following object is masked from ‘package:dplyr’:
+
+    where
+
+"
+"2","The following object is masked from ‘package:ggpubr’:
+
+    rotate
+
+"
+"0","library(microbiome)"
+"2","
+microbiome R package (microbiome.github.com)
+    
+
+
+ Copyright (C) 2011-2022 Leo Lahti, 
+    Sudarshan Shetty et al. <microbiome.github.io>
+
+"
+"2","
+Attaching package: ‘microbiome’
+
+"
+"2","The following object is masked from ‘package:ggplot2’:
+
+    alpha
+
+"
+"2","The following object is masked from ‘package:vegan’:
+
+    diversity
+
+"
+"2","The following object is masked from ‘package:base’:
+
+    transform
+
+"
+"0","library(stats)"
+"0","library(PathoStat)"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"0","library(here)"
+"2","Warning: package ‘here’ was built under R version 4.4.1"
+"2","here() starts at C:/Users/md486/Box/Home Folder md486/Manuscripts/NCWW/NCWW_Submission_Science/Code and Data/NCWW_ms_code
+"
+"0","library(ggthemes)"
+"2","Warning: package ‘ggthemes’ was built under R version 4.4.1"
+"0","library(tibble)"
+"2","Warning: package ‘tibble’ was built under R version 4.4.1"
+"0","library(textshape)"
+"2","Warning: package ‘textshape’ was built under R version 4.4.1"
+"2","
+Attaching package: ‘textshape’
+
+"
+"2","The following object is masked from ‘package:tibble’:
+
+    column_to_rownames
+
+"
+"2","The following object is masked from ‘package:dplyr’:
+
+    combine
+
+"
+"0","library(envalysis)"
+"2","Warning: package ‘envalysis’ was built under R version 4.4.1"
+"0","library(vegan3d)"
+"2","Warning: package ‘vegan3d’ was built under R version 4.4.3"
+"2","Registered S3 methods overwritten by 'vegan3d':
+  method            from 
+  plot.orditkplot   vegan
+  points.orditkplot vegan
+  scores.orditkplot vegan
+  text.orditkplot   vegan
+"
+"2","
+Attaching package: ‘vegan3d’
+
+"
+"2","The following object is masked from ‘package:vegan’:
+
+    orditkplot
+
+"
+"0","library(scatterplot3d)"

@@ -1,0 +1,5 @@
+"0","#Read in NCWW_allsamples_animal (include all animal ASVs, taxa with same assignments were glommed, reads are normalized for pooling)."
+"0","NCWW_allsamples_animal <- readRDS(""Data/NCWW_allsamples_animal.rds"")"
+"0",""
+"0","#Read the trnL only phyloseq (include all assigned and unassigned ASVs, unassigned ASVs were assumed to be non-food plant, reads are normalized for pooling)"
+"0","NCWW_allsamples_trnL <- readRDS(""Data/NCWW_allsamples_trnL.rds"")"

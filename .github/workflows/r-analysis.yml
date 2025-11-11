@@ -1,13 +1,17 @@
-name: R analysis (render & figures) 
+name: Automated Analysis Pipeline
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch: {}
+  schedule:
+    # Run weekly on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
 
 jobs:
-  run-r-analysis:
+  run-analysis:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -17,17 +21,65 @@ jobs:
         with:
           r-version: "4.3"
 
-      - name: Install system libraries (optional)
+      - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libcairo2-dev libxml2-dev libssl-dev libfontconfig1-dev
 
-      - name: Install R packages and run driver
+      - name: Install R packages
         run: |
-          Rscript -e "options(repos='https://cloud.r-project.org'); source('scripts/install_packages_from_rmd.R'); source('scripts/run_all.R')"
+          Rscript -e "
+          install.packages(c('phyloseq', 'ggplot2', 'tidyverse', 'vegan', 'sf', 'rnaturalearth', 'dplyr'), repos='https://cloud.r-project.org')
+          "
 
-      - name: Upload figures
+      - name: Create output directory
+        run: mkdir -p results/figures results/tables
+
+      - name: Run analysis script
+        run: |
+          cd code
+          Rscript run_full_analysis_REVISED.R
+
+      - name: Generate summary document
+        run: |
+          Rscript -e "
+          source('.github/scripts/generate_summary.R')
+          "
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo 'has_changes=false' >> \$GITHUB_OUTPUT
+          else
+            echo 'has_changes=true' >> \$GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push results
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add -A
+          git commit -m "📊 Auto-generated analysis results and figures
+
+- Regenerated all analysis figures
+- Updated analysis summary document
+- Timestamp: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+
+      - name: Upload figures as artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: figures
-          path: results/figures
+          name: analysis-figures
+          path: code/figures/
+          retention-days: 30
+
+      - name: Upload summary as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-summary
+          path: ANALYSIS_RESULTS_SUMMARY.md
+          retention-days: 30
