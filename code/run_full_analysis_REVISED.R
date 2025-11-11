@@ -340,93 +340,15 @@ fig1a <- ggplot() +
 ggsave(paste0(output_path, "Figure_1A_locations.png"), fig1a, width = 10, height = 8, dpi = 300)
 cat("✓ Figure 1A saved\n")
 
-# Figure 1B: Wastewater vs Stool validation (plant composition correlation)
-cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n")
-
-# Get plant abundance data and metadata
-plant_otu <- as.data.frame(otu_table(NCWW_allsamples_trnL))
-plant_metadata <- data.frame(sam_data(NCWW_allsamples_trnL))
-
-# Parse dates and add year column
-plant_metadata$Year <- as.numeric(format(as.Date(plant_metadata$Date, format = "%m/%d/%Y"), "%Y"))
-
-# Filter for wastewater samples from Durham June 2021
-durham_ww_idx <- which(plant_metadata$Location == "Durham" &
-                        plant_metadata$Month == 6 &
-                        plant_metadata$Year == 2021 &
-                        plant_metadata$SampleType == "WasteWater")
-
-# Filter for stool samples (assuming SampleType contains "Stool" or similar)
-stool_idx <- which(plant_metadata$SampleType == "Stool")
-
-cat("Number of Durham June 2021 wastewater samples found:", length(durham_ww_idx), "\n")
-cat("Number of stool samples found:", length(stool_idx), "\n")
-
-# Subset plant data
-food_plant_taxa <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta" & IsFood == "Y")
-ww_taxa <- prune_samples(rownames(plant_metadata)[durham_ww_idx], food_plant_taxa)
-stool_taxa <- prune_samples(rownames(plant_metadata)[stool_idx], food_plant_taxa)
-
-# Load plant taxa information for common names
-plant_taxa_full <- read.csv(paste0(data_path, "plant_taxa.csv"), row.names = 1)
-
-# Calculate CLR-transformed abundance for each plant taxa
-ww_otu_food <- as.data.frame(otu_table(ww_taxa))
-stool_otu_food <- as.data.frame(otu_table(stool_taxa))
-
-ww_clr <- log(ww_otu_food + 1) - rowMeans(log(ww_otu_food + 1))
-stool_clr <- log(stool_otu_food + 1) - rowMeans(log(stool_otu_food + 1))
-
-# Create comparison dataframe with mean CLR values
-plant_summary <- data.frame(
-  PlantID = colnames(ww_otu_food),
-  Wastewater_CLR = colMeans(ww_clr, na.rm = TRUE),
-  Stool_CLR = colMeans(stool_clr[, colnames(ww_otu_food)], na.rm = TRUE)
-)
-
-# Get common names for plotting
-plant_summary$CommonName <- ""
-for(i in seq_len(nrow(plant_summary))) {
-  plant_id <- plant_summary$PlantID[i]
-  if(plant_id %in% rownames(plant_taxa_full)) {
-    common_name <- plant_taxa_full[plant_id, "CommonName"]
-    if(!is.na(common_name) && common_name != "") {
-      plant_summary$CommonName[i] <- as.character(common_name)
-    }
-  }
-  # If still empty, use PlantID
-  if(plant_summary$CommonName[i] == "") {
-    plant_summary$CommonName[i] <- as.character(plant_id)
-  }
-}
-
-# Calculate correlation
-corr_test <- cor.test(plant_summary$Stool_CLR, plant_summary$Wastewater_CLR, method = "spearman")
-corr_rho <- corr_test$estimate
-corr_pval <- corr_test$p.value
-
-# Create scatter plot with labels
-fig1b <- ggplot(plant_summary, aes(x = Stool_CLR, y = Wastewater_CLR)) +
-  geom_point(size = 3, color = "#4DAF4A", alpha = 0.7) +
-  geom_text_repel(aes(label = CommonName), size = 3, max.overlaps = 50) +
-  geom_smooth(method = "lm", se = TRUE, color = "black", alpha = 0.2) +
-  labs(
-    title = "Figure 1B: Wastewater vs Individual Stool Composition",
-    x = "CLR Abundance in Stool",
-    y = "CLR Abundance in Wastewater",
-    subtitle = paste0("Durham WW (n=", length(durham_ww_idx), ") vs Stool (n=", length(stool_idx), ") | Spearman ρ = ",
-                     round(corr_rho, 2), " (p ",
-                     if(corr_pval < 0.0001) "< 0.0001" else paste("=", round(corr_pval, 4)), ")")
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    plot.subtitle = element_text(size = 10),
-    panel.grid.major = element_line(color = "gray90")
-  )
-
-ggsave(paste0(output_path, "Figure_1B_validation.png"), fig1b, width = 10, height = 8, dpi = 300)
-cat("✓ Figure 1B saved\n")
+# TODO: Figure 1B - Wastewater vs Stool validation
+# Need to clarify: where are the stool samples loaded? Are they in NCWW_allsamples_trnL or separate?
+# cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n")
+#
+# # Get plant abundance data and metadata
+# plant_otu <- as.data.frame(otu_table(NCWW_allsamples_trnL))
+# plant_metadata <- data.frame(sam_data(NCWW_allsamples_trnL))
+#
+# cat("✓ Figure 1B saved\n")
 
 # Figure 1C: Composition pie charts with percentage labels
 fig1c_data <- data.frame(
