@@ -457,12 +457,16 @@ seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
+# Filter for specific locations: Beaufort, Charlotte, Greenville
+seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", "Charlotte", "Greenville"), ]
+
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
-# Figure 2A: PC3 vs PC4 colored by month (captures seasonality)
-fig2a <- ggplot(seasonal_metadata, aes(x = PC3, y = PC4, color = as.factor(Month), shape = County)) +
+# Figure 2A: PC3 vs PC4 colored by month, shaped by location
+fig2a <- ggplot(seasonal_metadata, aes(x = PC3, y = PC4, color = as.factor(Month), shape = Location)) +
   geom_point(size = 3, alpha = 0.7) +
   scale_color_manual(name = "Month", values = colorRampPalette(brewer.pal(12, "Set3"))(12)) +
+  scale_shape_manual(name = "Location", values = c("Beaufort" = 16, "Charlotte" = 17, "Greenville" = 18)) +
   labs(
     title = "Figure 2A: Temporal Patterns (PC3 vs PC4)",
     x = paste0("PC3 (", round(var_explained[3], 1), "%)"),
