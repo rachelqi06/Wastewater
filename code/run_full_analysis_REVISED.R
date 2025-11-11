@@ -347,32 +347,41 @@ cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n
 plant_otu <- as.data.frame(otu_table(NCWW_allsamples_trnL))
 plant_metadata <- data.frame(sam_data(NCWW_allsamples_trnL))
 
-# Filter for Durham samples from June 2021
+# Parse dates and add year column
 plant_metadata$Year <- as.numeric(format(as.Date(plant_metadata$Date, format = "%m/%d/%Y"), "%Y"))
-durham_june_2021_idx <- which(plant_metadata$Location == "Durham" &
-                               plant_metadata$Month == 6 &
-                               plant_metadata$Year == 2021)
 
-cat("Number of Durham June 2021 samples found:", length(durham_june_2021_idx), "\n")
+# Filter for wastewater samples from Durham June 2021
+durham_ww_idx <- which(plant_metadata$Location == "Durham" &
+                        plant_metadata$Month == 6 &
+                        plant_metadata$Year == 2021 &
+                        plant_metadata$SampleType == "WasteWater")
 
-# Subset plant data for Durham June 2021
+# Filter for stool samples (assuming SampleType contains "Stool" or similar)
+stool_idx <- which(plant_metadata$SampleType == "Stool")
+
+cat("Number of Durham June 2021 wastewater samples found:", length(durham_ww_idx), "\n")
+cat("Number of stool samples found:", length(stool_idx), "\n")
+
+# Subset plant data
 food_plant_taxa <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta" & IsFood == "Y")
-food_plant_taxa <- prune_samples(rownames(plant_metadata)[durham_june_2021_idx], food_plant_taxa)
+ww_taxa <- prune_samples(rownames(plant_metadata)[durham_ww_idx], food_plant_taxa)
+stool_taxa <- prune_samples(rownames(plant_metadata)[stool_idx], food_plant_taxa)
 
 # Load plant taxa information for common names
 plant_taxa_full <- read.csv(paste0(data_path, "plant_taxa.csv"), row.names = 1)
 
 # Calculate CLR-transformed abundance for each plant taxa
-plant_otu_food <- as.data.frame(otu_table(food_plant_taxa))
-plant_clr <- log(plant_otu_food + 1) - rowMeans(log(plant_otu_food + 1))
+ww_otu_food <- as.data.frame(otu_table(ww_taxa))
+stool_otu_food <- as.data.frame(otu_table(stool_taxa))
 
-# Create validation comparison by simulating stool-wastewater correlation
-# Using plant abundance variation as x-axis (simulated stool) and mean abundance as y-axis (wastewater)
-set.seed(42)
+ww_clr <- log(ww_otu_food + 1) - rowMeans(log(ww_otu_food + 1))
+stool_clr <- log(stool_otu_food + 1) - rowMeans(log(stool_otu_food + 1))
+
+# Create comparison dataframe with mean CLR values
 plant_summary <- data.frame(
-  PlantID = colnames(plant_otu_food),
-  Wastewater_CLR = colMeans(plant_clr, na.rm = TRUE),
-  Stool_CLR = colMeans(plant_clr, na.rm = TRUE) + rnorm(ncol(plant_clr), 0, 0.3)
+  PlantID = colnames(ww_otu_food),
+  Wastewater_CLR = colMeans(ww_clr, na.rm = TRUE),
+  Stool_CLR = colMeans(stool_clr[, colnames(ww_otu_food)], na.rm = TRUE)
 )
 
 # Get common names for plotting
@@ -405,7 +414,7 @@ fig1b <- ggplot(plant_summary, aes(x = Stool_CLR, y = Wastewater_CLR)) +
     title = "Figure 1B: Wastewater vs Individual Stool Composition",
     x = "CLR Abundance in Stool",
     y = "CLR Abundance in Wastewater",
-    subtitle = paste0("Durham, June 2021 (n=", nrow(plant_metadata[durham_june_2021_idx,]), " samples) | Spearman ρ = ",
+    subtitle = paste0("Durham WW (n=", length(durham_ww_idx), ") vs Stool (n=", length(stool_idx), ") | Spearman ρ = ",
                      round(corr_rho, 2), " (p ",
                      if(corr_pval < 0.0001) "< 0.0001" else paste("=", round(corr_pval, 4)), ")")
   ) +
