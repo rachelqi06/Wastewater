@@ -341,21 +341,26 @@ ggsave(paste0(output_path, "Figure_1A_locations.png"), fig1a, width = 10, height
 cat("✓ Figure 1A saved\n")
 
 # Figure 1B: Wastewater vs Stool validation (plant composition correlation)
-cat("Creating Figure 1B: Wastewater vs Stool Validation...\n")
+cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n")
 
-# Get plant abundance data and create CLR transformation
+# Get plant abundance data and metadata
 plant_otu <- as.data.frame(otu_table(NCWW_allsamples_trnL))
 plant_metadata <- data.frame(sam_data(NCWW_allsamples_trnL))
 
-# Select only food plants for validation plot
+# Filter for Durham samples from June 2021
+plant_metadata$Year <- as.numeric(format(as.Date(plant_metadata$Date, format = "%m/%d/%Y"), "%Y"))
+durham_june_2021_idx <- which(plant_metadata$Location == "Durham" &
+                               plant_metadata$Month == 6 &
+                               plant_metadata$Year == 2021)
+
+# Subset plant data for Durham June 2021
 food_plant_taxa <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta" & IsFood == "Y")
-plant_taxa_data <- data.frame(tax_table(food_plant_taxa))
-plant_common_names <- rownames(plant_taxa_data)
+food_plant_taxa <- prune_samples(rownames(plant_metadata)[durham_june_2021_idx], food_plant_taxa)
 
 # Load plant taxa information for common names
 plant_taxa_full <- read.csv(paste0(data_path, "plant_taxa.csv"), row.names = 1)
 
-# Calculate CLR-transformed abundance for each plant taxa (mean across wastewater samples)
+# Calculate CLR-transformed abundance for each plant taxa
 plant_otu_food <- as.data.frame(otu_table(food_plant_taxa))
 plant_clr <- log(plant_otu_food + 1) - rowMeans(log(plant_otu_food + 1))
 
@@ -398,7 +403,8 @@ fig1b <- ggplot(plant_summary, aes(x = Stool_CLR, y = Wastewater_CLR)) +
     title = "Figure 1B: Wastewater vs Individual Stool Composition",
     x = "CLR Abundance in Stool",
     y = "CLR Abundance in Wastewater",
-    subtitle = paste0("Spearman ρ = ", round(corr_rho, 2), " (p ",
+    subtitle = paste0("Durham, June 2021 (n=", nrow(plant_metadata[durham_june_2021_idx,]), " samples) | Spearman ρ = ",
+                     round(corr_rho, 2), " (p ",
                      if(corr_pval < 0.0001) "< 0.0001" else paste("=", round(corr_pval, 4)), ")")
   ) +
   theme_minimal() +
