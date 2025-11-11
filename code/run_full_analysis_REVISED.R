@@ -457,8 +457,11 @@ seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
+cat("Available locations in seasonal data:", unique(seasonal_metadata$Location), "\n")
+
 # Filter for specific locations: Beaufort, Charlotte, Greenville
 seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", "Charlotte", "Greenville"), ]
+cat("After filtering - rows remaining:", nrow(seasonal_metadata), "\n")
 
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
