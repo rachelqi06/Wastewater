@@ -476,15 +476,15 @@ var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 shape_values <- c("Beaufort" = 16, "Greenville" = 18)
 shape_values[charlotte_locs] <- 17  # Triangle for all Charlotte variants
 
-# Figure 2A: PC3 vs PC4 colored by month, shaped by location
-fig2a <- ggplot(seasonal_metadata, aes(x = PC3, y = PC4, color = as.factor(Month), shape = Location)) +
+# Figure 2A: PC4 vs PC3 colored by month, shaped by location
+fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month), shape = Location)) +
   geom_point(size = 3, alpha = 0.7) +
   scale_color_manual(name = "Month", values = colorRampPalette(brewer.pal(12, "Set3"))(12)) +
   scale_shape_manual(name = "Location", values = shape_values) +
   labs(
-    title = "Figure 2A: Temporal Patterns (PC3 vs PC4)",
-    x = paste0("PC3 (", round(var_explained[3], 1), "%)"),
-    y = paste0("PC4 (", round(var_explained[4], 1), "%)")
+    title = "Figure 2A: Temporal Patterns (PC4 vs PC3)",
+    x = paste0("PC4 (", round(var_explained[4], 1), "%)"),
+    y = paste0("PC3 (", round(var_explained[3], 1), "%)")
   ) +
   theme_minimal() +
   theme(plot.title = element_text(size = 14, face = "bold"))
