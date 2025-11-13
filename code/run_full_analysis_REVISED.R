@@ -458,8 +458,13 @@ seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
+# Check exact Charlotte location names
+charlotte_locs <- unique(seasonal_metadata$Location[grepl("Charlotte", seasonal_metadata$Location)])
+cat("Exact Charlotte locations found:\n")
+print(charlotte_locs)
+
 # Filter for specific locations: Beaufort, Charlotte (all variants), Greenville
-seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", "Charlotte 1", "Charlotte 2", "Charlotte 3", "Charlotte 4", "Greenville"), ]
+seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", charlotte_locs, "Greenville"), ]
 
 cat("Locations in filtered data:", paste(unique(seasonal_metadata$Location), collapse = ", "), "\n")
 cat("Sample counts by location:\n")
