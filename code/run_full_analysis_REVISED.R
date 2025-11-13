@@ -454,6 +454,11 @@ ps_seasonal_pca <- NCWW_Seasonal_food_clr
 seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 
+# Show ALL locations available BEFORE filtering
+cat("All locations BEFORE filtering:\n")
+print(table(seasonal_metadata$Location))
+cat("\nTotal samples before filtering:", nrow(seasonal_metadata), "\n\n")
+
 # Check exact Charlotte location names
 charlotte_locs <- unique(seasonal_metadata$Location[grepl("Charlotte", seasonal_metadata$Location)])
 cat("Exact Charlotte locations found:\n")
