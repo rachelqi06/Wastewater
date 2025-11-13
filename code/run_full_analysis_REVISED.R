@@ -495,6 +495,11 @@ pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
                          PC3 = pca_result$x[,3], PC4 = pca_result$x[,4])
 seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
+# Save PC scores for comparison
+write.csv(seasonal_metadata[, c("SampleID", "Location", "Month", "Date", "PC1", "PC2", "PC3", "PC4")],
+          file = paste0(output_path, "Figure_2A_PC_scores.csv"), row.names = FALSE)
+cat("✓ PC scores saved to Figure_2A_PC_scores.csv for comparison\n")
+
 cat("Locations in filtered data:", paste(unique(seasonal_metadata$Location), collapse = ", "), "\n")
 cat("Sample counts by location:\n")
 print(table(seasonal_metadata$Location))
