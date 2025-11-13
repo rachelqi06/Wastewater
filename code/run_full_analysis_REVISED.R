@@ -464,8 +464,9 @@ charlotte_locs <- unique(seasonal_metadata$Location[grepl("Charlotte", seasonal_
 cat("Exact Charlotte locations found:\n")
 print(charlotte_locs)
 
-# Filter for specific locations: Beaufort, Charlotte (all variants), Greenville
-filtered_samples <- seasonal_metadata$Location %in% c("Beaufort", charlotte_locs, "Greenville")
+# Filter for specific locations: Beaufort-Carteret County (Beaufort, Morehead City, Newport), Charlotte (all variants), Greenville
+beaufort_county <- c("Beaufort", "Morehead City", "Newport")
+filtered_samples <- seasonal_metadata$Location %in% c(beaufort_county, charlotte_locs, "Greenville")
 seasonal_metadata <- seasonal_metadata[filtered_samples, ]
 
 # NOW do PCA on filtered samples only
