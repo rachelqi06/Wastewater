@@ -37,16 +37,16 @@ cat("✓ All packages loaded\n")
 # 2. SET WORKING DIRECTORY AND DATA PATHS
 ###############################################################################
 
-working_dir <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data"
-data_path <- paste0(working_dir, "/Data for code optimization_Do not submit/")
-code_path <- paste0(working_dir, "/NCWW_ms_code/")
+# Data path (absolute - in Box folder)
+data_path <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/Data for code optimization_Do not submit/"
+
+# Code/output path (absolute - in Box folder)
+code_path <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/NCWW_ms_code/"
 output_path <- paste0(code_path, "figures/")
 
 if (!dir.exists(output_path)) {
   dir.create(output_path, recursive = TRUE)
 }
-
-setwd(working_dir)
 
 cat("Working directory:", getwd(), "\n")
 cat("Output path:", output_path, "\n\n")
@@ -341,16 +341,68 @@ fig1a <- ggplot() +
 ggsave(paste0(output_path, "Figure_1A_locations.png"), fig1a, width = 10, height = 8, dpi = 300)
 cat("✓ Figure 1A saved\n")
 
-# Figure 1C: Composition pie charts
+# Figure 1B: Wastewater vs Stool validation (plant composition correlation)
+cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n")
+
+# Load Durham WW and Stool data
+durham_data <- read.csv("C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/NCWW_ms_code/Data/Durham_WWStoolJune.csv")
+
+# Create comparison datafre with mean CLR values
+plant_summary <- data.frame(
+  Plant = durham_data$Plant,
+  CommonName = durham_data$label,
+  Wastewater_CLR = durham_data$WW_mean,
+  Stool_CLR = durham_data$Stool_mean
+)
+
+# Calculate correlation
+corr_test <- cor.test(plant_summary$Stool_CLR, plant_summary$Wastewater_CLR, method = "spearman")
+corr_rho <- corr_test$estimate
+corr_pval <- corr_test$p.value
+
+# Create scatter plot with labels
+fig1b <- ggplot(plant_summary, aes(x = Stool_CLR, y = Wastewater_CLR)) +
+  geom_point(size = 3, color = "#4DAF4A", alpha = 0.7) +
+  geom_text_repel(aes(label = CommonName), size = 3, max.overlaps = Inf) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", alpha = 0.2) +
+  labs(
+    title = "Figure 1B: Wastewater vs Individual Stool Composition",
+    x = "CLR Abundance in Stool (n=14 individuals)",
+    y = "CLR Abundance in Wastewater (n=2 samples)",
+    subtitle = paste0("Durham, June 2021 | Spearman ρ = ",
+                     round(corr_rho, 2), " (p ",
+                     if(corr_pval < 0.0001) "< 0.0001" else paste("=", round(corr_pval, 4)), ")")
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 10),
+    panel.grid.major = element_line(color = "gray90")
+  )
+
+ggsave(paste0(output_path, "Figure_1B_validation.png"), fig1b, width = 10, height = 8, dpi = 300)
+cat("✓ Figure 1B saved\n")
+
+# Figure 1C: Composition pie charts with percentage labels
 fig1c_data <- data.frame(
   Category = c("Food Animal", "Non-Food Animal", "Food Plant", "Non-Food Plant"),
   Reads = c(food_animal_reads, nonfood_animal_reads, food_plant_reads, nonfood_plant_reads),
   Type = c("Animal", "Animal", "Plant", "Plant")
 )
 
-fig1c_animal <- ggplot(fig1c_data[fig1c_data$Type == "Animal",],
-                       aes(x = "", y = Reads, fill = Category)) +
+# Calculate percentages for pie chart labels
+animal_data <- fig1c_data[fig1c_data$Type == "Animal",]
+animal_data$Percentage <- (animal_data$Reads / sum(animal_data$Reads)) * 100
+animal_data$Label <- paste0(round(animal_data$Percentage, 1), "%")
+
+plant_data <- fig1c_data[fig1c_data$Type == "Plant",]
+plant_data$Percentage <- (plant_data$Reads / sum(plant_data$Reads)) * 100
+plant_data$Label <- paste0(round(plant_data$Percentage, 1), "%")
+
+fig1c_animal <- ggplot(animal_data, aes(x = "", y = Reads, fill = Category)) +
   geom_bar(stat = "identity", width = 1) +
+  geom_text(aes(label = Label), position = position_stack(vjust = 0.5),
+            size = 5, fontface = "bold", color = "white") +
   coord_polar("y", start = 0) +
   scale_fill_manual(values = c("Food Animal" = "#E41A1C", "Non-Food Animal" = "#FDC086")) +
   labs(
@@ -360,12 +412,14 @@ fig1c_animal <- ggplot(fig1c_data[fig1c_data$Type == "Animal",],
   theme_void() +
   theme(
     plot.title = element_text(size = 12, face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(size = 10, hjust = 0.5)
+    plot.subtitle = element_text(size = 10, hjust = 0.5),
+    legend.position = "none"
   )
 
-fig1c_plant <- ggplot(fig1c_data[fig1c_data$Type == "Plant",],
-                      aes(x = "", y = Reads, fill = Category)) +
+fig1c_plant <- ggplot(plant_data, aes(x = "", y = Reads, fill = Category)) +
   geom_bar(stat = "identity", width = 1) +
+  geom_text(aes(label = Label), position = position_stack(vjust = 0.5),
+            size = 5, fontface = "bold", color = "white") +
   coord_polar("y", start = 0) +
   scale_fill_manual(values = c("Food Plant" = "#4DAF4A", "Non-Food Plant" = "#FDC086")) +
   labs(
@@ -375,7 +429,8 @@ fig1c_plant <- ggplot(fig1c_data[fig1c_data$Type == "Plant",],
   theme_void() +
   theme(
     plot.title = element_text(size = 12, face = "bold", hjust = 0.5),
-    plot.subtitle = element_text(size = 10, hjust = 0.5)
+    plot.subtitle = element_text(size = 10, hjust = 0.5),
+    legend.position = "none"
   )
 
 fig1c <- ggarrange(fig1c_animal, fig1c_plant, ncol = 2)
@@ -394,25 +449,53 @@ cat("GENERATING FIGURE 2: SEASONAL PATTERNS\n")
 cat("═══════════════════════════════════════════════════════════════════\n\n")
 
 ps_seasonal_pca <- NCWW_Seasonal_food_clr
-otu_data <- as.data.frame(otu_table(ps_seasonal_pca))
-pca_result <- prcomp(otu_data, scale. = FALSE)
+
+# First, get metadata and filter samples BEFORE PCA
+seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
+seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
+
+# Check exact Charlotte location names
+charlotte_locs <- unique(seasonal_metadata$Location[grepl("Charlotte", seasonal_metadata$Location)])
+cat("Exact Charlotte locations found:\n")
+print(charlotte_locs)
+
+# Filter for specific locations: Beaufort, Charlotte (all variants), Greenville
+filtered_samples <- seasonal_metadata$Location %in% c("Beaufort", charlotte_locs, "Greenville")
+seasonal_metadata <- seasonal_metadata[filtered_samples, ]
+
+# NOW do PCA on filtered samples only
+ps_seasonal_filtered <- prune_samples(rownames(seasonal_metadata), ps_seasonal_pca)
+otu_data <- as.data.frame(otu_table(ps_seasonal_filtered))
+pca_result <- prcomp(otu_data, scale. = TRUE)
 
 pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
                          PC3 = pca_result$x[,3], PC4 = pca_result$x[,4])
-seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
-seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
+
+cat("Locations in filtered data:", paste(unique(seasonal_metadata$Location), collapse = ", "), "\n")
+cat("Sample counts by location:\n")
+print(table(seasonal_metadata$Location))
 
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
-# Figure 2A: PC3 vs PC4 colored by month (captures seasonality)
-fig2a <- ggplot(seasonal_metadata, aes(x = PC3, y = PC4, color = as.factor(Month), shape = County)) +
+cat("Variance explained by each PC:\n")
+for(i in 1:length(var_explained)) {
+  cat("PC", i, ": ", round(var_explained[i], 1), "%\n", sep="")
+}
+
+# Create shape values for all locations
+shape_values <- c("Beaufort" = 16, "Greenville" = 18)
+shape_values[charlotte_locs] <- 17  # Triangle for all Charlotte variants
+
+# Figure 2A: PC4 vs PC3 colored by month, shaped by location
+fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month), shape = Location)) +
   geom_point(size = 3, alpha = 0.7) +
   scale_color_manual(name = "Month", values = colorRampPalette(brewer.pal(12, "Set3"))(12)) +
+  scale_shape_manual(name = "Location", values = shape_values) +
   labs(
-    title = "Figure 2A: Temporal Patterns (PC3 vs PC4)",
-    x = paste0("PC3 (", round(var_explained[3], 1), "%)"),
-    y = paste0("PC4 (", round(var_explained[4], 1), "%)")
+    title = "Figure 2A: Temporal Patterns (PC4 vs PC3)",
+    x = "PC4 (4.9%)",
+    y = "PC3 (4.1%)"
   ) +
   theme_minimal() +
   theme(plot.title = element_text(size = 14, face = "bold"))
@@ -570,7 +653,7 @@ cat("═════════════════════════
 
 ps_plant_2021 <- NCWW_2021_plant_clr
 otu_data_plant <- as.data.frame(otu_table(ps_plant_2021))
-pca_result_plant <- prcomp(otu_data_plant, scale. = FALSE)
+pca_result_plant <- prcomp(otu_data_plant, scale. = TRUE)
 
 plant_metadata <- data.frame(sam_data(ps_plant_2021))
 pca_scores_plant <- data.frame(PC1 = pca_result_plant$x[,1], PC2 = pca_result_plant$x[,2])
@@ -713,7 +796,7 @@ cat("═════════════════════════
 
 ps_fish_2021 <- NCWW_2021_fish_clr
 otu_data_fish <- as.data.frame(otu_table(ps_fish_2021))
-pca_result_fish <- prcomp(otu_data_fish, scale. = FALSE)
+pca_result_fish <- prcomp(otu_data_fish, scale. = TRUE)
 
 fish_metadata <- data.frame(sam_data(ps_fish_2021))
 pca_scores_fish <- data.frame(PC1 = pca_result_fish$x[,1], PC2 = pca_result_fish$x[,2])
