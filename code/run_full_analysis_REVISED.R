@@ -466,7 +466,7 @@ seasonal_metadata <- seasonal_metadata[filtered_samples, ]
 # NOW do PCA on filtered samples only
 ps_seasonal_filtered <- prune_samples(rownames(seasonal_metadata), ps_seasonal_pca)
 otu_data <- as.data.frame(otu_table(ps_seasonal_filtered))
-pca_result <- prcomp(otu_data, scale. = TRUE)
+pca_result <- prcomp(otu_data, scale. = FALSE)
 
 pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
                          PC3 = pca_result$x[,3], PC4 = pca_result$x[,4])
@@ -653,7 +653,7 @@ cat("═════════════════════════
 
 ps_plant_2021 <- NCWW_2021_plant_clr
 otu_data_plant <- as.data.frame(otu_table(ps_plant_2021))
-pca_result_plant <- prcomp(otu_data_plant, scale. = TRUE)
+pca_result_plant <- prcomp(otu_data_plant, scale. = FALSE)
 
 plant_metadata <- data.frame(sam_data(ps_plant_2021))
 pca_scores_plant <- data.frame(PC1 = pca_result_plant$x[,1], PC2 = pca_result_plant$x[,2])
@@ -796,7 +796,7 @@ cat("═════════════════════════
 
 ps_fish_2021 <- NCWW_2021_fish_clr
 otu_data_fish <- as.data.frame(otu_table(ps_fish_2021))
-pca_result_fish <- prcomp(otu_data_fish, scale. = TRUE)
+pca_result_fish <- prcomp(otu_data_fish, scale. = FALSE)
 
 fish_metadata <- data.frame(sam_data(ps_fish_2021))
 pca_scores_fish <- data.frame(PC1 = pca_result_fish$x[,1], PC2 = pca_result_fish$x[,2])
