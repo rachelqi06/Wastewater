@@ -461,6 +461,10 @@ seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 # Filter for specific locations: Beaufort, Charlotte (all variants), Greenville
 seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", "Charlotte 1", "Charlotte 2", "Charlotte 3", "Charlotte 4", "Greenville"), ]
 
+cat("Locations in filtered data:", paste(unique(seasonal_metadata$Location), collapse = ", "), "\n")
+cat("Sample counts by location:\n")
+print(table(seasonal_metadata$Location))
+
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
 # Figure 2A: PC3 vs PC4 colored by month, shaped by location
