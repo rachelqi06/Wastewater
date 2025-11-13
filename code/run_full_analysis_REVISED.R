@@ -125,12 +125,14 @@ NCWW_Seasonal_plant <- subset_samples(ps_plant, County %in% c("carteret","meckle
 NCWW_Seasonal_plant <- prune_samples(!(sample_names(NCWW_Seasonal_plant) %in% samples_to_remove),
                                       NCWW_Seasonal_plant)
 NCWW_Seasonal_plant <- prune_taxa(taxa_sums(NCWW_Seasonal_plant) > 0, NCWW_Seasonal_plant)
+cat("Before CLR - NCWW_Seasonal_plant: ", ntaxa(NCWW_Seasonal_plant), " taxa\n", sep="")
 NCWW_Seasonal_plant_clr <- microbiome::transform(NCWW_Seasonal_plant, "clr")
 
 NCWW_Seasonal_animal <- subset_samples(ps_animal, County %in% c("carteret","mecklenburg","pitt"))
 NCWW_Seasonal_animal <- prune_samples(!(sample_names(NCWW_Seasonal_animal) %in% samples_to_remove),
                                        NCWW_Seasonal_animal)
 NCWW_Seasonal_animal <- prune_taxa(taxa_sums(NCWW_Seasonal_animal) > 0, NCWW_Seasonal_animal)
+cat("Before CLR - NCWW_Seasonal_animal: ", ntaxa(NCWW_Seasonal_animal), " taxa\n", sep="")
 NCWW_Seasonal_animal_clr <- microbiome::transform(NCWW_Seasonal_animal, "clr")
 
 # Fish subsets
@@ -149,6 +151,7 @@ ps_notree_3 <- phyloseq(NCWW_Seasonal_animal_clr@otu_table, NCWW_Seasonal_animal
 ps_notree_4 <- phyloseq(NCWW_Seasonal_plant_clr@otu_table, NCWW_Seasonal_plant_clr@tax_table,
                          NCWW_Seasonal_plant_clr@sam_data)
 NCWW_Seasonal_food_clr <- merge_phyloseq(ps_notree_3, ps_notree_4)
+cat("After CLR merge - NCWW_Seasonal_food_clr: ", ntaxa(NCWW_Seasonal_food_clr), " taxa\n", sep="")
 
 # SPATIAL SUBSET (2021)
 NCWW_2021_animal <- subset_samples(ps_animal, Plate == "NCWW2021")
