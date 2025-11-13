@@ -472,6 +472,11 @@ print(table(seasonal_metadata$Location))
 
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
+cat("Variance explained by each PC:\n")
+for(i in 1:length(var_explained)) {
+  cat("PC", i, ": ", round(var_explained[i], 1), "%\n", sep="")
+}
+
 # Create shape values for all locations
 shape_values <- c("Beaufort" = 16, "Greenville" = 18)
 shape_values[charlotte_locs] <- 17  # Triangle for all Charlotte variants
