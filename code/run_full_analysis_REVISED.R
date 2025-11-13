@@ -472,6 +472,13 @@ seasonal_metadata <- seasonal_metadata[filtered_samples, ]
 # NOW do PCA on filtered samples only
 ps_seasonal_filtered <- prune_samples(rownames(seasonal_metadata), ps_seasonal_pca)
 otu_data <- as.data.frame(otu_table(ps_seasonal_filtered))
+
+cat("\nPCA input data:\n")
+cat("  Samples in PCA:", nrow(otu_data), "\n")
+cat("  Taxa in PCA:", ncol(otu_data), "\n")
+cat("  Sample names in PCA:\n")
+print(table(seasonal_metadata$Location))
+
 pca_result <- prcomp(otu_data, scale. = FALSE)
 
 pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
