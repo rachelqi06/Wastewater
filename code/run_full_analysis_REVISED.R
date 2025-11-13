@@ -449,14 +449,10 @@ cat("GENERATING FIGURE 2: SEASONAL PATTERNS\n")
 cat("═══════════════════════════════════════════════════════════════════\n\n")
 
 ps_seasonal_pca <- NCWW_Seasonal_food_clr
-otu_data <- as.data.frame(otu_table(ps_seasonal_pca))
-pca_result <- prcomp(otu_data, scale. = TRUE)
 
-pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
-                         PC3 = pca_result$x[,3], PC4 = pca_result$x[,4])
+# First, get metadata and filter samples BEFORE PCA
 seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
-seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
 # Check exact Charlotte location names
 charlotte_locs <- unique(seasonal_metadata$Location[grepl("Charlotte", seasonal_metadata$Location)])
@@ -464,7 +460,17 @@ cat("Exact Charlotte locations found:\n")
 print(charlotte_locs)
 
 # Filter for specific locations: Beaufort, Charlotte (all variants), Greenville
-seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", charlotte_locs, "Greenville"), ]
+filtered_samples <- seasonal_metadata$Location %in% c("Beaufort", charlotte_locs, "Greenville")
+seasonal_metadata <- seasonal_metadata[filtered_samples, ]
+
+# NOW do PCA on filtered samples only
+ps_seasonal_filtered <- prune_samples(rownames(seasonal_metadata), ps_seasonal_pca)
+otu_data <- as.data.frame(otu_table(ps_seasonal_filtered))
+pca_result <- prcomp(otu_data, scale. = TRUE)
+
+pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
+                         PC3 = pca_result$x[,3], PC4 = pca_result$x[,4])
+seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
 cat("Locations in filtered data:", paste(unique(seasonal_metadata$Location), collapse = ", "), "\n")
 cat("Sample counts by location:\n")
