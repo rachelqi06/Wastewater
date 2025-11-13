@@ -501,14 +501,21 @@ print(table(seasonal_metadata$Location))
 
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
-cat("Variance explained by each PC:\n")
+cat("\n=== VARIANCE DEBUG INFO ===\n")
+cat("Raw sdev values:\n")
+print(pca_result$sdev[1:10])
+cat("\nSum of squared sdev:", sum(pca_result$sdev^2), "\n")
+cat("Squared sdev[1:4]:\n")
+print(pca_result$sdev[1:4]^2)
+cat("\nVariance explained by each PC:\n")
 for(i in 1:length(var_explained)) {
   cat("PC", i, ": ", round(var_explained[i], 1), "%\n", sep="")
 }
+cat("=== END DEBUG ===\n\n")
 
 # Create shape values for regions
-# 16 = filled circle, 17 = filled triangle
-shape_values <- c("Beaufort" = 16, "Greenville" = 17, "Charlotte 1" = 16, "Charlotte 2" = 16, "Charlotte 3" = 16, "Charlotte 4" = 16)
+# 15 = filled square, 16 = filled circle, 17 = filled triangle
+shape_values <- c("Beaufort" = 16, "Greenville" = 17, "Charlotte 1" = 15, "Charlotte 2" = 15, "Charlotte 3" = 15, "Charlotte 4" = 15)
 
 # Figure 2A: PC4 vs PC3 colored by month, shaped by region
 fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month), shape = Region)) +
