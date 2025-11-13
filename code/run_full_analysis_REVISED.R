@@ -40,8 +40,9 @@ cat("✓ All packages loaded\n")
 # Data path (absolute - in Box folder)
 data_path <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/Data for code optimization_Do not submit/"
 
-# Output path (absolute - in Box folder)
-output_path <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/NCWW_ms_code/figures/"
+# Code/output path (absolute - in Box folder)
+code_path <- "C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/NCWW_ms_code/"
+output_path <- paste0(code_path, "figures/")
 
 if (!dir.exists(output_path)) {
   dir.create(output_path, recursive = TRUE)
