@@ -496,7 +496,10 @@ pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
 seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
 # Save PC scores for comparison
-write.csv(seasonal_metadata[, c("SampleID", "Location", "Month", "Date", "PC1", "PC2", "PC3", "PC4")],
+seasonal_export <- seasonal_metadata[, c("Location", "Month", "Date", "PC1", "PC2", "PC3", "PC4")]
+seasonal_export$SampleID <- rownames(seasonal_metadata)
+seasonal_export <- seasonal_export[, c("SampleID", "Location", "Month", "Date", "PC1", "PC2", "PC3", "PC4")]
+write.csv(seasonal_export,
           file = paste0(output_path, "Figure_2A_PC_scores.csv"), row.names = FALSE)
 cat("✓ PC scores saved to Figure_2A_PC_scores.csv for comparison\n")
 
