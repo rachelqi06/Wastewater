@@ -507,7 +507,8 @@ for(i in 1:length(var_explained)) {
 }
 
 # Create shape values for regions
-shape_values <- c("Beaufort" = 16, "Greenville" = 18, "Charlotte 1" = 17, "Charlotte 2" = 17, "Charlotte 3" = 17, "Charlotte 4" = 17)
+# 16 = filled circle, 17 = filled triangle
+shape_values <- c("Beaufort" = 16, "Greenville" = 17, "Charlotte 1" = 16, "Charlotte 2" = 16, "Charlotte 3" = 16, "Charlotte 4" = 16)
 
 # Figure 2A: PC4 vs PC3 colored by month, shaped by region
 fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month), shape = Region)) +
