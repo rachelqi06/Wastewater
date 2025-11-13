@@ -454,6 +454,10 @@ ps_seasonal_pca <- NCWW_Seasonal_food_clr
 seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 
+# Group Beaufort-Carteret County locations together
+seasonal_metadata$Region <- seasonal_metadata$Location
+seasonal_metadata$Region[seasonal_metadata$Location %in% c("Beaufort", "Morehead City", "Newport")] <- "Beaufort"
+
 # Show ALL locations available BEFORE filtering
 cat("All locations BEFORE filtering:\n")
 print(table(seasonal_metadata$Location))
@@ -496,15 +500,14 @@ for(i in 1:length(var_explained)) {
   cat("PC", i, ": ", round(var_explained[i], 1), "%\n", sep="")
 }
 
-# Create shape values for all locations
-shape_values <- c("Beaufort" = 16, "Greenville" = 18)
-shape_values[charlotte_locs] <- 17  # Triangle for all Charlotte variants
+# Create shape values for regions
+shape_values <- c("Beaufort" = 16, "Greenville" = 18, "Charlotte 1" = 17, "Charlotte 2" = 17, "Charlotte 3" = 17, "Charlotte 4" = 17)
 
-# Figure 2A: PC4 vs PC3 colored by month, shaped by location
-fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month), shape = Location)) +
+# Figure 2A: PC4 vs PC3 colored by month, shaped by region
+fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month), shape = Region)) +
   geom_point(size = 3, alpha = 0.7) +
   scale_color_manual(name = "Month", values = colorRampPalette(brewer.pal(12, "Set3"))(12)) +
-  scale_shape_manual(name = "Location", values = shape_values) +
+  scale_shape_manual(name = "Region", values = shape_values) +
   labs(
     title = "Figure 2A: Temporal Patterns (PC4 vs PC3)",
     x = paste0("PC4 (", round(var_explained[4], 1), "%)"),
