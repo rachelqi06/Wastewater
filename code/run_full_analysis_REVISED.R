@@ -347,7 +347,7 @@ cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n
 # Load Durham WW and Stool data
 durham_data <- read.csv("C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/NCWW_ms_code/Data/Durham_WWStoolJune.csv")
 
-# Create comparison dataframe with mean CLR values
+# Create comparison datafre with mean CLR values
 plant_summary <- data.frame(
   Plant = durham_data$Plant,
   CommonName = durham_data$label,
@@ -472,11 +472,15 @@ print(table(seasonal_metadata$Location))
 
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
+# Create shape values for all locations
+shape_values <- c("Beaufort" = 16, "Greenville" = 18)
+shape_values[charlotte_locs] <- 17  # Triangle for all Charlotte variants
+
 # Figure 2A: PC3 vs PC4 colored by month, shaped by location
 fig2a <- ggplot(seasonal_metadata, aes(x = PC3, y = PC4, color = as.factor(Month), shape = Location)) +
   geom_point(size = 3, alpha = 0.7) +
   scale_color_manual(name = "Month", values = colorRampPalette(brewer.pal(12, "Set3"))(12)) +
-  scale_shape_manual(name = "Location", values = c("Beaufort" = 16, "Charlotte 1" = 17, "Charlotte 2" = 17, "Charlotte 3" = 17, "Charlotte 4" = 17, "Greenville" = 18)) +
+  scale_shape_manual(name = "Location", values = shape_values) +
   labs(
     title = "Figure 2A: Temporal Patterns (PC3 vs PC4)",
     x = paste0("PC3 (", round(var_explained[3], 1), "%)"),
