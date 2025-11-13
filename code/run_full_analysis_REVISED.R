@@ -347,7 +347,7 @@ cat("Creating Figure 1B: Wastewater vs Stool Validation (Durham, June 2021)...\n
 # Load Durham WW and Stool data
 durham_data <- read.csv("C:/Users/rache/Box/project_davidlab/LAD_LAB_Personnel/Rachel_Q/Code and Data/NCWW_ms_code/Data/Durham_WWStoolJune.csv")
 
-# Create comparison dataframe with mean CLR values
+# Create comparison datafre with mean CLR values
 plant_summary <- data.frame(
   Plant = durham_data$Plant,
   CommonName = durham_data$label,
@@ -458,8 +458,12 @@ seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
-# Filter for specific locations: Beaufort, Charlotte (all variants), Greenville
-seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", "Charlotte 1", "Charlotte 2", "Charlotte 3", "Charlotte 4", "Greenville"), ]
+cat("All locations in seasonal data:", paste(unique(seasonal_metadata$Location), collapse = ", "), "\n")
+cat("Total samples:", nrow(seasonal_metadata), "\n")
+
+# Filter for specific locations: Beaufort, Charlotte, Greenville
+seasonal_metadata <- seasonal_metadata[seasonal_metadata$Location %in% c("Beaufort", "Charlotte", "Greenville"), ]
+cat("After filtering for Beaufort/Charlotte/Greenville:", nrow(seasonal_metadata), "samples\n")
 
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
@@ -467,7 +471,7 @@ var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 fig2a <- ggplot(seasonal_metadata, aes(x = PC3, y = PC4, color = as.factor(Month), shape = Location)) +
   geom_point(size = 3, alpha = 0.7) +
   scale_color_manual(name = "Month", values = colorRampPalette(brewer.pal(12, "Set3"))(12)) +
-  scale_shape_manual(name = "Location", values = c("Beaufort" = 16, "Charlotte 1" = 17, "Charlotte 2" = 17, "Charlotte 3" = 17, "Charlotte 4" = 17, "Greenville" = 18)) +
+  scale_shape_manual(name = "Location", values = c("Beaufort" = 16, "Charlotte" = 17, "Greenville" = 18)) +
   labs(
     title = "Figure 2A: Temporal Patterns (PC3 vs PC4)",
     x = paste0("PC3 (", round(var_explained[3], 1), "%)"),
