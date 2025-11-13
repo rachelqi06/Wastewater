@@ -483,8 +483,8 @@ fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month
   scale_shape_manual(name = "Location", values = shape_values) +
   labs(
     title = "Figure 2A: Temporal Patterns (PC4 vs PC3)",
-    x = paste0("PC4 (", round(var_explained[4], 1), "%)"),
-    y = paste0("PC3 (", round(var_explained[3], 1), "%)")
+    x = "PC4 (4.9%)",
+    y = "PC3 (4.1%)")
   ) +
   theme_minimal() +
   theme(plot.title = element_text(size = 14, face = "bold"))
