@@ -519,8 +519,11 @@ cat("✓ Figure 2A saved\n")
 # Figure 2B: Top 20 plant taxa most strongly associated with sampling time (PLSR)
 cat("Creating Figure 2B: Top 20 plant taxa associated with sampling time...\n")
 
+# Filter to ONLY plant taxa (Streptophyta)
+NCWW_Seasonal_plant_only <- subset_taxa(NCWW_Seasonal_food_clr, phylum == "Streptophyta")
+
 # Prepare data for PLSR: OTU table and numeric month variable
-otu_df <- as.data.frame(otu_table(NCWW_Seasonal_food_clr))
+otu_df <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))
 month_numeric <- as.numeric(seasonal_metadata$Month)
 
 # Remove zero-abundance taxa
@@ -540,7 +543,7 @@ tryCatch({
   top_taxa_names <<- names(plsr_loadings[top_taxa_idx])
   top_taxa_loadings <<- plsr_loadings[top_taxa_idx]
 
-  tax_table_seasonal <- tax_table(NCWW_Seasonal_food_clr)
+  tax_table_seasonal <- tax_table(NCWW_Seasonal_plant_only)
   common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
   common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
 
@@ -552,33 +555,32 @@ tryCatch({
   top_taxa_names <<- colnames(otu_df)[top_taxa_idx]
   top_taxa_loadings <<- taxa_variance[top_taxa_idx]
 
-  tax_table_seasonal <- tax_table(NCWW_Seasonal_food_clr)
+  tax_table_seasonal <- tax_table(NCWW_Seasonal_plant_only)
   common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
   common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
 })
 
-# Define growing seasons
+# Define growing seasons (PLANTS ONLY)
 season_map <- c(
   "Blueberry" = "Summer", "Okra" = "Summer", "Asparagus" = "Summer", "Melon" = "Summer",
-  "Pecan" = "Fall/Winter", "Cabbage" = "Fall/Winter", "Citrus" = "Fall/Winter", "Turkey" = "Fall/Winter",
-  "Atlantic salmon" = "Year-round", "Tilapia" = "Year-round", "Pacific salmon" = "Year-round", "Tuna" = "Year-round",
-  "Salmon" = "Year-round", "Menhaden" = "Year-round", "Croaker" = "Year-round",
+  "Pecan" = "Fall/Winter", "Cabbage" = "Fall/Winter", "Citrus" = "Fall/Winter",
   "Carrot" = "Fall/Winter", "Onion" = "Fall/Winter", "Celery" = "Fall/Winter",
-  "Black-eyed pea" = "Fall/Winter", "Grape" = "Summer"
+  "Black-eyed pea" = "Fall/Winter", "Grape" = "Summer",
+  "Lettuce" = "Year-round", "Spinach" = "Year-round", "Tomato" = "Year-round",
+  "Potato" = "Year-round", "Corn" = "Year-round", "Wheat" = "Year-round"
 )
 
-# Assign seasons
+# Assign seasons (PLANTS ONLY)
 taxa_seasons <- sapply(common_names, function(x) {
   for (season_name in names(season_map)) {
     if (grepl(season_name, x, ignore.case = TRUE)) {
       return(season_map[[season_name]])
     }
   }
-  if (grepl("fish|salmon|tuna|croaker|menhaden|tilapia", x, ignore.case = TRUE)) {
-    return("Year-round")
-  } else if (grepl("berry|melon|grape", x, ignore.case = TRUE)) {
+  # Default classifications for plants only
+  if (grepl("berry|melon|grape", x, ignore.case = TRUE)) {
     return("Summer")
-  } else if (grepl("pecan|citrus|cabbage|turkey", x, ignore.case = TRUE)) {
+  } else if (grepl("pecan|citrus|cabbage|carrot|onion|celery|pea", x, ignore.case = TRUE)) {
     return("Fall/Winter")
   } else {
     return("Year-round")
