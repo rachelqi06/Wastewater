@@ -461,11 +461,6 @@ seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d
 seasonal_metadata$Region <- seasonal_metadata$Location
 seasonal_metadata$Region[seasonal_metadata$Location %in% c("Beaufort", "Morehead City", "Newport")] <- "Beaufort"
 
-# Show ALL locations available BEFORE filtering
-cat("All locations BEFORE filtering:\n")
-print(table(seasonal_metadata$Location))
-cat("\nTotal samples before filtering:", nrow(seasonal_metadata), "\n\n")
-
 # Check exact Charlotte location names
 charlotte_locs <- unique(seasonal_metadata$Location[grepl("Charlotte", seasonal_metadata$Location)])
 cat("Exact Charlotte locations found:\n")
@@ -479,15 +474,6 @@ seasonal_metadata <- seasonal_metadata[filtered_samples, ]
 # NOW do PCA on filtered samples only
 ps_seasonal_filtered <- prune_samples(rownames(seasonal_metadata), ps_seasonal_pca)
 otu_data <- as.data.frame(otu_table(ps_seasonal_filtered))
-
-cat("\nPCA input data:\n")
-cat("  Samples in PCA:", nrow(otu_data), "\n")
-cat("  Taxa in PCA:", ncol(otu_data), "\n")
-cat("  Mean reads per taxon:", round(mean(colSums(otu_data)), 2), "\n")
-cat("  Min reads per taxon:", min(colSums(otu_data)), "\n")
-cat("  Max reads per taxon:", max(colSums(otu_data)), "\n")
-cat("  Sample names in PCA:\n")
-print(table(seasonal_metadata$Location))
 
 pca_result <- prcomp(otu_data, scale. = FALSE)
 
@@ -508,18 +494,6 @@ cat("Sample counts by location:\n")
 print(table(seasonal_metadata$Location))
 
 var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
-
-cat("\n=== VARIANCE DEBUG INFO ===\n")
-cat("Raw sdev values:\n")
-print(pca_result$sdev[1:10])
-cat("\nSum of squared sdev:", sum(pca_result$sdev^2), "\n")
-cat("Squared sdev[1:4]:\n")
-print(pca_result$sdev[1:4]^2)
-cat("\nVariance explained by each PC:\n")
-for(i in 1:length(var_explained)) {
-  cat("PC", i, ": ", round(var_explained[i], 1), "%\n", sep="")
-}
-cat("=== END DEBUG ===\n\n")
 
 # Create shape values for regions
 # 15 = filled square, 16 = filled circle, 17 = filled triangle
