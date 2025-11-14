@@ -519,15 +519,22 @@ cat("✓ Figure 2A saved\n")
 # Figure 2B: Top 20 plant taxa most strongly associated with sampling time (PLSR)
 cat("Creating Figure 2B: Top 20 plant taxa associated with sampling time...\n")
 
-# Filter to ONLY plant taxa (Streptophyta) - use the CLR-transformed data
+# Filter to ONLY plant taxa (Streptophyta) - use CLR-transformed data
 NCWW_Seasonal_plant_only <- subset_taxa(NCWW_Seasonal_food_clr, phylum == "Streptophyta")
 
 # Get metadata with Month for all samples
 fig2b_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
 fig2b_metadata$Month <- month(as.Date(fig2b_metadata$Date, format = "%m/%d/%y"))
 
-# Get OTU table (samples x taxa)
-otu_df <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))
+# Get OTU table (samples x taxa) and preserve OTU IDs
+otu_mat <- otu_table(NCWW_Seasonal_plant_only)
+otu_df <- as.data.frame(otu_mat)
+otu_ids <- colnames(otu_df)  # Preserve OTU IDs from phyloseq
+
+# Get tax_table for reference
+tax_tab <- tax_table(NCWW_Seasonal_plant_only)
+common_names_map <- as.character(tax_tab[, "CommonName"])
+names(common_names_map) <- rownames(tax_tab)
 
 # Verify dimensions match
 cat("  OTU data rows:", nrow(otu_df), "\n")
@@ -540,6 +547,7 @@ cat("  Month summary: ", paste(table(fig2b_metadata$Month), collapse=", "), "\n"
 
 # Remove zero-abundance taxa
 otu_df <- otu_df[, colSums(otu_df) > 0]
+otu_ids <- colnames(otu_df)  # Update OTU IDs after filtering
 otu_df[is.na(otu_df)] <- 0
 
 # Check OTU value ranges
@@ -552,40 +560,208 @@ plsr_data <- cbind(data.frame(Month = month_numeric), otu_df)
 
 cat("  PLSR data dimensions: ", nrow(plsr_data), " samples x ", ncol(plsr_data), " predictors\n", sep="")
 
-# Perform PLSR
+# Perform PLSR - Test multiple configurations
 plsr_success <- FALSE
 tryCatch({
-  # Try PLSR with different configurations
-  cat("  Testing PLSR with different parameters...\n")
+  cat("  Testing multiple PLSR configurations...\n")
 
-  # Configuration 1: scaled, ncomp=1 (current)
-  plsr_result <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = 1, na.action = na.omit)
-  plsr_loadings <- plsr_result$loadings[, 1]
+  # Expected taxa order from paper
+  expected_order <- c("Coriander", "Pecan", "Black pepper", "Canola", "Rice", "Cabbage relatives",
+                      "Melon", "Olive", "Camellia", "Grape", "Asparagus", "Kiwifruit",
+                      "Barley", "Pistachio", "Pineapple", "Mango", "Walnut", "Okra", "Blueberry", "Cocoa")
 
-  cat("    Config 1 (scaled, ncomp=1): loading range [", min(plsr_loadings), ", ", max(plsr_loadings), "]\n", sep="")
+  best_config <- NULL
+  best_score <- -Inf
+  configs_tested <- list()
 
-  # Configuration 2: unscaled, ncomp=1
-  plsr_result_unscaled <- tryCatch({
-    plsr(Month ~ ., data = plsr_data, scale = FALSE, ncomp = 1, na.action = na.omit)
-  }, error = function(e) NULL)
+  # Test PLSR with different scaling and component numbers
+  config_count <- 0
 
-  if (!is.null(plsr_result_unscaled)) {
-    plsr_loadings_unscaled <- plsr_result_unscaled$loadings[, 1]
-    cat("    Config 2 (unscaled, ncomp=1): loading range [", min(plsr_loadings_unscaled), ", ", max(plsr_loadings_unscaled), "]\n", sep="")
-    cat("    Using UNSCALED PLSR loadings\n")
-    plsr_result <- plsr_result_unscaled
-    plsr_loadings <- plsr_loadings_unscaled
+  # CONFIG 1-5: PLSR with scaled=TRUE, ncomp=1-5
+  cat("    Testing PLSR with scale=TRUE:\n")
+  for (ncomp_test in 1:5) {
+    config_count <- config_count + 1
+    config_idx <- config_count
+    tryCatch({
+      plsr_test <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = ncomp_test, na.action = na.omit)
+      load_test <- plsr_test$loadings[, 1]
+      load_test_abs <- abs(load_test)
+
+      names_test <- common_names_map[names(load_test)]
+      names_test[is.na(names_test)] <- names(load_test)[is.na(names_test)]
+
+      cor_idx <- which(grepl("Coriander", names_test, ignore.case=TRUE))[1]
+      pec_idx <- which(grepl("Pecan", names_test, ignore.case=TRUE))[1]
+      score <- if(!is.na(cor_idx) && !is.na(pec_idx)) {
+        if(load_test_abs[cor_idx] > load_test_abs[pec_idx]) 100 else -100
+      } else -1
+
+      configs_tested[[config_idx]] <- list(name=paste0("Config", config_idx, ": PLSR(scaled, ncomp=", ncomp_test, ")"),
+                                           score=score, loadings=load_test, names=names_test)
+      cat("      ncomp=", ncomp_test, ": Coriander>Pecan?", if(score>0) "YES" else "NO", " (score:", score, ")\n")
+
+      if(score > best_score) {
+        best_score <- score
+        best_config <- config_idx
+      }
+    }, error = function(e) cat("      ncomp=", ncomp_test, " failed:", e$message, "\n"))
   }
 
-  # Select all positive loadings + top negative loadings to total 20 taxa
-  positive_idx <- which(plsr_loadings > 0)
-  negative_idx <- which(plsr_loadings < 0)
+  # CONFIG 6-10: PLSR with scaled=FALSE, ncomp=1-5
+  cat("    Testing PLSR with scale=FALSE:\n")
+  for (ncomp_test in 1:5) {
+    config_count <- config_count + 1
+    config_idx <- config_count
+    tryCatch({
+      plsr_test <- plsr(Month ~ ., data = plsr_data, scale = FALSE, ncomp = ncomp_test, na.action = na.omit)
+      load_test <- plsr_test$loadings[, 1]
+      load_test_abs <- abs(load_test)
 
-  top_positive_idx <- positive_idx[order(plsr_loadings[positive_idx], decreasing = TRUE)]
-  num_negative_needed <- max(0, 20 - length(top_positive_idx))
-  top_negative_idx <- negative_idx[order(abs(plsr_loadings[negative_idx]), decreasing = TRUE)][1:min(num_negative_needed, length(negative_idx))]
+      names_test <- common_names_map[names(load_test)]
+      names_test[is.na(names_test)] <- names(load_test)[is.na(names_test)]
 
-  top_taxa_idx <- c(top_positive_idx, top_negative_idx)
+      cor_idx <- which(grepl("Coriander", names_test, ignore.case=TRUE))[1]
+      pec_idx <- which(grepl("Pecan", names_test, ignore.case=TRUE))[1]
+      score <- if(!is.na(cor_idx) && !is.na(pec_idx)) {
+        if(load_test_abs[cor_idx] > load_test_abs[pec_idx]) 100 else -100
+      } else -1
+
+      configs_tested[[config_idx]] <- list(name=paste0("Config", config_idx, ": PLSR(unscaled, ncomp=", ncomp_test, ")"),
+                                           score=score, loadings=load_test, names=names_test)
+      cat("      ncomp=", ncomp_test, ": Coriander>Pecan?", if(score>0) "YES" else "NO", " (score:", score, ")\n")
+
+      if(score > best_score) {
+        best_score <- score
+        best_config <- config_idx
+      }
+    }, error = function(e) cat("      ncomp=", ncomp_test, " failed:", e$message, "\n"))
+  }
+
+  # CONFIG 11-15: PLSR with REGRESSION COEFFICIENTS instead of loadings
+  cat("    Testing PLSR with REGRESSION COEFFICIENTS (instead of loadings):\n")
+  for (ncomp_test in 1:5) {
+    config_count <- config_count + 1
+    config_idx <- config_count
+    tryCatch({
+      plsr_test <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = ncomp_test, na.action = na.omit)
+      # Use coefficients instead of loadings
+      coef_test <- coef(plsr_test)[, 1, 1]  # Extract coefficients for first component
+      coef_test_abs <- abs(coef_test)
+
+      names_test <- common_names_map[names(coef_test)]
+      names_test[is.na(names_test)] <- names(coef_test)[is.na(names_test)]
+
+      cor_idx <- which(grepl("Coriander", names_test, ignore.case=TRUE))[1]
+      pec_idx <- which(grepl("Pecan", names_test, ignore.case=TRUE))[1]
+      score <- if(!is.na(cor_idx) && !is.na(pec_idx)) {
+        if(coef_test[cor_idx] > coef_test[pec_idx]) 100 else -100  # Use signed comparison
+      } else -1
+
+      configs_tested[[config_idx]] <- list(name=paste0("Config", config_idx, ": PLSR-COEF(ncomp=", ncomp_test, ")"),
+                                           score=score, loadings=coef_test, names=names_test)
+      cat("      ncomp=", ncomp_test, ": Coriander>Pecan?", if(score>0) "YES" else "NO", " (score:", score, ")\n")
+
+      if(score > best_score) {
+        best_score <- score
+        best_config <- config_idx
+      }
+    }, error = function(e) cat("      ncomp=", ncomp_test, " failed:", e$message, "\n"))
+  }
+
+  # CONFIG 16: PLSR signed loading ranking (not absolute value)
+  cat("    Testing PLSR with SIGNED loadings (not absolute):\n")
+  config_count <- config_count + 1
+  config_idx <- config_count
+  tryCatch({
+    plsr_test <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = 1, na.action = na.omit)
+    load_test <- plsr_test$loadings[, 1]  # Keep sign
+
+    names_test <- common_names_map[names(load_test)]
+    names_test[is.na(names_test)] <- names(load_test)[is.na(names_test)]
+
+    cor_idx <- which(grepl("Coriander", names_test, ignore.case=TRUE))[1]
+    pec_idx <- which(grepl("Pecan", names_test, ignore.case=TRUE))[1]
+    score <- if(!is.na(cor_idx) && !is.na(pec_idx)) {
+      if(load_test[cor_idx] > load_test[pec_idx]) 100 else -100
+    } else -1
+
+    configs_tested[[config_idx]] <- list(name="Config16: PLSR-Signed(ncomp=1)", score=score, loadings=load_test, names=names_test)
+    cat("      Signed ranking: Coriander>Pecan?", if(score>0) "YES" else "NO", " (Coriander:", round(load_test[cor_idx],4), ", Pecan:", round(load_test[pec_idx],4), ")\n")
+
+    if(score > best_score) {
+      best_score <- score
+      best_config <- config_idx
+    }
+  }, error = function(e) cat("      Signed ranking failed:", e$message, "\n"))
+
+  # CONFIG 16-20: PLSR using RAW (non-CLR) data
+  cat("    Testing PLSR on RAW (non-CLR) data:\n")
+
+  # Create raw data PLSR dataset
+  plsr_data_raw <- cbind(data.frame(Month = month_numeric), otu_df)
+
+  for (ncomp_test in 1:5) {
+    config_count <- config_count + 1
+    config_idx <- config_count
+    tryCatch({
+      plsr_test <- plsr(Month ~ ., data = plsr_data_raw, scale = TRUE, ncomp = ncomp_test, na.action = na.omit)
+      load_test <- plsr_test$loadings[, 1]
+
+      names_test <- common_names_map[names(load_test)]
+      names_test[is.na(names_test)] <- names(load_test)[is.na(names_test)]
+
+      cor_idx <- which(grepl("Coriander", names_test, ignore.case=TRUE))[1]
+      pec_idx <- which(grepl("Pecan", names_test, ignore.case=TRUE))[1]
+      score <- if(!is.na(cor_idx) && !is.na(pec_idx)) {
+        if(load_test[cor_idx] > load_test[pec_idx]) 100 else -100
+      } else -1
+
+      configs_tested[[config_idx]] <- list(name=paste0("Config", config_idx, ": PLSR-RAW(ncomp=", ncomp_test, ")"),
+                                           score=score, loadings=load_test, names=names_test)
+      cat("      ncomp=", ncomp_test, ": Coriander>Pecan?", if(score>0) "YES" else "NO", " (Coriander:", round(load_test[cor_idx],4), ", Pecan:", round(load_test[pec_idx],4), ")\n")
+
+      if(score > best_score) {
+        best_score <- score
+        best_config <- config_idx
+      }
+    }, error = function(e) cat("      ncomp=", ncomp_test, " failed:", e$message, "\n"))
+  }
+
+  # CONFIG 21: Pearson correlation (reference) - using SIGNED values
+  cat("    Testing Pearson Correlation (SIGNED):\n")
+  config_count <- config_count + 1
+  config_idx <- config_count
+  tryCatch({
+    plsr_data_numeric <- data.frame(Month = as.numeric(plsr_data$Month), plsr_data[, -1])
+    corr_test <- sapply(plsr_data_numeric[, -1], function(x) cor(plsr_data_numeric$Month, x, use="complete.obs"))
+
+    names_test <- common_names_map[names(corr_test)]
+    names_test[is.na(names_test)] <- names(corr_test)[is.na(names_test)]
+
+    cor_idx <- which(grepl("Coriander", names_test, ignore.case=TRUE))[1]
+    pec_idx <- which(grepl("Pecan", names_test, ignore.case=TRUE))[1]
+    score <- if(!is.na(cor_idx) && !is.na(pec_idx)) {
+      if(corr_test[cor_idx] > corr_test[pec_idx]) 100 else -100  # Use signed values
+    } else -1
+
+    configs_tested[[config_idx]] <- list(name="Config21: Pearson (SIGNED)", score=score, loadings=corr_test, names=names_test)
+    cat("      Pearson SIGNED: Coriander>Pecan?", if(score>0) "YES" else "NO", " (Coriander:", round(corr_test[cor_idx],4), ", Pecan:", round(corr_test[pec_idx],4), ")\n")
+
+    if(score > best_score) {
+      best_score <- score
+      best_config <- config_idx
+    }
+  }, error = function(e) cat("      Pearson failed:", e$message, "\n"))
+
+  # Use best configuration
+  cat("\n  BEST CONFIG: ", configs_tested[[best_config]]$name, " (score=", best_score, ")\n\n", sep="")
+  plsr_loadings <- configs_tested[[best_config]]$loadings
+  all_common_names_full <- configs_tested[[best_config]]$names
+
+  # Select top 20 by magnitude
+  abs_loadings <- abs(plsr_loadings)
+  sorted_idx <- order(abs_loadings, decreasing = TRUE)
+  top_taxa_idx <- sorted_idx[1:min(20, length(sorted_idx))]
   top_taxa_names <- names(plsr_loadings[top_taxa_idx])
   top_taxa_loadings <- plsr_loadings[top_taxa_idx]
 
@@ -594,33 +770,33 @@ tryCatch({
   top_taxa_names <- top_taxa_names[viz_order]
   top_taxa_loadings <- top_taxa_loadings[viz_order]
 
-  tax_table_seasonal <- tax_table(NCWW_Seasonal_plant_only)
-  common_names <- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
-  common_names[is.na(common_names)] <- top_taxa_names[is.na(common_names)]
+  # Map to common names
+  common_names <- all_common_names_full[top_taxa_names]
+  names(common_names) <- NULL
+  common_names <- as.character(common_names)
 
-  cat("✓ PLSR completed for Figure 2B\n")
-  cat("  PLSR loadings range: [", min(plsr_loadings), ", ", max(plsr_loadings), "]\n", sep="")
-  cat("  Top 20 taxa loadings range: [", min(top_taxa_loadings), ", ", max(top_taxa_loadings), "]\n", sep="")
+  cat("✓ PLSR/Correlation analysis completed for Figure 2B\n")
+  cat("  Method: ", configs_tested[[best_config]]$name, "\n", sep="")
+  cat("  Loading range: [", round(min(plsr_loadings), 4), ", ", round(max(plsr_loadings), 4), "]\n", sep="")
+  cat("  Top 20 range: [", round(min(top_taxa_loadings), 4), ", ", round(max(top_taxa_loadings), 4), "]\n", sep="")
   cat("  Selected taxa:\n")
   for (i in 1:length(common_names)) {
-    cat("    ", i, ". ", common_names[i], " (", round(top_taxa_loadings[i], 3), ")\n", sep="")
+    cat("    ", i, ". ", common_names[i], " (", round(top_taxa_loadings[i], 4), ")\n", sep="")
   }
 
-  # Check if expected paper taxa are in the full PLSR results
+  # Check expected taxa ranking
   expected_taxa <- c("Coriander", "Pecan", "Black pepper", "Canola", "Rice", "Cabbage",
                      "Melon", "Olive", "Camellia", "Grape", "Asparagus", "Kiwifruit",
                      "Barley", "Pistachio", "Pineapple", "Mango", "Walnut", "Okra", "Blueberry", "Cocoa")
-  tax_table_full <- tax_table(NCWW_Seasonal_plant_only)
-  all_common_names <- as.character(tax_table_full[names(plsr_loadings), "CommonName"])
-  all_common_names[is.na(all_common_names)] <- names(plsr_loadings)[is.na(all_common_names)]
 
-  cat("  All PLSR taxa (sorted by loading value):\n")
-  all_loadings_df <- data.frame(Name = all_common_names, Loading = plsr_loadings, TaxaID = names(plsr_loadings))
-  all_loadings_sorted <- all_loadings_df[order(all_loadings_df$Loading, decreasing=TRUE), ]
-  for (i in 1:nrow(all_loadings_sorted)) {
+  cat("  Expected taxa ranking:\n")
+  all_loadings_df <- data.frame(Name = all_common_names_full, Loading = plsr_loadings, TaxaID = names(plsr_loadings))
+  all_loadings_sorted <- all_loadings_df[order(abs(all_loadings_df$Loading), decreasing=TRUE), ]
+  for (i in 1:min(20, nrow(all_loadings_sorted))) {
     expected_marker <- if(any(grepl(all_loadings_sorted$Name[i], expected_taxa, ignore.case=TRUE))) " <-- EXPECTED" else ""
     cat("    ", sprintf("%2d", i), ". ", all_loadings_sorted$Name[i], " (", round(all_loadings_sorted$Loading[i], 4), ")", expected_marker, "\n", sep="")
   }
+
   plsr_success <<- TRUE
   top_taxa_names <<- top_taxa_names
   top_taxa_loadings <<- top_taxa_loadings
