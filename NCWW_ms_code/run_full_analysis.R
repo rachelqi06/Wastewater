@@ -486,18 +486,41 @@ fig2a <- ggplot(seasonal_metadata, aes(x = PC3, y = PC4, color = County, shape =
 otu_df <- as.data.frame(otu_table(ps_seasonal_pca))
 month_numeric <- as.numeric(seasonal_metadata$Month)
 
+# Remove rows with all zeros and handle missing values
+otu_df <- otu_df[, colSums(otu_df) > 0]
+otu_df[is.na(otu_df)] <- 0
+
 # Perform PLSR using the pls package
-plsr_result <- plsr(month_numeric ~ ., data = otu_df, scale = TRUE, ncomp = 1)
+tryCatch({
+  plsr_result <- plsr(month_numeric ~ ., data = otu_df, scale = TRUE, ncomp = 1, na.action = na.omit)
 
-# Extract loadings from first component
-plsr_loadings <- plsr_result$loadings[, 1]
-top_taxa_idx <- order(abs(plsr_loadings), decreasing = TRUE)[1:20]
-top_taxa_names <- names(plsr_loadings[top_taxa_idx])
-top_taxa_loadings <- plsr_loadings[top_taxa_idx]
+  # Extract loadings from first component
+  plsr_loadings <- plsr_result$loadings[, 1]
+  top_taxa_idx <- order(abs(plsr_loadings), decreasing = TRUE)[1:min(20, length(plsr_loadings))]
+  top_taxa_names <- names(plsr_loadings[top_taxa_idx])
+  top_taxa_loadings <- plsr_loadings[top_taxa_idx]
 
-# Get common names from tax table
-tax_table_seasonal <- tax_table(ps_seasonal_pca)
-common_names <- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
+  # Get common names from tax table
+  tax_table_seasonal <- tax_table(ps_seasonal_pca)
+  common_names <- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
+
+  # Handle any NA common names
+  common_names[is.na(common_names)] <- top_taxa_names[is.na(common_names)]
+
+}, error = function(e) {
+  cat("Error in PLSR for Figure 2B:", e$message, "\n")
+  cat("Falling back to variance-based selection\n")
+
+  # Fallback: use variance-based selection
+  taxa_variance <- apply(otu_df, 2, var)
+  top_taxa_idx <- order(taxa_variance, decreasing = TRUE)[1:min(20, ncol(otu_df))]
+  top_taxa_names <<- colnames(otu_df)[top_taxa_idx]
+  top_taxa_loadings <<- taxa_variance[top_taxa_idx]
+
+  tax_table_seasonal <- tax_table(ps_seasonal_pca)
+  common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
+  common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
+})
 
 # Define growing seasons for each taxon based on paper methodology
 # Summer: peak June-August
