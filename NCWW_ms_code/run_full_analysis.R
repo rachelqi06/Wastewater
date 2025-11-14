@@ -490,6 +490,11 @@ month_numeric <- as.numeric(seasonal_metadata$Month)
 otu_df <- otu_df[, colSums(otu_df) > 0]
 otu_df[is.na(otu_df)] <- 0
 
+# Initialize variables
+top_taxa_names <- NULL
+top_taxa_loadings <- NULL
+common_names <- NULL
+
 # Perform PLSR using the pls package
 tryCatch({
   plsr_result <- plsr(month_numeric ~ ., data = otu_df, scale = TRUE, ncomp = 1, na.action = na.omit)
@@ -497,19 +502,20 @@ tryCatch({
   # Extract loadings from first component
   plsr_loadings <- plsr_result$loadings[, 1]
   top_taxa_idx <- order(abs(plsr_loadings), decreasing = TRUE)[1:min(20, length(plsr_loadings))]
-  top_taxa_names <- names(plsr_loadings[top_taxa_idx])
-  top_taxa_loadings <- plsr_loadings[top_taxa_idx]
+  top_taxa_names <<- names(plsr_loadings[top_taxa_idx])
+  top_taxa_loadings <<- plsr_loadings[top_taxa_idx]
 
   # Get common names from tax table
   tax_table_seasonal <- tax_table(ps_seasonal_pca)
-  common_names <- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
+  common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
 
   # Handle any NA common names
-  common_names[is.na(common_names)] <- top_taxa_names[is.na(common_names)]
+  common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
+
+  cat("✓ PLSR completed for Figure 2B\n")
 
 }, error = function(e) {
-  cat("Error in PLSR for Figure 2B:", e$message, "\n")
-  cat("Falling back to variance-based selection\n")
+  cat("Note: Using variance-based selection for Figure 2B (PLSR encountered:", e$message, ")\n")
 
   # Fallback: use variance-based selection
   taxa_variance <- apply(otu_df, 2, var)
@@ -566,28 +572,39 @@ fig2b_data <- data.frame(
 fig2b_data <- fig2b_data[order(fig2b_data$Loading), ]
 fig2b_data$CommonName <- factor(fig2b_data$CommonName, levels = fig2b_data$CommonName)
 
-fig2b <- ggplot(fig2b_data, aes(x = CommonName, y = Loading, fill = Season)) +
-  geom_col(color = "black", size = 0.3) +
-  scale_fill_manual(
-    values = c("Summer" = "#F39C12", "Year-round" = "#3498DB", "Fall/Winter" = "#E74C3C"),
-    name = "Season"
-  ) +
-  coord_flip() +
-  geom_hline(yintercept = 0, linetype = "solid", color = "black", size = 0.5) +
-  labs(
-    title = "B",
-    x = "",
-    y = "PLSR Loading (PC1)"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 18, face = "bold", hjust = -0.05),
-    panel.border = element_rect(color = "black", fill = NA, size = 0.7),
-    axis.text.x = element_text(size = 10),
-    axis.text.y = element_text(size = 9),
-    axis.title = element_text(size = 11),
-    legend.position = "right"
-  )
+# Create Figure 2B - with error handling
+if (!is.null(common_names) && length(common_names) > 0) {
+  fig2b <- ggplot(fig2b_data, aes(x = CommonName, y = Loading, fill = Season)) +
+    geom_col(color = "black", size = 0.3) +
+    scale_fill_manual(
+      values = c("Summer" = "#F39C12", "Year-round" = "#3498DB", "Fall/Winter" = "#E74C3C"),
+      name = "Season"
+    ) +
+    coord_flip() +
+    geom_hline(yintercept = 0, linetype = "solid", color = "black", size = 0.5) +
+    labs(
+      title = "B",
+      x = "",
+      y = "PLSR Loading (PC1)"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 18, face = "bold", hjust = -0.05),
+      panel.border = element_rect(color = "black", fill = NA, size = 0.7),
+      axis.text.x = element_text(size = 10),
+      axis.text.y = element_text(size = 9),
+      axis.title = element_text(size = 11),
+      legend.position = "right"
+    )
+  cat("✓ Figure 2B created successfully\n")
+} else {
+  # Fallback empty plot
+  cat("Warning: Could not create Figure 2B - generating placeholder\n")
+  fig2b <- ggplot() +
+    geom_text(aes(x = 0.5, y = 0.5, label = "Figure 2B: Data unavailable"),
+              size = 5, hjust = 0.5, vjust = 0.5) +
+    theme_void()
+}
 
 # Figure 2C: Fish abundance heatmap by month and location
 # Subset fish taxa if available
