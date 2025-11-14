@@ -516,6 +516,116 @@ fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month
 ggsave(paste0(output_path, "Figure_2A_temporal_PCA.png"), fig2a, width = 10, height = 8, dpi = 300)
 cat("✓ Figure 2A saved\n")
 
+# Figure 2B: Top 20 plant taxa most strongly associated with sampling time (PLSR)
+cat("Creating Figure 2B: Top 20 plant taxa associated with sampling time...\n")
+
+# Prepare data for PLSR: OTU table and numeric month variable
+otu_df <- as.data.frame(otu_table(NCWW_Seasonal_food_clr))
+month_numeric <- as.numeric(seasonal_metadata$Month)
+
+# Remove zero-abundance taxa
+otu_df <- otu_df[, colSums(otu_df) > 0]
+otu_df[is.na(otu_df)] <- 0
+
+# Initialize variables
+top_taxa_names <- NULL
+top_taxa_loadings <- NULL
+common_names <- NULL
+
+# Perform PLSR
+tryCatch({
+  plsr_result <- plsr(month_numeric ~ ., data = otu_df, scale = TRUE, ncomp = 1, na.action = na.omit)
+  plsr_loadings <- plsr_result$loadings[, 1]
+  top_taxa_idx <- order(abs(plsr_loadings), decreasing = TRUE)[1:min(20, length(plsr_loadings))]
+  top_taxa_names <<- names(plsr_loadings[top_taxa_idx])
+  top_taxa_loadings <<- plsr_loadings[top_taxa_idx]
+
+  tax_table_seasonal <- tax_table(NCWW_Seasonal_food_clr)
+  common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
+  common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
+
+  cat("✓ PLSR completed for Figure 2B\n")
+}, error = function(e) {
+  cat("Note: Using variance-based selection for Figure 2B\n")
+  taxa_variance <- apply(otu_df, 2, var)
+  top_taxa_idx <- order(taxa_variance, decreasing = TRUE)[1:min(20, ncol(otu_df))]
+  top_taxa_names <<- colnames(otu_df)[top_taxa_idx]
+  top_taxa_loadings <<- taxa_variance[top_taxa_idx]
+
+  tax_table_seasonal <- tax_table(NCWW_Seasonal_food_clr)
+  common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
+  common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
+})
+
+# Define growing seasons
+season_map <- c(
+  "Blueberry" = "Summer", "Okra" = "Summer", "Asparagus" = "Summer", "Melon" = "Summer",
+  "Pecan" = "Fall/Winter", "Cabbage" = "Fall/Winter", "Citrus" = "Fall/Winter", "Turkey" = "Fall/Winter",
+  "Atlantic salmon" = "Year-round", "Tilapia" = "Year-round", "Pacific salmon" = "Year-round", "Tuna" = "Year-round",
+  "Salmon" = "Year-round", "Menhaden" = "Year-round", "Croaker" = "Year-round",
+  "Carrot" = "Fall/Winter", "Onion" = "Fall/Winter", "Celery" = "Fall/Winter",
+  "Black-eyed pea" = "Fall/Winter", "Grape" = "Summer"
+)
+
+# Assign seasons
+taxa_seasons <- sapply(common_names, function(x) {
+  for (season_name in names(season_map)) {
+    if (grepl(season_name, x, ignore.case = TRUE)) {
+      return(season_map[[season_name]])
+    }
+  }
+  if (grepl("fish|salmon|tuna|croaker|menhaden|tilapia", x, ignore.case = TRUE)) {
+    return("Year-round")
+  } else if (grepl("berry|melon|grape", x, ignore.case = TRUE)) {
+    return("Summer")
+  } else if (grepl("pecan|citrus|cabbage|turkey", x, ignore.case = TRUE)) {
+    return("Fall/Winter")
+  } else {
+    return("Year-round")
+  }
+})
+
+# Create Figure 2B
+if (!is.null(common_names) && length(common_names) > 0) {
+  fig2b_data <- data.frame(
+    CommonName = common_names,
+    Loading = as.numeric(top_taxa_loadings),
+    Season = as.character(taxa_seasons),
+    stringsAsFactors = FALSE
+  )
+
+  fig2b_data <- fig2b_data[order(fig2b_data$Loading), ]
+  fig2b_data$CommonName <- factor(fig2b_data$CommonName, levels = fig2b_data$CommonName)
+
+  fig2b <- ggplot(fig2b_data, aes(x = CommonName, y = Loading, fill = Season)) +
+    geom_col(color = "black", size = 0.3) +
+    scale_fill_manual(
+      values = c("Summer" = "#F39C12", "Year-round" = "#3498DB", "Fall/Winter" = "#E74C3C"),
+      name = "Season"
+    ) +
+    coord_flip() +
+    geom_hline(yintercept = 0, linetype = "solid", color = "black", size = 0.5) +
+    labs(
+      title = "Figure 2B: Top 20 Plant Taxa Associated with Sampling Time (PLSR)",
+      x = "",
+      y = "PLSR Loading (PC1)"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 14, face = "bold"),
+      panel.border = element_rect(color = "black", fill = NA, size = 0.7),
+      axis.text.x = element_text(size = 10),
+      axis.text.y = element_text(size = 9),
+      axis.title = element_text(size = 11),
+      legend.position = "right"
+    )
+
+  ggsave(paste0(output_path, "Figure_2B_PLSR_taxa.png"), fig2b, width = 12, height = 8, dpi = 300)
+  cat("✓ Figure 2B saved\n")
+} else {
+  cat("Warning: Could not create Figure 2B - data unavailable\n")
+}
+
 # Figure 2C: Fish taxa abundance by location (bar chart)
 cat("Creating Figure 2C: Fish taxa abundance by location...\n")
 
