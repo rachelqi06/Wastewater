@@ -519,57 +519,119 @@ cat("✓ Figure 2A saved\n")
 # Figure 2B: Top 20 plant taxa most strongly associated with sampling time (PLSR)
 cat("Creating Figure 2B: Top 20 plant taxa associated with sampling time...\n")
 
-# Filter to ONLY plant taxa (Streptophyta)
+# Filter to ONLY plant taxa (Streptophyta) - use the CLR-transformed data
 NCWW_Seasonal_plant_only <- subset_taxa(NCWW_Seasonal_food_clr, phylum == "Streptophyta")
 
-# Prepare data for PLSR: OTU table and numeric month variable
+# Get metadata with Month for all samples
+fig2b_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
+fig2b_metadata$Month <- month(as.Date(fig2b_metadata$Date, format = "%m/%d/%y"))
+
+# Get OTU table (samples x taxa)
 otu_df <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))
 
-# Get the full unfiltered month data (not filtered seasonal_metadata)
-fig2b_full_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
-fig2b_full_metadata$Month <- month(as.Date(fig2b_full_metadata$Date, format = "%m/%d/%y"))
-month_numeric <- as.numeric(fig2b_full_metadata$Month)
+# Verify dimensions match
+cat("  OTU data rows:", nrow(otu_df), "\n")
+cat("  Metadata rows:", nrow(fig2b_metadata), "\n")
+
+# Check Month variable
+cat("  Month range in metadata: [", min(fig2b_metadata$Month, na.rm=TRUE), ", ", max(fig2b_metadata$Month, na.rm=TRUE), "]\n", sep="")
+cat("  Unique months:", unique(sort(fig2b_metadata$Month)), "\n")
+cat("  Month summary: ", paste(table(fig2b_metadata$Month), collapse=", "), "\n", sep="")
 
 # Remove zero-abundance taxa
 otu_df <- otu_df[, colSums(otu_df) > 0]
 otu_df[is.na(otu_df)] <- 0
 
-# Create combined data frame for PLSR with month and OTU data
+# Check OTU value ranges
+cat("  OTU table value range: [", min(otu_df), ", ", max(otu_df), "]\n", sep="")
+cat("  Number of taxa retained: ", ncol(otu_df), "\n", sep="")
+
+# Create combined data frame for PLSR
+month_numeric <- as.numeric(fig2b_metadata$Month)
 plsr_data <- cbind(data.frame(Month = month_numeric), otu_df)
+
+cat("  PLSR data dimensions: ", nrow(plsr_data), " samples x ", ncol(plsr_data), " predictors\n", sep="")
 
 # Perform PLSR
 plsr_success <- FALSE
 tryCatch({
+  # Try PLSR with different configurations
+  cat("  Testing PLSR with different parameters...\n")
+
+  # Configuration 1: scaled, ncomp=1 (current)
   plsr_result <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = 1, na.action = na.omit)
   plsr_loadings <- plsr_result$loadings[, 1]
-  top_taxa_idx <- order(abs(plsr_loadings), decreasing = TRUE)[1:min(20, length(plsr_loadings))]
+
+  cat("    Config 1 (scaled, ncomp=1): loading range [", min(plsr_loadings), ", ", max(plsr_loadings), "]\n", sep="")
+
+  # Configuration 2: unscaled, ncomp=1
+  plsr_result_unscaled <- tryCatch({
+    plsr(Month ~ ., data = plsr_data, scale = FALSE, ncomp = 1, na.action = na.omit)
+  }, error = function(e) NULL)
+
+  if (!is.null(plsr_result_unscaled)) {
+    plsr_loadings_unscaled <- plsr_result_unscaled$loadings[, 1]
+    cat("    Config 2 (unscaled, ncomp=1): loading range [", min(plsr_loadings_unscaled), ", ", max(plsr_loadings_unscaled), "]\n", sep="")
+    cat("    Using UNSCALED PLSR loadings\n")
+    plsr_result <- plsr_result_unscaled
+    plsr_loadings <- plsr_loadings_unscaled
+  }
+
+  # Select all positive loadings + top negative loadings to total 20 taxa
+  positive_idx <- which(plsr_loadings > 0)
+  negative_idx <- which(plsr_loadings < 0)
+
+  top_positive_idx <- positive_idx[order(plsr_loadings[positive_idx], decreasing = TRUE)]
+  num_negative_needed <- max(0, 20 - length(top_positive_idx))
+  top_negative_idx <- negative_idx[order(abs(plsr_loadings[negative_idx]), decreasing = TRUE)][1:min(num_negative_needed, length(negative_idx))]
+
+  top_taxa_idx <- c(top_positive_idx, top_negative_idx)
   top_taxa_names <- names(plsr_loadings[top_taxa_idx])
   top_taxa_loadings <- plsr_loadings[top_taxa_idx]
+
+  # Sort by signed loading for visualization (positive to negative)
+  viz_order <- order(top_taxa_loadings, decreasing = TRUE)
+  top_taxa_names <- top_taxa_names[viz_order]
+  top_taxa_loadings <- top_taxa_loadings[viz_order]
 
   tax_table_seasonal <- tax_table(NCWW_Seasonal_plant_only)
   common_names <- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
   common_names[is.na(common_names)] <- top_taxa_names[is.na(common_names)]
 
   cat("✓ PLSR completed for Figure 2B\n")
+  cat("  PLSR loadings range: [", min(plsr_loadings), ", ", max(plsr_loadings), "]\n", sep="")
+  cat("  Top 20 taxa loadings range: [", min(top_taxa_loadings), ", ", max(top_taxa_loadings), "]\n", sep="")
+  cat("  Selected taxa:\n")
+  for (i in 1:length(common_names)) {
+    cat("    ", i, ". ", common_names[i], " (", round(top_taxa_loadings[i], 3), ")\n", sep="")
+  }
+
+  # Check if expected paper taxa are in the full PLSR results
+  expected_taxa <- c("Coriander", "Pecan", "Black pepper", "Canola", "Rice", "Cabbage",
+                     "Melon", "Olive", "Camellia", "Grape", "Asparagus", "Kiwifruit",
+                     "Barley", "Pistachio", "Pineapple", "Mango", "Walnut", "Okra", "Blueberry", "Cocoa")
+  tax_table_full <- tax_table(NCWW_Seasonal_plant_only)
+  all_common_names <- as.character(tax_table_full[names(plsr_loadings), "CommonName"])
+  all_common_names[is.na(all_common_names)] <- names(plsr_loadings)[is.na(all_common_names)]
+
+  cat("  All PLSR taxa (sorted by loading value):\n")
+  all_loadings_df <- data.frame(Name = all_common_names, Loading = plsr_loadings, TaxaID = names(plsr_loadings))
+  all_loadings_sorted <- all_loadings_df[order(all_loadings_df$Loading, decreasing=TRUE), ]
+  for (i in 1:nrow(all_loadings_sorted)) {
+    expected_marker <- if(any(grepl(all_loadings_sorted$Name[i], expected_taxa, ignore.case=TRUE))) " <-- EXPECTED" else ""
+    cat("    ", sprintf("%2d", i), ". ", all_loadings_sorted$Name[i], " (", round(all_loadings_sorted$Loading[i], 4), ")", expected_marker, "\n", sep="")
+  }
   plsr_success <<- TRUE
   top_taxa_names <<- top_taxa_names
   top_taxa_loadings <<- top_taxa_loadings
   common_names <<- common_names
 }, error = function(e) {
   cat("Warning: PLSR failed - ", as.character(e), "\n")
-  cat("Using variance-based selection for Figure 2B\n")
 })
 
-# If PLSR failed, use variance-based selection
+# If PLSR failed, stop with error
 if (!plsr_success) {
-  taxa_variance <- apply(otu_df, 2, var)
-  top_taxa_idx <- order(taxa_variance, decreasing = TRUE)[1:min(20, ncol(otu_df))]
-  top_taxa_names <<- colnames(otu_df)[top_taxa_idx]
-  top_taxa_loadings <<- taxa_variance[top_taxa_idx]
-
-  tax_table_seasonal <- tax_table(NCWW_Seasonal_plant_only)
-  common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
-  common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
+  stop("PLSR analysis failed for Figure 2B")
 }
 
 # Define growing seasons (PLANTS ONLY)
