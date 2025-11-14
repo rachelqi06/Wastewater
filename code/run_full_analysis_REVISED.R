@@ -623,6 +623,7 @@ if (!is.null(common_names) && length(common_names) > 0) {
       values = c("Summer" = "#F39C12", "Year-round" = "#3498DB", "Fall/Winter" = "#E74C3C"),
       name = "Season"
     ) +
+    scale_y_continuous(limits = c(-3, 3)) +
     labs(
       title = "Figure 2B: Top 20 Plant Taxa Abundance Across Sampling Months",
       x = "Month (June - December)",
