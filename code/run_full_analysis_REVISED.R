@@ -592,10 +592,14 @@ if (!is.null(common_names) && length(common_names) > 0) {
   # Get OTU data and metadata for the top 20 taxa
   otu_df_top20 <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))[, top_taxa_names]
 
+  # Get the full unfiltered metadata for all seasonal samples
+  fig2b_full_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
+  fig2b_full_metadata$Month <- month(as.Date(fig2b_full_metadata$Date, format = "%m/%d/%y"))
+
   # Add metadata (month, location)
   fig2b_full_data <- cbind(otu_df_top20,
-                           Month = seasonal_metadata$Month,
-                           Location = seasonal_metadata$Location)
+                           Month = fig2b_full_metadata$Month,
+                           Location = fig2b_full_metadata$Location)
 
   # Calculate mean abundance of each taxon by month
   month_taxa_abundance <- fig2b_full_data %>%
