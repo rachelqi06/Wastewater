@@ -587,42 +587,59 @@ taxa_seasons <- sapply(common_names, function(x) {
   }
 })
 
-# Create Figure 2B
+# Create Figure 2B: Top 20 taxa abundance across months (June-December)
 if (!is.null(common_names) && length(common_names) > 0) {
-  fig2b_data <- data.frame(
+  # Get OTU data and metadata for the top 20 taxa
+  otu_df_top20 <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))[, top_taxa_names]
+
+  # Add metadata (month, location)
+  fig2b_full_data <- cbind(otu_df_top20,
+                           Month = seasonal_metadata$Month,
+                           Location = seasonal_metadata$Location)
+
+  # Calculate mean abundance of each taxon by month
+  month_taxa_abundance <- fig2b_full_data %>%
+    group_by(Month) %>%
+    summarise(across(all_of(top_taxa_names), mean, na.rm = TRUE), .groups = "drop") %>%
+    pivot_longer(-Month, names_to = "TaxaID", values_to = "Abundance")
+
+  # Add common names and seasons
+  taxa_lookup <- data.frame(
+    TaxaID = top_taxa_names,
     CommonName = common_names,
-    Loading = as.numeric(top_taxa_loadings),
     Season = as.character(taxa_seasons),
     stringsAsFactors = FALSE
   )
 
-  fig2b_data <- fig2b_data[order(fig2b_data$Loading), ]
-  fig2b_data$CommonName <- factor(fig2b_data$CommonName, levels = fig2b_data$CommonName)
+  month_taxa_abundance <- month_taxa_abundance %>%
+    left_join(taxa_lookup, by = "TaxaID") %>%
+    mutate(Month_Name = month.abb[Month],
+           Month_Name = factor(Month_Name, levels = c("June", "July", "August", "September", "October", "November", "December")))
 
-  fig2b <- ggplot(fig2b_data, aes(x = CommonName, y = Loading, fill = Season)) +
-    geom_col(color = "black", size = 0.3) +
+  fig2b <- ggplot(month_taxa_abundance, aes(x = Month_Name, y = Abundance, fill = Season)) +
+    geom_col(color = "black", size = 0.3, alpha = 0.8) +
+    facet_wrap(~ reorder(CommonName, Abundance, FUN = sum), scales = "free_y", ncol = 4) +
     scale_fill_manual(
       values = c("Summer" = "#F39C12", "Year-round" = "#3498DB", "Fall/Winter" = "#E74C3C"),
       name = "Season"
     ) +
-    coord_flip() +
-    geom_hline(yintercept = 0, linetype = "solid", color = "black", size = 0.5) +
     labs(
-      title = "Figure 2B: Top 20 Plant Taxa Associated with Sampling Time (PLSR)",
-      x = "",
-      y = "PLSR Loading (PC1)"
+      title = "Figure 2B: Top 20 Plant Taxa Abundance Across Sampling Months",
+      x = "Month (June - December)",
+      y = "Mean Abundance (CLR)"
     ) +
     theme_minimal() +
     theme(
       plot.title = element_text(size = 14, face = "bold"),
       panel.border = element_rect(color = "black", fill = NA, size = 0.7),
-      axis.text.x = element_text(size = 10),
-      axis.text.y = element_text(size = 9),
+      axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+      axis.text.y = element_text(size = 8),
       axis.title = element_text(size = 11),
+      strip.text = element_text(size = 8),
       legend.position = "right"
     )
 
-  ggsave(paste0(output_path, "Figure_2B_PLSR_taxa.png"), fig2b, width = 12, height = 8, dpi = 300)
+  ggsave(paste0(output_path, "Figure_2B_taxa_by_month.png"), fig2b, width = 16, height = 12, dpi = 300)
   cat("✓ Figure 2B saved\n")
 } else {
   cat("Warning: Could not create Figure 2B - data unavailable\n")
