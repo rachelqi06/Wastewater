@@ -524,32 +524,44 @@ NCWW_Seasonal_plant_only <- subset_taxa(NCWW_Seasonal_food_clr, phylum == "Strep
 
 # Prepare data for PLSR: OTU table and numeric month variable
 otu_df <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))
-month_numeric <- as.numeric(seasonal_metadata$Month)
+
+# Get the full unfiltered month data (not filtered seasonal_metadata)
+fig2b_full_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
+fig2b_full_metadata$Month <- month(as.Date(fig2b_full_metadata$Date, format = "%m/%d/%y"))
+month_numeric <- as.numeric(fig2b_full_metadata$Month)
 
 # Remove zero-abundance taxa
 otu_df <- otu_df[, colSums(otu_df) > 0]
 otu_df[is.na(otu_df)] <- 0
 
-# Initialize variables
-top_taxa_names <- NULL
-top_taxa_loadings <- NULL
-common_names <- NULL
+# Create combined data frame for PLSR with month and OTU data
+plsr_data <- cbind(data.frame(Month = month_numeric), otu_df)
 
 # Perform PLSR
+plsr_success <- FALSE
 tryCatch({
-  plsr_result <- plsr(month_numeric ~ ., data = otu_df, scale = TRUE, ncomp = 1, na.action = na.omit)
+  plsr_result <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = 1, na.action = na.omit)
   plsr_loadings <- plsr_result$loadings[, 1]
   top_taxa_idx <- order(abs(plsr_loadings), decreasing = TRUE)[1:min(20, length(plsr_loadings))]
-  top_taxa_names <<- names(plsr_loadings[top_taxa_idx])
-  top_taxa_loadings <<- plsr_loadings[top_taxa_idx]
+  top_taxa_names <- names(plsr_loadings[top_taxa_idx])
+  top_taxa_loadings <- plsr_loadings[top_taxa_idx]
 
   tax_table_seasonal <- tax_table(NCWW_Seasonal_plant_only)
-  common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
-  common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
+  common_names <- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
+  common_names[is.na(common_names)] <- top_taxa_names[is.na(common_names)]
 
   cat("✓ PLSR completed for Figure 2B\n")
+  plsr_success <<- TRUE
+  top_taxa_names <<- top_taxa_names
+  top_taxa_loadings <<- top_taxa_loadings
+  common_names <<- common_names
 }, error = function(e) {
-  cat("Note: Using variance-based selection for Figure 2B\n")
+  cat("Warning: PLSR failed - ", as.character(e), "\n")
+  cat("Using variance-based selection for Figure 2B\n")
+})
+
+# If PLSR failed, use variance-based selection
+if (!plsr_success) {
   taxa_variance <- apply(otu_df, 2, var)
   top_taxa_idx <- order(taxa_variance, decreasing = TRUE)[1:min(20, ncol(otu_df))]
   top_taxa_names <<- colnames(otu_df)[top_taxa_idx]
@@ -558,7 +570,7 @@ tryCatch({
   tax_table_seasonal <- tax_table(NCWW_Seasonal_plant_only)
   common_names <<- as.character(tax_table_seasonal[top_taxa_names, "CommonName"])
   common_names[is.na(common_names)] <<- top_taxa_names[is.na(common_names)]
-})
+}
 
 # Define growing seasons (PLANTS ONLY)
 season_map <- c(
@@ -587,64 +599,43 @@ taxa_seasons <- sapply(common_names, function(x) {
   }
 })
 
-# Create Figure 2B: Top 20 taxa abundance across months (June-December)
+# Create Figure 2B: Top 20 plant taxa bar chart with PLSR loadings
 if (!is.null(common_names) && length(common_names) > 0) {
-  # Get OTU data and metadata for the top 20 taxa
-  otu_df_top20 <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))[, top_taxa_names]
-
-  # Get the full unfiltered metadata for all seasonal samples
-  fig2b_full_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
-  fig2b_full_metadata$Month <- month(as.Date(fig2b_full_metadata$Date, format = "%m/%d/%y"))
-
-  # Add metadata (month, location)
-  fig2b_full_data <- cbind(otu_df_top20,
-                           Month = fig2b_full_metadata$Month,
-                           Location = fig2b_full_metadata$Location)
-
-  # Calculate mean abundance of each taxon by month
-  month_taxa_abundance <- fig2b_full_data %>%
-    group_by(Month) %>%
-    summarise(across(all_of(top_taxa_names), mean, na.rm = TRUE), .groups = "drop") %>%
-    pivot_longer(-Month, names_to = "TaxaID", values_to = "Abundance")
-
-  # Add common names and seasons
-  taxa_lookup <- data.frame(
+  # Create dataframe with PLSR loadings and metadata
+  fig2b_data <- data.frame(
     TaxaID = top_taxa_names,
     CommonName = common_names,
+    Loading = top_taxa_loadings,
     Season = as.character(taxa_seasons),
     stringsAsFactors = FALSE
   )
 
-  month_taxa_abundance <- month_taxa_abundance %>%
-    left_join(taxa_lookup, by = "TaxaID") %>%
-    mutate(Month_Name = month.abb[Month],
-           Month_Name = factor(Month_Name, levels = c("June", "July", "August", "September", "October", "November", "December")))
+  # Sort by absolute loading value (descending) for better visualization
+  fig2b_data <- fig2b_data[order(abs(fig2b_data$Loading), decreasing = TRUE), ]
+  fig2b_data$CommonName <- factor(fig2b_data$CommonName, levels = rev(fig2b_data$CommonName))
 
-  fig2b <- ggplot(month_taxa_abundance, aes(x = Month_Name, y = Abundance, fill = Season)) +
-    geom_col(color = "black", size = 0.3, alpha = 0.8) +
-    facet_wrap(~ reorder(CommonName, Abundance, FUN = sum), scales = "free_y", ncol = 4) +
+  # Create bar chart with PLSR loadings on x-axis
+  fig2b <- ggplot(fig2b_data, aes(x = Loading, y = CommonName, fill = Season)) +
+    geom_col(color = "black", linewidth = 0.3, alpha = 0.8) +
     scale_fill_manual(
       values = c("Summer" = "#F39C12", "Year-round" = "#3498DB", "Fall/Winter" = "#E74C3C"),
       name = "Season"
     ) +
-    scale_y_continuous(limits = c(-3, 3)) +
     labs(
-      title = "Figure 2B: Top 20 Plant Taxa Abundance Across Sampling Months",
-      x = "Month (June - December)",
-      y = "Mean Abundance (CLR)"
+      title = "Figure 2B: Top 20 Plant Taxa Most Strongly Associated with Sampling Time",
+      x = "PLSR Loading (Component 1)",
+      y = "Plant Taxon"
     ) +
     theme_minimal() +
     theme(
       plot.title = element_text(size = 14, face = "bold"),
-      panel.border = element_rect(color = "black", fill = NA, size = 0.7),
-      axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
-      axis.text.y = element_text(size = 8),
+      axis.text.x = element_text(size = 10),
+      axis.text.y = element_text(size = 10),
       axis.title = element_text(size = 11),
-      strip.text = element_text(size = 8),
       legend.position = "right"
     )
 
-  ggsave(paste0(output_path, "Figure_2B_taxa_by_month.png"), fig2b, width = 16, height = 12, dpi = 300)
+  ggsave(paste0(output_path, "Figure_2B_taxa_by_month.png"), fig2b, width = 10, height = 8, dpi = 300)
   cat("✓ Figure 2B saved\n")
 } else {
   cat("Warning: Could not create Figure 2B - data unavailable\n")
