@@ -894,16 +894,15 @@ if (!is.null(common_names) && length(common_names) > 0) {
   cat("Warning: Could not create Figure 2B - data unavailable\n")
 }
 
-# Figure 2C: Fish taxa abundance by location (bar chart)
-cat("Creating Figure 2C: Fish taxa abundance by location...\n")
+# Figure 2C: Fish species percentage density plot by location
+cat("Creating Figure 2C: Fish species percentage density plot...\n")
 
 # Get fish data
 fish_seasonal <- subset_taxa(NCWW_Seasonal_animal, class == "Actinopteri")
 fish_meta_seasonal <- data.frame(sample_data(fish_seasonal))
-fish_meta_seasonal$SampleID <- rownames(fish_meta_seasonal)
+fish_otu_seasonal <- data.frame(otu_table(fish_seasonal))
 
 # Get total abundance of top fish species
-fish_otu_seasonal <- data.frame(otu_table(fish_seasonal))
 fish_totals <- colSums(fish_otu_seasonal, na.rm = TRUE)
 top_fish <- names(sort(fish_totals, decreasing = TRUE)[1:8])
 
@@ -912,29 +911,41 @@ fish_tax_table <- tax_table(fish_seasonal)
 taxa_to_common_name <- as.character(fish_tax_table[, "CommonName"])
 names(taxa_to_common_name) <- rownames(fish_tax_table)
 
-# Create data for plotting
-top_fish_data <- fish_otu_seasonal[, top_fish]
-fish_meta_seasonal <- cbind(fish_meta_seasonal, top_fish_data)
+# Calculate percentages for each sample
+fish_otu_top <- fish_otu_seasonal[, top_fish]
+fish_totals_per_sample <- rowSums(fish_otu_top, na.rm = TRUE)
+fish_percentages <- sweep(fish_otu_top, 1, fish_totals_per_sample, "/") * 100
 
-# Reshape for plotting
-fish_plot_data <- fish_meta_seasonal %>%
-  select(County, all_of(top_fish)) %>%
-  group_by(County) %>%
-  summarise(across(all_of(top_fish), mean, na.rm = TRUE), .groups = 'drop') %>%
-  pivot_longer(cols = all_of(top_fish), names_to = "TaxaID", values_to = "Abundance")
+# Create mapping: County -> Location name
+county_to_location <- c(
+  "carteret" = "Beaufort",
+  "mecklenburg" = "Charlotte",
+  "pitt" = "Greenville"
+)
+
+# Add metadata and prepare for plotting
+fish_percentages$County <- fish_meta_seasonal$County
+fish_percentages$Location <- county_to_location[fish_percentages$County]
+
+# Reshape to long format
+fish_density_data <- fish_percentages %>%
+  pivot_longer(cols = all_of(top_fish), names_to = "TaxaID", values_to = "Percentage") %>%
+  filter(!is.na(Location))
 
 # Map taxa IDs to common names
-fish_plot_data$Fish_Species <- taxa_to_common_name[fish_plot_data$TaxaID]
+fish_density_data$Fish_Species <- taxa_to_common_name[fish_density_data$TaxaID]
 
-# Create bar chart
-fig2c <- ggplot(fish_plot_data, aes(x = County, y = Abundance, fill = Fish_Species)) +
-  geom_col(position = "stack") +
-  scale_fill_brewer(palette = "Set3") +
+# Create density plot
+fig2c <- ggplot(fish_density_data, aes(x = Fish_Species, y = Percentage, fill = Location, color = Location)) +
+  geom_density(stat = "identity", alpha = 0.6, position = "identity", linewidth = 1) +
+  scale_fill_manual(values = c("Beaufort" = "#0072B2", "Charlotte" = "#D55E00", "Greenville" = "#009E73")) +
+  scale_color_manual(values = c("Beaufort" = "#0072B2", "Charlotte" = "#D55E00", "Greenville" = "#009E73")) +
   labs(
-    title = "Figure 2C: Top Fish Species Abundance by Location",
-    x = "Location",
-    y = "Mean Abundance",
-    fill = "Fish Species"
+    title = "Figure 2C: Fish Species Percentage Distribution by Location",
+    x = "Fish Species",
+    y = "Percentage of Total Fish Abundance (%)",
+    fill = "Location",
+    color = "Location"
   ) +
   theme_minimal() +
   theme(
@@ -943,7 +954,7 @@ fig2c <- ggplot(fish_plot_data, aes(x = County, y = Abundance, fill = Fish_Speci
     legend.position = "right"
   )
 
-ggsave(paste0(output_path, "Figure_2C_fish_abundance.png"), fig2c, width = 10, height = 6, dpi = 300)
+ggsave(paste0(output_path, "Figure_2C_fish_abundance.png"), fig2c, width = 12, height = 7, dpi = 300)
 cat("✓ Figure 2C saved\n\n")
 
 ###############################################################################
