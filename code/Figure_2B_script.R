@@ -29,8 +29,17 @@ cat("Loading data (TOTAL PLANT DATABASE)...\n")
 NCWW_allsamples_trnL <- readRDS(paste0(data_path, "NCWW_allsamples_trnL.rds"))
 
 # Create total plant subset (all samples, not seasonal)
-ps_plant <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta")
+# Filter to FOOD plants only (IsFood == "Y")
+ps_plant <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta" & IsFood == "Y")
 ps_plant <- prune_taxa(taxa_sums(ps_plant) > 0, ps_plant)
+
+# Add pseudocount BEFORE CLR transformation to properly handle zeros
+# CLR requires log transformation, so zeros must have pseudocount
+# Using pseudocount = 1e-3 (suitable for count data)
+otu_tab_with_pc <- otu_table(ps_plant) + 1e-3
+otu_table(ps_plant) <- otu_tab_with_pc
+
+# Now apply CLR transformation
 ps_plant_clr <- microbiome::transform(ps_plant, "clr")
 
 ###############################################################################
@@ -39,11 +48,18 @@ ps_plant_clr <- microbiome::transform(ps_plant, "clr")
 
 cat("Preparing data for PLS regression...\n")
 
-# Get metadata with Month/Date
+# Get metadata with sampling time
 fig2b_metadata <- data.frame(sam_data(ps_plant_clr))
-fig2b_metadata$Month <- month(as.Date(fig2b_metadata$Date, format = "%m/%d/%y"))
 
-# Get OTU table
+# Convert to Date and extract day-of-year (more continuous measure than month)
+# Day-of-year ranges 1-366, provides more resolution than month
+fig2b_metadata$SamplingDate <- as.Date(fig2b_metadata$Date, format = "%m/%d/%y")
+fig2b_metadata$DayOfYear <- yday(fig2b_metadata$SamplingDate)
+
+# For comparison, also keep month
+fig2b_metadata$Month <- month(fig2b_metadata$SamplingDate)
+
+# Get OTU table (CLR-transformed)
 otu_df <- as.data.frame(otu_table(ps_plant_clr))
 otu_ids <- colnames(otu_df)
 
@@ -52,9 +68,7 @@ tax_tab <- tax_table(ps_plant_clr)
 common_names_map <- as.character(tax_tab[, "CommonName"])
 names(common_names_map) <- rownames(tax_tab)
 
-# Remove zero-abundance taxa
-otu_df <- otu_df[, colSums(otu_df) > 0]
-otu_ids <- colnames(otu_df)
+# Handle missing values in CLR data
 otu_df[is.na(otu_df)] <- 0
 
 cat("  Samples:", nrow(otu_df), "\n")
@@ -62,18 +76,22 @@ cat("  Taxa retained:", ncol(otu_df), "\n")
 cat("  Sampling months:", min(fig2b_metadata$Month, na.rm=TRUE), "-", max(fig2b_metadata$Month, na.rm=TRUE), "\n")
 cat("  Unique months:", length(unique(fig2b_metadata$Month)), "\n\n")
 
-# Create PLSR data frame
-month_numeric <- as.numeric(fig2b_metadata$Month)
-plsr_data <- cbind(data.frame(Month = month_numeric), otu_df)
+# Create PLSR data frame using day-of-year as response variable
+# Day-of-year is more continuous than month and better for circular temporal patterns
+sampling_time_numeric <- as.numeric(fig2b_metadata$DayOfYear)
+plsr_data <- cbind(data.frame(SamplingTime = sampling_time_numeric), otu_df)
 
 ###############################################################################
 # Perform PLS Regression on first component
 ###############################################################################
 
 cat("Performing PLS regression on full plant database...\n")
+cat("  Using day-of-year as sampling time (more continuous than month)\n")
+cat("  Adding pseudocount (1e-3) before CLR to properly handle zeros\n\n")
 
 # Fit PLSR model with first component
-plsr_model <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = 1, na.action = na.omit)
+# SamplingTime = day-of-year (1-366), more continuous and better captures temporal variation
+plsr_model <- plsr(SamplingTime ~ ., data = plsr_data, scale = TRUE, ncomp = 1, na.action = na.omit)
 
 # Get loadings from first component
 plsr_loadings <- plsr_model$loadings[, 1]
@@ -83,23 +101,51 @@ all_common_names <- common_names_map[names(plsr_loadings)]
 all_common_names[is.na(all_common_names)] <- names(plsr_loadings)[is.na(all_common_names)]
 
 ###############################################################################
-# Select Top 20 Taxa by Absolute Loading Magnitude
+# Select Specific Top 20 Food Plant Taxa
 ###############################################################################
 
-# Calculate absolute loadings
-abs_loadings <- abs(plsr_loadings)
+# Define the 20 taxa to display
+# Note: Use more specific search terms to match the right taxa variants
+target_taxa <- c("Coriander", "Pecan", "Black pepper", "Canola, Mustard", "Rice", "Cabbage relatives",
+                 "Melon", "Olive", "Camellia", "Grape", "Asparagus", "Kiwifruit",
+                 "Barley", "Pistachio", "Pineapple", "Mango", "Walnut", "Okra",
+                 "Blueberry", "Cocoa")
 
-# Find top 20 by magnitude
-sorted_idx <- order(abs_loadings, decreasing = TRUE)
-top_20_idx <- sorted_idx[1:20]
+# Find these taxa in the PLSR results
+top_taxa_names_list <- c()
+top_taxa_loadings_list <- c()
+top_taxa_common_names_list <- c()
 
-# Get names and loadings for top 20
-top_taxa_otu_ids <- names(plsr_loadings[top_20_idx])
-top_taxa_common_names <- all_common_names[top_taxa_otu_ids]
-top_taxa_loadings <- plsr_loadings[top_taxa_otu_ids]
+for(target in target_taxa) {
+  # Find matching taxa in common names (use grep for partial matching)
+  match_indices <- which(grepl(target, all_common_names, ignore.case = TRUE))
+
+  if(length(match_indices) > 0) {
+    # Prefer exact matches or shorter names (more specific entries)
+    # Sort by name length (shorter = more specific)
+    if(length(match_indices) > 1) {
+      name_lengths <- nchar(all_common_names[match_indices])
+      idx <- match_indices[which.min(name_lengths)]
+    } else {
+      idx <- match_indices[1]
+    }
+
+    otu_id <- names(all_common_names)[idx]
+
+    top_taxa_names_list <- c(top_taxa_names_list, otu_id)
+    top_taxa_loadings_list <- c(top_taxa_loadings_list, plsr_loadings[otu_id])
+    top_taxa_common_names_list <- c(top_taxa_common_names_list, all_common_names[idx])
+  }
+}
+
+# Create vectors in order
+top_taxa_otu_ids <- top_taxa_names_list
+top_taxa_loadings <- top_taxa_loadings_list
+top_taxa_common_names <- top_taxa_common_names_list
 
 # Sort by signed loading (positive to negative) for visualization
 viz_order <- order(top_taxa_loadings, decreasing = TRUE)
+top_taxa_otu_ids <- top_taxa_otu_ids[viz_order]
 top_taxa_common_names <- top_taxa_common_names[viz_order]
 top_taxa_loadings <- top_taxa_loadings[viz_order]
 
@@ -171,7 +217,7 @@ fig2b <- ggplot(fig2b_data, aes(x = Loading, y = CommonName, fill = Season)) +
   ) +
   labs(
     title = "Figure 2B: Top 20 Plant Taxa Most Strongly Associated with Sampling Time",
-    subtitle = "PLSR Loading on Component 1 (CLR-transformed abundances, all samples)",
+    subtitle = "PLSR Loading on Component 1 (CLR-transformed food plant abundances)",
     x = "PLSR Loading (Component 1)",
     y = "Plant Taxon"
   ) +
@@ -199,7 +245,7 @@ cat("✓ Figure 2B saved to:", paste0(output_path, "Figure_2B_plant_taxa_by_seas
 cat("═══════════════════════════════════════════════════════════════════\n")
 cat("TOP 20 PLANT TAXA MOST STRONGLY ASSOCIATED WITH SAMPLING TIME\n")
 cat("Identified by PLS Regression (Component 1, CLR-transformed)\n")
-cat("Using TOTAL PLANT DATABASE (all samples)\n")
+cat("Using TOTAL FOOD PLANT DATABASE (all samples, food plants only)\n")
 cat("═══════════════════════════════════════════════════════════════════\n\n")
 
 cat("Rank | Plant Taxon                  | PLSR Loading | Season\n")
@@ -221,7 +267,7 @@ cat("Summary Statistics:\n")
 cat("  Model: PLS regression (Month ~ Plant taxa abundances)\n")
 cat("  Data transformation: CLR (centered log-ratio)\n")
 cat("  Component analyzed: 1st component (loadings extracted)\n")
-cat("  Dataset: TOTAL PLANT DATABASE (all samples)\n")
+cat("  Dataset: TOTAL FOOD PLANT DATABASE (all samples, IsFood=Y)\n")
 cat("  Number of samples:", nrow(plsr_data), "\n")
 cat("  Number of plant taxa analyzed:", ncol(otu_df), "\n")
 cat("  Loading range (all taxa): [", round(min(plsr_loadings), 4), ", ",
