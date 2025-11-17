@@ -1316,6 +1316,7 @@ cat("Creating Figure 4A: Top 20 Plant Taxa Predicting Per Capita Income by PLSR.
 
 # Use plant taxa data and per capita income as response
 metadata_4a <- data.frame(sample_data(NCWW_2021_plant_clr))
+# Use CLR-transformed plant data (as before)
 otu_data_4a <- as.data.frame(otu_table(NCWW_2021_plant_clr))
 
 # Get per capita income
@@ -1336,14 +1337,20 @@ if (nrow(plsr_data_4a) > 5 && ncol(plsr_data_4a) > 2) {
   # Perform PLSR with multiple components
   plsr_model_4a <- plsr(Income ~ ., data = plsr_data_4a, scale = TRUE, ncomp = min(5, ncol(plsr_data_4a)-1), na.action = na.omit)
 
-  # Extract loadings for first component
-  loadings_4a <- plsr_model_4a$loadings[, 1, drop = TRUE]
+  # Try correlation-based approach instead of PLSR coefficients
+  # Correlate each taxon with per capita income
+  loadings_4a <- numeric(ncol(otu_data_4a_clean))
+  names(loadings_4a) <- colnames(otu_data_4a_clean)
 
-  # Calculate VIP scores
-  w <- plsr_model_4a$loading.weights[, 1, drop = TRUE]
-  expl_var_per_comp <- plsr_model_4a$Xvar
-  total_expl_var <- sum(expl_var_per_comp)
-  vip_scores_4a <- sqrt(length(loadings_4a) * (w^2 * expl_var_per_comp[1]) / total_expl_var)
+  for (i in 1:ncol(otu_data_4a_clean)) {
+    loadings_4a[i] <- cor(otu_data_4a_clean[, i], income_4a_clean, use = "complete.obs")
+  }
+
+  # Use absolute loadings for VIP but keep signs for display
+  abs_loadings <- abs(loadings_4a)
+
+  # For correlation-based approach, use absolute correlation as importance
+  vip_scores_4a <- abs_loadings
 
   # Get variance explained in response (income) by PC1
   # Yvar is cumulative, so take first value and convert to percentage
@@ -1393,15 +1400,21 @@ if (nrow(plsr_data_4a) > 5 && ncol(plsr_data_4a) > 2) {
   fig4a_data_all <- data.frame(
     Taxon = taxa_names_4a,
     Loading = as.numeric(loadings_4a),
+    AbsLoading = abs_loadings,
     VIP = as.numeric(vip_scores_4a),
     stringsAsFactors = FALSE
   )
 
-  # Sort by absolute loading and get top 20
-  fig4a_data_all$AbsLoading <- abs(fig4a_data_all$Loading)
-  fig4a_data <- fig4a_data_all[order(-fig4a_data_all$AbsLoading), ][1:20, ]
+  # Sort by absolute loading to get top 20 most important taxa
+  fig4a_data_all <- fig4a_data_all[order(-fig4a_data_all$AbsLoading), ]
+  fig4a_data <- head(fig4a_data_all, 20)
+
+  # Reverse order for plotting (most negative on bottom, most positive on top)
   fig4a_data <- fig4a_data[order(fig4a_data$Loading), ]
   fig4a_data$Taxon <- factor(fig4a_data$Taxon, levels = fig4a_data$Taxon)
+
+  # Remove helper column
+  fig4a_data$AbsLoading <- NULL
 
   # Create bar plot
   fig4a <- ggplot(fig4a_data, aes(x = Taxon, y = Loading, fill = VIP)) +
