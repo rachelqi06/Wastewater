@@ -907,6 +907,11 @@ fish_otu_seasonal <- data.frame(otu_table(fish_seasonal))
 fish_totals <- colSums(fish_otu_seasonal, na.rm = TRUE)
 top_fish <- names(sort(fish_totals, decreasing = TRUE)[1:8])
 
+# Create mapping from taxa IDs to common names
+fish_tax_table <- tax_table(fish_seasonal)
+taxa_to_common_name <- as.character(fish_tax_table[, "CommonName"])
+names(taxa_to_common_name) <- rownames(fish_tax_table)
+
 # Create data for plotting
 top_fish_data <- fish_otu_seasonal[, top_fish]
 fish_meta_seasonal <- cbind(fish_meta_seasonal, top_fish_data)
@@ -916,7 +921,10 @@ fish_plot_data <- fish_meta_seasonal %>%
   select(County, all_of(top_fish)) %>%
   group_by(County) %>%
   summarise(across(all_of(top_fish), mean, na.rm = TRUE), .groups = 'drop') %>%
-  pivot_longer(cols = all_of(top_fish), names_to = "Fish_Species", values_to = "Abundance")
+  pivot_longer(cols = all_of(top_fish), names_to = "TaxaID", values_to = "Abundance")
+
+# Map taxa IDs to common names
+fish_plot_data$Fish_Species <- taxa_to_common_name[fish_plot_data$TaxaID]
 
 # Create bar chart
 fig2c <- ggplot(fish_plot_data, aes(x = County, y = Abundance, fill = Fish_Species)) +
