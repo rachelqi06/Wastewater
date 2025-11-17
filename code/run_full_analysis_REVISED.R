@@ -1575,13 +1575,13 @@ ggsave(paste0(output_path, "Figure_5C_fish_PC2_loadings.png"), fig5c, width = 10
 cat("✓ Figure 5C saved\n")
 
 # Figure 5D: Distance to Coast correlation
-fig5d <- ggplot(fish_metadata, aes(x = DistancetoCoast, y = PC1, color = Coast_Inland)) +
+fig5d <- ggplot(fish_metadata, aes(x = DistancetoCoast * 0.621371, y = PC1, color = Coast_Inland)) +
   geom_point(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE, color = "black", alpha = 0.3) +
   scale_color_manual(values = c("Coastal_Urban" = "#0072B2", "Inland_Urban" = "#D55E00")) +
   labs(
     title = "Figure 5D: Fish PC1 vs Distance to Coast",
-    x = "Distance to Coast (km)",
+    x = "Distance to Coast (miles)",
     y = "Fish PC1 Score",
     color = "Location Type",
     caption = "Spearman ρ = -0.65, p = 0.0024"
