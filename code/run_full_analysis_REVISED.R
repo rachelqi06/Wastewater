@@ -1462,6 +1462,118 @@ if (nrow(plsr_data_4a) > 5 && ncol(plsr_data_4a) > 2) {
 }
 
 ###############################################################################
+# Figure 4B: Chi-squared test - Locally grown vs Non-local plants by Income
+###############################################################################
+
+cat("Creating Figure 4B: Chi-squared test of local vs non-local plant taxa by income...\n")
+
+# Get metadata and plant data
+metadata_4b <- data.frame(sample_data(NCWW_2021_plant_clr))
+otu_data_4b <- as.data.frame(otu_table(NCWW_2021_plant_clr))
+
+# Get income and split into high/low (median split)
+income_4b <- metadata_4b$Per_capita_income_k
+income_median <- median(income_4b, na.rm = TRUE)
+income_category <- ifelse(income_4b >= income_median, "High Income", "Low Income")
+
+# Try to get local vs non-local from tax table
+tax_tab_4b <- NULL
+local_status <- NULL
+
+if (!is.null(tax_table(NCWW_2021_plant_clr))) {
+  tax_tab_4b <- tax_table(NCWW_2021_plant_clr)
+  tax_cols <- colnames(tax_tab_4b)
+
+  # Look for a "Local" or "Origin" column
+  if ("Local" %in% tax_cols) {
+    local_status <- as.character(tax_tab_4b[, "Local"])
+  } else if ("Origin" %in% tax_cols) {
+    local_status <- as.character(tax_tab_4b[, "Origin"])
+  } else if ("local_status" %in% tax_cols) {
+    local_status <- as.character(tax_tab_4b[, "local_status"])
+  }
+}
+
+# If no local status column exists, create one based on common knowledge
+if (is.null(local_status)) {
+  cat("  No 'Local' column found in taxonomy - creating based on plant origin...\n")
+
+  # Get common names
+  common_names <- as.character(tax_tab_4b[, ncol(tax_tab_4b)])
+
+  # Plants typically grown in NC (locally grown)
+  local_plants <- c("Corn", "Tobacco", "Soybeans", "Wheat", "Barley", "Peanuts",
+                    "Sweet potato", "Cabbage", "Lettuce", "Spinach", "Kale", "Tomato",
+                    "Cucumber", "Squash", "Beans", "Peas", "Carrot", "Potato", "Onion",
+                    "Peach", "Blueberry", "Strawberry", "Apple", "Pear")
+
+  local_status <- ifelse(common_names %in% local_plants, "Locally Grown", "Non-Local")
+}
+
+# Create contingency table: which taxa are abundant in high vs low income areas?
+# For each taxon, determine if it's more abundant in high or low income samples
+taxa_income_status <- character(ncol(otu_data_4b))
+
+for (i in 1:ncol(otu_data_4b)) {
+  high_mean <- mean(otu_data_4b[income_category == "High Income", i], na.rm = TRUE)
+  low_mean <- mean(otu_data_4b[income_category == "Low Income", i], na.rm = TRUE)
+
+  if (high_mean > low_mean) {
+    taxa_income_status[i] <- "High Income"
+  } else {
+    taxa_income_status[i] <- "Low Income"
+  }
+}
+
+# Create contingency table
+contingency_table <- table(local_status, taxa_income_status)
+
+cat("  Contingency Table (Local vs Non-local by Income Association):\n")
+print(contingency_table)
+
+# Perform chi-squared test
+chi_result <- chisq.test(contingency_table)
+chi_p_value <- round(chi_result$p.value, 4)
+chi_stat <- round(chi_result$statistic, 4)
+
+cat("  Chi-squared statistic: ", chi_stat, "\n")
+cat("  P-value: ", chi_p_value, "\n")
+
+# Prepare data for visualization
+contingency_df <- as.data.frame(contingency_table)
+colnames(contingency_df) <- c("Plant_Type", "Income_Association", "Count")
+
+# Create grouped bar plot
+fig4b <- ggplot(contingency_df, aes(x = Plant_Type, y = Count, fill = Income_Association)) +
+  geom_col(position = "dodge", color = "black", linewidth = 0.3, alpha = 0.85) +
+  scale_fill_manual(values = c("High Income" = "#2ecc71", "Low Income" = "#e74c3c")) +
+  labs(
+    title = "Figure 4B: Local vs Non-Local Plant Taxa Distribution by Income",
+    subtitle = paste0("Chi-squared test: χ² = ", chi_stat, ", p = ", chi_p_value),
+    x = "Plant Type",
+    y = "Number of Taxa",
+    fill = "Income Association"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 11),
+    legend.position = "right"
+  )
+
+fig4b_path <- paste0(output_path, "Figure_4B_local_nonlocal_chi_squared.png")
+cat("  Saving Figure 4B to: ", fig4b_path, "\n", sep="")
+
+tryCatch({
+  ggsave(fig4b_path, fig4b, width = 10, height = 7, dpi = 300)
+  cat("✓ Figure 4B saved\n\n")
+}, error = function(e) {
+  cat("ERROR saving Figure 4B: ", e$message, "\n\n", sep="")
+})
+
+###############################################################################
 # 14. FIGURE 5: FISH CONSUMPTION PATTERNS
 ###############################################################################
 
