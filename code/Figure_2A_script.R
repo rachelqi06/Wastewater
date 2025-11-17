@@ -36,35 +36,30 @@ ps_plant <- prune_taxa(taxa_sums(ps_plant) > 0, ps_plant)
 ps_animal <- subset_taxa(NCWW_allsamples_animal, IsFood == "Y" & CommonName != "Emu")
 ps_animal <- prune_taxa(taxa_sums(ps_animal) > 0, ps_animal)
 
-# Filter to three target locations: Beaufort, Charlotte, Greenville
-# First identify exact location names
-all_locations_plant <- unique(as.character(sample_data(ps_plant)$Location))
-all_locations_animal <- unique(as.character(sample_data(ps_animal)$Location))
+# Filter to specific LOCATIONS: Beaufort, Charlotte 1-4, Greenville
+# (Exclude Newport and Morehead City)
+target_locations <- c("Beaufort", "Charlotte 1", "Charlotte 2", "Charlotte 3", "Charlotte 4", "Greenville")
 
-cat("Locations in plant data:", paste(all_locations_plant, collapse=", "), "\n")
-cat("Locations in animal data:", paste(all_locations_animal, collapse=", "), "\n\n")
+ps_plant_filtered <- subset_samples(ps_plant, Location %in% target_locations)
+ps_animal_filtered <- subset_samples(ps_animal, Location %in% target_locations)
 
-# Target locations (filter for Beaufort, Charlotte variants, and Greenville)
-target_locations <- c("Beaufort", "Greenville")
-charlotte_variants <- grep("Charlotte", all_locations_plant, value=TRUE)
+# Apply sample removal list (problematic samples to exclude)
+samples_to_remove <- c("NCWW121720_1","NCWW121720_2","NCWW121720_10",
+                       "NCWW121720_56","NCWW121720_52","NCWW121720_18",
+                       "NCWW121720_21","NCWW022621_16","NCWW121720_27",
+                       "NCWW121720_6")
 
-target_sample_names_plant <- c()
-for(loc in c(target_locations, charlotte_variants)) {
-  idx <- which(sample_data(ps_plant)$Location == loc)
-  target_sample_names_plant <- c(target_sample_names_plant, sample_names(ps_plant)[idx])
-}
+ps_plant_filtered <- prune_samples(!(sample_names(ps_plant_filtered) %in% samples_to_remove), ps_plant_filtered)
+ps_animal_filtered <- prune_samples(!(sample_names(ps_animal_filtered) %in% samples_to_remove), ps_animal_filtered)
 
-target_sample_names_animal <- c()
-for(loc in c(target_locations, charlotte_variants)) {
-  idx <- which(sample_data(ps_animal)$Location == loc)
-  target_sample_names_animal <- c(target_sample_names_animal, sample_names(ps_animal)[idx])
-}
+# Remove taxa with zero sums after filtering
+ps_plant_filtered <- prune_taxa(taxa_sums(ps_plant_filtered) > 0, ps_plant_filtered)
+ps_animal_filtered <- prune_taxa(taxa_sums(ps_animal_filtered) > 0, ps_animal_filtered)
 
-ps_plant_filtered <- prune_samples(sample_names(ps_plant) %in% target_sample_names_plant, ps_plant)
-ps_animal_filtered <- prune_samples(sample_names(ps_animal) %in% target_sample_names_animal, ps_animal)
-
-cat("Plant samples after location filter:", nsamples(ps_plant_filtered), "\n")
-cat("Animal samples after location filter:", nsamples(ps_animal_filtered), "\n\n")
+cat("Plant samples after filtering:", nsamples(ps_plant_filtered), "\n")
+cat("Animal samples after filtering:", nsamples(ps_animal_filtered), "\n")
+cat("Plant taxa after filtering:", ntaxa(ps_plant_filtered), "\n")
+cat("Animal taxa after filtering:", ntaxa(ps_animal_filtered), "\n\n")
 
 # Merge plant and animal data
 # Create phyloseq objects without trees for merging
@@ -76,16 +71,12 @@ cat("Combined samples (plant + animal):", nsamples(ps_combined), "\n")
 cat("Combined taxa:", ntaxa(ps_combined), "\n\n")
 
 ###############################################################################
-# CLR Transformation with Pseudocount
+# CLR Transformation
 ###############################################################################
 
-cat("Applying CLR transformation with pseudocount...\n")
+cat("Applying CLR transformation...\n")
 
-# Add pseudocount BEFORE CLR transformation
-otu_tab_with_pc <- otu_table(ps_combined) + 1e-3
-otu_table(ps_combined) <- otu_tab_with_pc
-
-# Apply CLR transformation
+# Apply CLR transformation (microbiome package handles zero-inflation automatically)
 ps_combined_clr <- microbiome::transform(ps_combined, "clr")
 
 cat("CLR transformation completed\n\n")
@@ -217,8 +208,9 @@ cat("\n\nSample counts by month:\n")
 print(table(plot_data$Month))
 
 cat("\n\nPCA Analysis Results:\n")
-cat("  Transformation: CLR (centered log-ratio) with pseudocount 1e-3\n")
+cat("  Transformation: CLR (centered log-ratio)\n")
 cat("  Scaling: No scaling (data already CLR-transformed)\n")
+cat("  Locations: Beaufort, Charlotte 1-4, Greenville (Newport and Morehead City excluded)\n")
 cat("  Number of components: 4\n\n")
 
 cat("Variance Explained:\n")
