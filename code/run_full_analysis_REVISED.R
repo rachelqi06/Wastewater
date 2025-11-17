@@ -1121,10 +1121,10 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
   var_explained_plsr <- 38
   cat("  PC1 explains: ", var_explained_plsr, "% of variance\n", sep="")
 
-  # Create dataframe for plotting
+  # Create dataframe for plotting (flip sign of loadings so food insecure is most negative)
   fig3e_data <- data.frame(
     Variable = names(loadings_3e),
-    Loading = as.numeric(loadings_3e),
+    Loading = -as.numeric(loadings_3e),
     VIP = as.numeric(vip_scores),
     stringsAsFactors = FALSE
   )
