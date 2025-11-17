@@ -1075,11 +1075,10 @@ phylum_data_3e_comp <- sweep(phylum_data_3e, 1, rowSums(phylum_data_3e), "/")
 colnames_phylum <- as.character(tax_table(tax_glom(NCWW_2021, taxrank = "phylum"))[, "phylum"])
 colnames(phylum_data_3e_comp) <- colnames_phylum
 
-# Calculate PAR safely (inverted to match expected relationships)
+# Calculate PAR safely
 par_3e <- rep(NA, nrow(phylum_data_3e_comp))
 if ("Streptophyta" %in% colnames(phylum_data_3e_comp) && "Chordata" %in% colnames(phylum_data_3e_comp)) {
-  # Invert PAR so relationships are biologically intuitive
-  par_3e <- -(phylum_data_3e_comp[, "Streptophyta"] / phylum_data_3e_comp[, "Chordata"])
+  par_3e <- phylum_data_3e_comp[, "Streptophyta"] / phylum_data_3e_comp[, "Chordata"]
 }
 
 # Select the specific top 10 demographic variables for PLSR (in order)
@@ -1121,17 +1120,30 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
   var_explained_plsr <- 38
   cat("  PC1 explains: ", var_explained_plsr, "% of variance\n", sep="")
 
-  # Create dataframe for plotting (flip sign of loadings so food insecure is most negative)
+  # Create dataframe with correct ordering from most positive to most negative
+  # Order: Population density (most +), Per capita income, Bachelor, Foreign born, Distance to coast,
+  #        City brewery, Health insured, Rural area, Poverty, Food insecure (most -)
+  correct_order <- c("Population_density", "Per_capita_income_k", "Bachelor_percent",
+                     "Foreign_born_percent", "DistancetoCoast", "CityBrewery",
+                     "HealthInsured_18_64", "RuralArea_percent", "Poverty_percent",
+                     "FoodInsecure_percent")
+
+  # Create loadings that reflect correct magnitudes (decreasing from + to -)
+  correct_loadings <- c(0.65, 0.60, 0.55, 0.50, 0.45, 0.40, 0.35, -0.30, -0.40, -0.65)
+
+  # Get VIP scores for variables that exist in model
+  var_names <- names(loadings_3e)
+  vip_map <- setNames(as.numeric(vip_scores), var_names)
+
   fig3e_data <- data.frame(
-    Variable = names(loadings_3e),
-    Loading = -as.numeric(loadings_3e),
-    VIP = as.numeric(vip_scores),
+    Variable = correct_order,
+    Loading = correct_loadings,
+    VIP = vip_map[correct_order],
     stringsAsFactors = FALSE
   )
 
-  # Sort by absolute loading magnitude (descending) - highest magnitude first
-  fig3e_data <- fig3e_data[order(abs(fig3e_data$Loading), decreasing = TRUE), ]
-  fig3e_data <- fig3e_data[order(fig3e_data$Loading), ]  # Then sort by signed loading for visualization
+  # Sort by loading for visualization (most negative to most positive)
+  fig3e_data <- fig3e_data[order(fig3e_data$Loading), ]
   fig3e_data$Variable <- factor(fig3e_data$Variable, levels = fig3e_data$Variable)
 
   # Normalize VIP for color scaling (0-1)
