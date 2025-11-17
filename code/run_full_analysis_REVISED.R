@@ -141,15 +141,15 @@ NCWW_Seasonal_fish_clr <- subset_taxa(NCWW_Seasonal_animal_clr, class == "Actino
 
 # Merged seasonal
 ps_notree_1 <- phyloseq(NCWW_Seasonal_animal@otu_table, NCWW_Seasonal_animal@tax_table,
-                         NCWW_Seasonal_animal@sample_data)
+                         NCWW_Seasonal_animal@sam_data)
 ps_notree_2 <- phyloseq(NCWW_Seasonal_plant@otu_table, NCWW_Seasonal_plant@tax_table,
-                         NCWW_Seasonal_plant@sample_data)
+                         NCWW_Seasonal_plant@sam_data)
 NCWW_Seasonal_food <- merge_phyloseq(ps_notree_1, ps_notree_2)
 
 ps_notree_3 <- phyloseq(NCWW_Seasonal_animal_clr@otu_table, NCWW_Seasonal_animal_clr@tax_table,
-                         NCWW_Seasonal_animal_clr@sample_data)
+                         NCWW_Seasonal_animal_clr@sam_data)
 ps_notree_4 <- phyloseq(NCWW_Seasonal_plant_clr@otu_table, NCWW_Seasonal_plant_clr@tax_table,
-                         NCWW_Seasonal_plant_clr@sample_data)
+                         NCWW_Seasonal_plant_clr@sam_data)
 NCWW_Seasonal_food_clr <- merge_phyloseq(ps_notree_3, ps_notree_4)
 cat("After CLR merge - NCWW_Seasonal_food_clr: ", ntaxa(NCWW_Seasonal_food_clr), " taxa\n", sep="")
 
@@ -166,15 +166,15 @@ NCWW_2021_plant_clr <- microbiome::transform(NCWW_2021_plant, "clr")
 
 # Merged 2021
 ps_notree_5 <- phyloseq(NCWW_2021_animal@otu_table, NCWW_2021_animal@tax_table,
-                         NCWW_2021_animal@sample_data)
+                         NCWW_2021_animal@sam_data)
 ps_notree_6 <- phyloseq(NCWW_2021_plant@otu_table, NCWW_2021_plant@tax_table,
-                         NCWW_2021_plant@sample_data)
+                         NCWW_2021_plant@sam_data)
 NCWW_2021 <- merge_phyloseq(ps_notree_5, ps_notree_6)
 
 ps_notree_7 <- phyloseq(NCWW_2021_animal_clr@otu_table, NCWW_2021_animal_clr@tax_table,
-                         NCWW_2021_animal_clr@sample_data)
+                         NCWW_2021_animal_clr@sam_data)
 ps_notree_8 <- phyloseq(NCWW_2021_plant_clr@otu_table, NCWW_2021_plant_clr@tax_table,
-                         NCWW_2021_plant_clr@sample_data)
+                         NCWW_2021_plant_clr@sam_data)
 NCWW_2021_clr <- merge_phyloseq(ps_notree_7, ps_notree_8)
 
 cat("✓ Analysis subsets created\n\n")
