@@ -467,121 +467,68 @@ cat("═════════════════════════
 cat("GENERATING FIGURE 2: SEASONAL PATTERNS\n")
 cat("═══════════════════════════════════════════════════════════════════\n\n")
 
-# Use optimized Figure 2A: PCA of CLR-transformed Plant and Animal DNA
-# Filter directly to three target locations for best variance representation
+# Figure 2A: PCA of CLR-transformed Plant and Animal DNA
+# Using county-based filtering to include all Beaufort, Charlotte, and Greenville samples
 cat("Creating Figure 2A: Temporal Patterns in Food DNA...\n")
 
-# Get plant and animal subsets with food filtering
-ps_plant_fig2a <- subset_taxa(ps_plant, IsFood == "Y")
-ps_plant_fig2a <- prune_taxa(taxa_sums(ps_plant_fig2a) > 0, ps_plant_fig2a)
+ps_seasonal_pca <- NCWW_Seasonal_food_clr
 
-ps_animal_fig2a <- subset_taxa(ps_animal, IsFood == "Y" & CommonName != "Emu")
-ps_animal_fig2a <- prune_taxa(taxa_sums(ps_animal_fig2a) > 0, ps_animal_fig2a)
+# Get metadata and filter samples BEFORE PCA
+seasonal_metadata <- data.frame(sample_data(ps_seasonal_pca))
+seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 
-# Filter to specific LOCATIONS: Beaufort, Charlotte 1-4, Greenville
-target_locations <- c("Beaufort", "Charlotte 1", "Charlotte 2", "Charlotte 3", "Charlotte 4", "Greenville")
+# Group locations by region for shape aesthetic
+seasonal_metadata$Region <- seasonal_metadata$Location
+seasonal_metadata$Region[seasonal_metadata$Location %in% c("Beaufort", "Morehead City", "Newport")] <- "Beaufort"
+seasonal_metadata$Region[seasonal_metadata$Location == "Greenville"] <- "Greenville"
+# Charlotte locations stay as "Charlotte 1", "Charlotte 2", etc.
 
-ps_plant_fig2a <- subset_samples(ps_plant_fig2a, Location %in% target_locations)
-ps_animal_fig2a <- subset_samples(ps_animal_fig2a, Location %in% target_locations)
+# Get all available locations for reference
+all_locs <- unique(seasonal_metadata$Location)
+charlotte_locs <- all_locs[grepl("Charlotte", all_locs)]
 
-# Apply sample removal list (problematic samples to exclude)
-samples_to_remove <- c("NCWW121720_1","NCWW121720_2","NCWW121720_10",
-                       "NCWW121720_56","NCWW121720_52","NCWW121720_18",
-                       "NCWW121720_21","NCWW022621_16","NCWW121720_27",
-                       "NCWW121720_6")
+cat("Available locations:\n")
+print(all_locs)
+cat("\nCharlotte locations found:", paste(charlotte_locs, collapse=", "), "\n\n")
 
-ps_plant_fig2a <- prune_samples(!(sample_names(ps_plant_fig2a) %in% samples_to_remove), ps_plant_fig2a)
-ps_animal_fig2a <- prune_samples(!(sample_names(ps_animal_fig2a) %in% samples_to_remove), ps_animal_fig2a)
+# NOW do PCA on all filtered samples from the three counties
+otu_data <- as.data.frame(otu_table(ps_seasonal_pca))
 
-# Remove taxa with zero sums after filtering
-ps_plant_fig2a <- prune_taxa(taxa_sums(ps_plant_fig2a) > 0, ps_plant_fig2a)
-ps_animal_fig2a <- prune_taxa(taxa_sums(ps_animal_fig2a) > 0, ps_animal_fig2a)
+pca_result <- prcomp(otu_data, scale. = FALSE)
 
-# Merge plant and animal data
-ps_plant_notree <- phyloseq(otu_table(ps_plant_fig2a), tax_table(ps_plant_fig2a), sample_data(ps_plant_fig2a))
-ps_animal_notree <- phyloseq(otu_table(ps_animal_fig2a), tax_table(ps_animal_fig2a), sample_data(ps_animal_fig2a))
+pca_scores <- data.frame(PC1 = pca_result$x[,1], PC2 = pca_result$x[,2],
+                         PC3 = pca_result$x[,3], PC4 = pca_result$x[,4])
+seasonal_metadata <- cbind(seasonal_metadata, pca_scores)
 
-ps_combined_fig2a <- merge_phyloseq(ps_plant_notree, ps_animal_notree)
+var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2) * 100
 
-# Apply CLR transformation
-ps_combined_fig2a_clr <- microbiome::transform(ps_combined_fig2a, "clr")
+cat("Locations in data:", paste(unique(seasonal_metadata$Location), collapse = ", "), "\n")
+cat("Sample counts by location:\n")
+print(table(seasonal_metadata$Location))
+cat("\nVariance explained:\n")
+cat("  PC1:", round(var_explained[1], 2), "%\n")
+cat("  PC2:", round(var_explained[2], 2), "%\n")
+cat("  PC3:", round(var_explained[3], 2), "%\n")
+cat("  PC4:", round(var_explained[4], 2), "%\n\n")
 
-# Prepare metadata
-metadata_fig2a <- data.frame(sample_data(ps_combined_fig2a_clr))
-metadata_fig2a$SamplingDate <- as.Date(metadata_fig2a$Date, format = "%m/%d/%y")
-metadata_fig2a$Month <- month(metadata_fig2a$SamplingDate)
+# Create shape values for regions
+shape_values <- c("Beaufort" = 16, "Greenville" = 17, "Charlotte 1" = 15, "Charlotte 2" = 15, "Charlotte 3" = 15, "Charlotte 4" = 15)
 
-# Run PCA
-otu_data_fig2a <- as.data.frame(otu_table(ps_combined_fig2a_clr))
-pca_result_fig2a <- prcomp(otu_data_fig2a, scale. = FALSE)
-
-# Calculate variance explained
-var_explained_fig2a <- pca_result_fig2a$sdev^2 / sum(pca_result_fig2a$sdev^2) * 100
-
-# Extract PC scores
-pca_scores_fig2a <- data.frame(
-  PC1 = pca_result_fig2a$x[,1],
-  PC2 = pca_result_fig2a$x[,2],
-  PC3 = pca_result_fig2a$x[,3],
-  PC4 = pca_result_fig2a$x[,4]
-)
-
-# Combine with metadata
-plot_data_fig2a <- cbind(metadata_fig2a, pca_scores_fig2a)
-
-# Define colors for months
-month_colors <- c(
-  "5" = "#FF6B6B",    # May - Red
-  "6" = "#FFA500",    # June - Orange
-  "7" = "#FFD700",    # July - Gold
-  "8" = "#90EE90",    # August - Light green
-  "9" = "#00FF00",    # September - Green
-  "10" = "#00CED1",   # October - Cyan
-  "11" = "#4169E1",   # November - Blue
-  "12" = "#9370DB"    # December - Purple
-)
-
-# Define shapes for locations
-shape_values <- c(
-  "Beaufort" = 16,
-  "Charlotte 1" = 17,
-  "Charlotte 2" = 17,
-  "Charlotte 3" = 17,
-  "Charlotte 4" = 17,
-  "Greenville" = 18
-)
-
-# Create plot: PC3 vs PC4 colored by month, shaped by location
-fig2a <- ggplot(plot_data_fig2a, aes(x = PC3, y = PC4, color = as.factor(Month), shape = Location)) +
-  geom_point(size = 4, alpha = 0.7, stroke = 1) +
-  scale_color_manual(
-    name = "Month",
-    values = month_colors,
-    labels = c("5" = "May", "6" = "June", "7" = "July", "8" = "August",
-               "9" = "September", "10" = "October", "11" = "November", "12" = "December")
-  ) +
-  scale_shape_manual(
-    name = "Location",
-    values = shape_values
-  ) +
+# Figure 2A: PC4 vs PC3 colored by month, shaped by region
+fig2a <- ggplot(seasonal_metadata, aes(x = PC4, y = PC3, color = as.factor(Month), shape = Region)) +
+  geom_point(size = 3, alpha = 0.7) +
+  scale_color_manual(name = "Month", values = colorRampPalette(brewer.pal(12, "Set3"))(12)) +
+  scale_shape_manual(name = "Location", values = shape_values) +
   labs(
-    title = "Figure 2A: Temporal Patterns in Food DNA (Plant & Animal Combined)",
-    subtitle = "PCA of CLR-transformed food DNA from Beaufort, Charlotte, and Greenville",
-    x = paste0("PC3 (", round(var_explained_fig2a[3], 1), "% variance)"),
-    y = paste0("PC4 (", round(var_explained_fig2a[4], 1), "% variance)")
+    title = "Figure 2A: Temporal Patterns (PC4 vs PC3)",
+    x = paste0("PC4 (", round(var_explained[4], 1), "%)"),
+    y = paste0("PC3 (", round(var_explained[3], 1), "%)")
   ) +
+  coord_fixed(ratio = 1) +
   theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0),
-    plot.subtitle = element_text(size = 11, face = "italic", hjust = 0),
-    axis.title = element_text(size = 11, face = "bold"),
-    axis.text = element_text(size = 10),
-    legend.position = "right",
-    panel.grid.major = element_line(color = "gray90", linewidth = 0.3),
-    panel.grid.minor = element_blank()
-  )
+  theme(plot.title = element_text(size = 14, face = "bold"))
 
-ggsave(paste0(output_path, "Figure_2A_temporal_PCA.png"), fig2a, width = 12, height = 8, dpi = 300)
+ggsave(paste0(output_path, "Figure_2A_temporal_PCA.png"), fig2a, width = 10, height = 8, dpi = 300)
 cat("✓ Figure 2A saved\n")
 
 # Figure 2B: Top 20 plant taxa most strongly associated with sampling time (PLSR)
