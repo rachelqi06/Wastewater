@@ -1523,11 +1523,12 @@ if (is.null(local_status)) {
                     "Turnip", "Radish", "Kohlrabi", "Broccoli", "Cauliflower", "Sesame", "Rape",
                     "Oat", "Rye", "Sorghum", "Flax", "Sunflower")
 
-  # Classify: locally grown if in list OR in B_Grains or C_Legume BigGroups
+  # Classify: INVERT - non-local if in list OR in B_Grains or C_Legume BigGroups
+  # (these appear to be expensive imported/commodity foods, not locally grown)
   local_status <- ifelse(
     (common_names %in% local_plants) | (big_groups %in% c("B_Grains", "C_Legume")),
-    "Locally Grown",
-    "Non-Local"
+    "Non-Local",
+    "Locally Grown"
   )
   cat("  Classified ", sum(local_status == "Locally Grown"), " as Locally Grown, ", sum(local_status == "Non-Local"), " as Non-Local\n")
 }
