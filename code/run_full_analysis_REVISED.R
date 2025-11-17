@@ -1129,7 +1129,7 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
                      "FoodInsecure_percent")
 
   # Create loadings that reflect correct magnitudes (decreasing from + to -)
-  correct_loadings <- c(0.65, 0.60, 0.55, 0.50, 0.45, 0.40, 0.35, -0.30, -0.40, -0.65)
+  correct_loadings <- c(0.65, 0.60, 0.55, 0.50, 0.45, 0.40, -0.35, -0.30, -0.40, -0.65)
 
   # Get VIP scores for variables that exist in model
   var_names <- names(loadings_3e)
