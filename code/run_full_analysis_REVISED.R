@@ -141,15 +141,15 @@ NCWW_Seasonal_fish_clr <- subset_taxa(NCWW_Seasonal_animal_clr, class == "Actino
 
 # Merged seasonal
 ps_notree_1 <- phyloseq(NCWW_Seasonal_animal@otu_table, NCWW_Seasonal_animal@tax_table,
-                         NCWW_Seasonal_animal@sam_data)
+                         NCWW_Seasonal_animal@sample_data)
 ps_notree_2 <- phyloseq(NCWW_Seasonal_plant@otu_table, NCWW_Seasonal_plant@tax_table,
-                         NCWW_Seasonal_plant@sam_data)
+                         NCWW_Seasonal_plant@sample_data)
 NCWW_Seasonal_food <- merge_phyloseq(ps_notree_1, ps_notree_2)
 
 ps_notree_3 <- phyloseq(NCWW_Seasonal_animal_clr@otu_table, NCWW_Seasonal_animal_clr@tax_table,
-                         NCWW_Seasonal_animal_clr@sam_data)
+                         NCWW_Seasonal_animal_clr@sample_data)
 ps_notree_4 <- phyloseq(NCWW_Seasonal_plant_clr@otu_table, NCWW_Seasonal_plant_clr@tax_table,
-                         NCWW_Seasonal_plant_clr@sam_data)
+                         NCWW_Seasonal_plant_clr@sample_data)
 NCWW_Seasonal_food_clr <- merge_phyloseq(ps_notree_3, ps_notree_4)
 cat("After CLR merge - NCWW_Seasonal_food_clr: ", ntaxa(NCWW_Seasonal_food_clr), " taxa\n", sep="")
 
@@ -166,15 +166,15 @@ NCWW_2021_plant_clr <- microbiome::transform(NCWW_2021_plant, "clr")
 
 # Merged 2021
 ps_notree_5 <- phyloseq(NCWW_2021_animal@otu_table, NCWW_2021_animal@tax_table,
-                         NCWW_2021_animal@sam_data)
+                         NCWW_2021_animal@sample_data)
 ps_notree_6 <- phyloseq(NCWW_2021_plant@otu_table, NCWW_2021_plant@tax_table,
-                         NCWW_2021_plant@sam_data)
+                         NCWW_2021_plant@sample_data)
 NCWW_2021 <- merge_phyloseq(ps_notree_5, ps_notree_6)
 
 ps_notree_7 <- phyloseq(NCWW_2021_animal_clr@otu_table, NCWW_2021_animal_clr@tax_table,
-                         NCWW_2021_animal_clr@sam_data)
+                         NCWW_2021_animal_clr@sample_data)
 ps_notree_8 <- phyloseq(NCWW_2021_plant_clr@otu_table, NCWW_2021_plant_clr@tax_table,
-                         NCWW_2021_plant_clr@sam_data)
+                         NCWW_2021_plant_clr@sample_data)
 NCWW_2021_clr <- merge_phyloseq(ps_notree_7, ps_notree_8)
 
 cat("✓ Analysis subsets created\n\n")
@@ -189,7 +189,7 @@ cat("═════════════════════════
 
 ps <- NCWW_Seasonal_food_clr
 df <- data.frame(otu_table(ps))
-metadata <- data.frame(sam_data(ps))
+metadata <- data.frame(sample_data(ps))
 metadata$Month_Date <- as.Date(metadata$Date, format = "%m/%d/%y")
 metadata$Month_Date <- as.numeric(metadata$Month_Date)
 
@@ -201,7 +201,7 @@ cat("\n")
 
 ps <- NCWW_2021_fish_clr
 df <- data.frame(otu_table(ps))
-metadata <- data.frame(sam_data(ps))
+metadata <- data.frame(sample_data(ps))
 
 permanova_fish <- adonis2(df ~ Coast_Inland + City_Town, data = metadata,
                            method = "euclidean", by = "terms", permutations = 999)
@@ -229,7 +229,7 @@ colnames(otu_df) <- tax_df$phylum
 otu_df$PAR <- otu_df$Streptophyta / otu_df$Chordata
 
 df_diversity <- data.frame(otu_df, alpha_diversity)
-df_diversity$Location <- sam_data(ps_phylum)$Location
+df_diversity$Location <- sample_data(ps_phylum)$Location
 
 cat("Diversity Metrics Summary:\n")
 cat("  Locations:", length(unique(df_diversity$Location)), "\n")
@@ -317,10 +317,10 @@ nc_boundary <- ne_states(country = "United States of America", returnclass = "sf
 
 # Prepare data
 fig1a_data <- data.frame(
-  Longitude = sam_data(NCWW_2021)$lon,
-  Latitude = sam_data(NCWW_2021)$lat,
-  Location = sam_data(NCWW_2021)$Location,
-  Population = sam_data(NCWW_2021)$PopulationServedK
+  Longitude = sample_data(NCWW_2021)$lon,
+  Latitude = sample_data(NCWW_2021)$lat,
+  Location = sample_data(NCWW_2021)$Location,
+  Population = sample_data(NCWW_2021)$PopulationServedK
 )
 
 # Create map with NC boundary as background
@@ -454,7 +454,7 @@ cat("═════════════════════════
 ps_seasonal_pca <- NCWW_Seasonal_food_clr
 
 # First, get metadata and filter samples BEFORE PCA
-seasonal_metadata <- data.frame(sam_data(ps_seasonal_pca))
+seasonal_metadata <- data.frame(sample_data(ps_seasonal_pca))
 seasonal_metadata$Month <- month(as.Date(seasonal_metadata$Date, format = "%m/%d/%y"))
 
 # Group Beaufort-Carteret County locations together
@@ -523,7 +523,7 @@ cat("Creating Figure 2B: Top 20 plant taxa associated with sampling time...\n")
 NCWW_Seasonal_plant_only <- subset_taxa(NCWW_Seasonal_food_clr, phylum == "Streptophyta")
 
 # Get metadata with Month for all samples
-fig2b_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
+fig2b_metadata <- data.frame(sample_data(NCWW_Seasonal_plant_only))
 fig2b_metadata$Month <- month(as.Date(fig2b_metadata$Date, format = "%m/%d/%y"))
 
 # Get OTU table (samples x taxa) and preserve OTU IDs
@@ -884,7 +884,7 @@ cat("Creating Figure 2C: Fish taxa abundance by location...\n")
 
 # Get fish data
 fish_seasonal <- subset_taxa(NCWW_Seasonal_animal, class == "Actinopteri")
-fish_meta_seasonal <- data.frame(sam_data(fish_seasonal))
+fish_meta_seasonal <- data.frame(sample_data(fish_seasonal))
 fish_meta_seasonal$SampleID <- rownames(fish_meta_seasonal)
 
 # Get total abundance of top fish species
@@ -996,7 +996,7 @@ cat("✓ Figure 3C saved\n")
 # Figure 3D: Plant diversity by Coast/Inland location
 cat("Creating Figure 3D: Plant Shannon diversity by location type...\n")
 
-plant_metadata_3d <- data.frame(sam_data(NCWW_2021_plant))
+plant_metadata_3d <- data.frame(sample_data(NCWW_2021_plant))
 plant_richness <- estimate_richness(NCWW_2021_plant, measures = c("Shannon", "Observed"))
 plant_richness$Coast_Inland <- plant_metadata_3d$Coast_Inland
 
@@ -1031,7 +1031,7 @@ ps_plant_2021 <- NCWW_2021_plant_clr
 otu_data_plant <- as.data.frame(otu_table(ps_plant_2021))
 pca_result_plant <- prcomp(otu_data_plant, scale. = FALSE)
 
-plant_metadata <- data.frame(sam_data(ps_plant_2021))
+plant_metadata <- data.frame(sample_data(ps_plant_2021))
 pca_scores_plant <- data.frame(PC1 = pca_result_plant$x[,1], PC2 = pca_result_plant$x[,2])
 plant_metadata <- cbind(plant_metadata, pca_scores_plant)
 
@@ -1136,7 +1136,7 @@ cat("✓ Figure 4C saved\n")
 # Figure 4D: Plant PC1 colored by Coast/Inland with distance to coast
 cat("Creating Figure 4D: Plant PC1 vs geographic location...\n")
 
-plant_metadata_4d <- data.frame(sam_data(NCWW_2021_plant_clr))
+plant_metadata_4d <- data.frame(sample_data(NCWW_2021_plant_clr))
 plant_pca_data <- data.frame(PC1 = pca_result_plant$x[,1],
                               PC2 = pca_result_plant$x[,2],
                               Coast_Inland = plant_metadata_4d$Coast_Inland,
@@ -1174,7 +1174,7 @@ ps_fish_2021 <- NCWW_2021_fish_clr
 otu_data_fish <- as.data.frame(otu_table(ps_fish_2021))
 pca_result_fish <- prcomp(otu_data_fish, scale. = FALSE)
 
-fish_metadata <- data.frame(sam_data(ps_fish_2021))
+fish_metadata <- data.frame(sample_data(ps_fish_2021))
 pca_scores_fish <- data.frame(PC1 = pca_result_fish$x[,1], PC2 = pca_result_fish$x[,2])
 fish_metadata <- cbind(fish_metadata, pca_scores_fish)
 
@@ -1299,7 +1299,7 @@ cat("✓ Figure 5D saved\n")
 # Figure 5E: Fish PC1 colored by Coast/Inland location
 cat("Creating Figure 5E: Fish PC1 vs distance to coast...\n")
 
-fish_metadata_5e <- data.frame(sam_data(NCWW_2021_fish_clr))
+fish_metadata_5e <- data.frame(sample_data(NCWW_2021_fish_clr))
 fish_pca_data <- data.frame(PC1 = pca_result_fish$x[,1],
                              PC2 = pca_result_fish$x[,2],
                              Coast_Inland = fish_metadata_5e$Coast_Inland,
