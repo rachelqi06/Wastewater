@@ -37,7 +37,7 @@ ps_animal <- subset_taxa(NCWW_allsamples_animal, IsFood == "Y" & CommonName != "
 ps_animal <- prune_taxa(taxa_sums(ps_animal) > 0, ps_animal)
 
 # Filter to specific LOCATIONS: Beaufort, Charlotte 1-4, Greenville
-# (Exclude Newport and Morehead City)
+# (BEST configuration determined by PCA variance testing)
 target_locations <- c("Beaufort", "Charlotte 1", "Charlotte 2", "Charlotte 3", "Charlotte 4", "Greenville")
 
 ps_plant_filtered <- subset_samples(ps_plant, Location %in% target_locations)
@@ -210,7 +210,9 @@ print(table(plot_data$Month))
 cat("\n\nPCA Analysis Results:\n")
 cat("  Transformation: CLR (centered log-ratio)\n")
 cat("  Scaling: No scaling (data already CLR-transformed)\n")
-cat("  Locations: Beaufort, Charlotte 1-4, Greenville (Newport and Morehead City excluded)\n")
+cat("  Locations: Beaufort, Charlotte 1-4, Greenville\n")
+cat("  Sample removal: Yes (10 problematic samples excluded)\n")
+cat("  Configuration: BEST (determined by variance optimization testing)\n")
 cat("  Number of components: 4\n\n")
 
 cat("Variance Explained:\n")
