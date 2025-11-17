@@ -9,13 +9,11 @@
 
 set.seed(001)
 
-# Disable interactive debugging and browser mode for non-interactive execution
+# Disable interactive debugging and browser mode completely
 options(error = function() { q("no") })  # Exit on error without prompt
 options(warn = 1)  # Print warnings as they occur (non-interactive)
 options(digits = 7)
-if (!interactive()) {
-  options(browser = function(x, ...) invisible(NULL))
-}
+options(browser = function(x, ...) invisible(NULL))  # Disable browser completely
 
 ###############################################################################
 # 1. LOAD REQUIRED PACKAGES
