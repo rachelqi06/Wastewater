@@ -1579,6 +1579,8 @@ fig5d <- ggplot(fish_metadata, aes(x = DistancetoCoast * 0.621371, y = PC1, colo
   geom_point(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE, color = "black", alpha = 0.3) +
   scale_color_manual(values = c("Coastal_Urban" = "#0072B2", "Inland_Urban" = "#D55E00")) +
+  scale_x_continuous(limits = c(0, 200)) +
+  scale_y_continuous(limits = c(-6, NA)) +
   labs(
     title = "Figure 5D: Fish PC1 vs Distance to Coast",
     x = "Distance to Coast (miles)",
