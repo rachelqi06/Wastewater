@@ -1079,7 +1079,7 @@ if ("Streptophyta" %in% colnames(phylum_data_3e_comp) && "Chordata" %in% colname
 # Select the specific top 10 demographic variables for PLSR (in order)
 demographic_vars <- c("Population_density", "Per_capita_income_k", "Bachelor_percent",
                       "Foreign_born_percent", "DistancetoCoast", "CityBrewery",
-                      "HealthInsured_18_64", "RuralArea_percent", "Poverty_percent",
+                      "HealthInsured_19less", "RuralArea_percent", "Poverty_percent",
                       "FoodInsecure_percent")
 
 # Keep only available variables
