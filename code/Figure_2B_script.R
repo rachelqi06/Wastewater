@@ -2,6 +2,7 @@
 ###############################################################################
 # Figure 2B: Top 20 Plant Taxa Most Strongly Associated with Sampling Time
 # Using PLS Regression (first component) on CLR-transformed plant abundances
+# Uses TOTAL PLANT DATABASE (all samples, not seasonal subset)
 # Colors indicate each taxon's typical growing/harvest season
 ###############################################################################
 
@@ -21,27 +22,16 @@ if (!dir.exists(output_path)) {
 }
 
 ###############################################################################
-# Load Data
+# Load Data - USE TOTAL DATABASE
 ###############################################################################
 
-cat("Loading data...\n")
+cat("Loading data (TOTAL PLANT DATABASE)...\n")
 NCWW_allsamples_trnL <- readRDS(paste0(data_path, "NCWW_allsamples_trnL.rds"))
-NCWW_allsamples_animal <- readRDS(paste0(data_path, "NCWW_allsamples_animal.rds"))
 
-# Create seasonal subset
+# Create total plant subset (all samples, not seasonal)
 ps_plant <- subset_taxa(NCWW_allsamples_trnL, phylum == "Streptophyta")
+ps_plant <- prune_taxa(taxa_sums(ps_plant) > 0, ps_plant)
 ps_plant_clr <- microbiome::transform(ps_plant, "clr")
-
-samples_to_remove <- c("NCWW121720_1","NCWW121720_2","NCWW121720_10",
-                       "NCWW121720_56","NCWW121720_52","NCWW121720_18",
-                       "NCWW121720_21","NCWW022621_16","NCWW121720_27",
-                       "NCWW121720_6")
-
-NCWW_Seasonal_plant <- subset_samples(ps_plant, County %in% c("carteret","mecklenburg","pitt"))
-NCWW_Seasonal_plant <- prune_samples(!(sample_names(NCWW_Seasonal_plant) %in% samples_to_remove),
-                                      NCWW_Seasonal_plant)
-NCWW_Seasonal_plant <- prune_taxa(taxa_sums(NCWW_Seasonal_plant) > 0, NCWW_Seasonal_plant)
-NCWW_Seasonal_plant_clr <- microbiome::transform(NCWW_Seasonal_plant, "clr")
 
 ###############################################################################
 # Prepare data for PLS regression
@@ -49,19 +39,16 @@ NCWW_Seasonal_plant_clr <- microbiome::transform(NCWW_Seasonal_plant, "clr")
 
 cat("Preparing data for PLS regression...\n")
 
-# Filter to ONLY plant taxa
-NCWW_Seasonal_plant_only <- subset_taxa(NCWW_Seasonal_plant_clr, phylum == "Streptophyta")
-
-# Get metadata with Month
-fig2b_metadata <- data.frame(sam_data(NCWW_Seasonal_plant_only))
+# Get metadata with Month/Date
+fig2b_metadata <- data.frame(sam_data(ps_plant_clr))
 fig2b_metadata$Month <- month(as.Date(fig2b_metadata$Date, format = "%m/%d/%y"))
 
 # Get OTU table
-otu_df <- as.data.frame(otu_table(NCWW_Seasonal_plant_only))
+otu_df <- as.data.frame(otu_table(ps_plant_clr))
 otu_ids <- colnames(otu_df)
 
 # Get common names mapping
-tax_tab <- tax_table(NCWW_Seasonal_plant_only)
+tax_tab <- tax_table(ps_plant_clr)
 common_names_map <- as.character(tax_tab[, "CommonName"])
 names(common_names_map) <- rownames(tax_tab)
 
@@ -72,7 +59,8 @@ otu_df[is.na(otu_df)] <- 0
 
 cat("  Samples:", nrow(otu_df), "\n")
 cat("  Taxa retained:", ncol(otu_df), "\n")
-cat("  Sampling months:", min(fig2b_metadata$Month, na.rm=TRUE), "-", max(fig2b_metadata$Month, na.rm=TRUE), "\n\n")
+cat("  Sampling months:", min(fig2b_metadata$Month, na.rm=TRUE), "-", max(fig2b_metadata$Month, na.rm=TRUE), "\n")
+cat("  Unique months:", length(unique(fig2b_metadata$Month)), "\n\n")
 
 # Create PLSR data frame
 month_numeric <- as.numeric(fig2b_metadata$Month)
@@ -82,7 +70,7 @@ plsr_data <- cbind(data.frame(Month = month_numeric), otu_df)
 # Perform PLS Regression on first component
 ###############################################################################
 
-cat("Performing PLS regression...\n")
+cat("Performing PLS regression on full plant database...\n")
 
 # Fit PLSR model with first component
 plsr_model <- plsr(Month ~ ., data = plsr_data, scale = TRUE, ncomp = 1, na.action = na.omit)
@@ -141,7 +129,7 @@ taxa_seasons <- sapply(top_taxa_common_names, function(x) {
   # Default classification
   if (grepl("berry|melon|grape|mango", x, ignore.case = TRUE)) {
     return("Summer")
-  } else if (grepl("pecan|citrus|cabbage|carrot|onion|celery|pea|walnut|apple", x, ignore.case = TRUE)) {
+  } else if (grepl("pecan|citrus|cabbage|carrot|onion|celery|pea|walnut|apple|kiwi", x, ignore.case = TRUE)) {
     return("Fall/Winter")
   } else if (grepl("asparagus", x, ignore.case = TRUE)) {
     return("Spring/Summer")
@@ -183,7 +171,7 @@ fig2b <- ggplot(fig2b_data, aes(x = Loading, y = CommonName, fill = Season)) +
   ) +
   labs(
     title = "Figure 2B: Top 20 Plant Taxa Most Strongly Associated with Sampling Time",
-    subtitle = "PLSR Loading on Component 1 (CLR-transformed abundances)",
+    subtitle = "PLSR Loading on Component 1 (CLR-transformed abundances, all samples)",
     x = "PLSR Loading (Component 1)",
     y = "Plant Taxon"
   ) +
@@ -211,6 +199,7 @@ cat("✓ Figure 2B saved to:", paste0(output_path, "Figure_2B_plant_taxa_by_seas
 cat("═══════════════════════════════════════════════════════════════════\n")
 cat("TOP 20 PLANT TAXA MOST STRONGLY ASSOCIATED WITH SAMPLING TIME\n")
 cat("Identified by PLS Regression (Component 1, CLR-transformed)\n")
+cat("Using TOTAL PLANT DATABASE (all samples)\n")
 cat("═══════════════════════════════════════════════════════════════════\n\n")
 
 cat("Rank | Plant Taxon                  | PLSR Loading | Season\n")
@@ -232,6 +221,7 @@ cat("Summary Statistics:\n")
 cat("  Model: PLS regression (Month ~ Plant taxa abundances)\n")
 cat("  Data transformation: CLR (centered log-ratio)\n")
 cat("  Component analyzed: 1st component (loadings extracted)\n")
+cat("  Dataset: TOTAL PLANT DATABASE (all samples)\n")
 cat("  Number of samples:", nrow(plsr_data), "\n")
 cat("  Number of plant taxa analyzed:", ncol(otu_df), "\n")
 cat("  Loading range (all taxa): [", round(min(plsr_loadings), 4), ", ",
