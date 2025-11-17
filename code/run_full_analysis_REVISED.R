@@ -10,10 +10,15 @@
 set.seed(001)
 
 # Disable interactive debugging and browser mode completely
-options(error = function() { q("no") })  # Exit on error without prompt
+options(error = function() {
+  cat("ERROR occurred - exiting\n")
+  q("no")
+})
 options(warn = 1)  # Print warnings as they occur (non-interactive)
 options(digits = 7)
 options(browser = function(x, ...) invisible(NULL))  # Disable browser completely
+options(debug = FALSE)  # Disable debug mode
+Sys.setenv(R_INTERACTIVE = "FALSE")
 
 ###############################################################################
 # 1. LOAD REQUIRED PACKAGES
