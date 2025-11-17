@@ -1056,9 +1056,12 @@ cat("✓ Figure 3D saved\n")
 # Figure 3E: Demographic factors predicting PAR by PLSR
 cat("Creating Figure 3E: Demographic factors predicting PAR by PLSR...\n")
 
+# Use all animal samples (includes all locations and timepoints)
+ps_animal_all <- subset_taxa(NCWW_allsamples_animal, IsFood == "Y")
+
 # Get sample metadata and PAR values
-metadata_3e <- data.frame(sample_data(NCWW_2021))
-otu_data_3e <- as.data.frame(otu_table(NCWW_2021))
+metadata_3e <- data.frame(sample_data(ps_animal_all))
+otu_data_3e <- as.data.frame(otu_table(ps_animal_all))
 
 # Ensure otu_data is numeric and rounded (phyloseq requirement for richness)
 otu_data_int <- round(otu_data_3e)
@@ -1066,13 +1069,17 @@ otu_data_int <- round(otu_data_3e)
 # Calculate alpha diversity (Shannon and Observed)
 alpha_div_3e <- estimate_richness(phyloseq(otu_table(otu_data_int, taxa_are_rows = FALSE),
                                             sample_data(metadata_3e),
-                                            tax_table(NCWW_2021)),
+                                            tax_table(ps_animal_all)),
                                    measures = c("Shannon", "Observed"))
 
-# Calculate PAR (Plant-to-Animal Ratio)
-phylum_data_3e <- data.frame(otu_table(tax_glom(NCWW_2021, taxrank = "phylum")))
+# Calculate PAR (Plant-to-Animal Ratio) using merged animal+plant data
+ps_all_merged <- merge_phyloseq(
+  phyloseq(otu_table(ps_animal_all), tax_table(ps_animal_all), sample_data(ps_animal_all)),
+  phyloseq(otu_table(ps_plant), tax_table(ps_plant), sample_data(ps_plant))
+)
+phylum_data_3e <- data.frame(otu_table(tax_glom(ps_all_merged, taxrank = "phylum")))
 phylum_data_3e_comp <- sweep(phylum_data_3e, 1, rowSums(phylum_data_3e), "/")
-colnames_phylum <- as.character(tax_table(tax_glom(NCWW_2021, taxrank = "phylum"))[, "phylum"])
+colnames_phylum <- as.character(tax_table(tax_glom(ps_all_merged, taxrank = "phylum"))[, "phylum"])
 colnames(phylum_data_3e_comp) <- colnames_phylum
 
 # Calculate PAR safely
@@ -1128,9 +1135,9 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
     stringsAsFactors = FALSE
   )
 
-  # Sort by VIP score (descending) to show importance
-  fig3e_data <- fig3e_data[order(fig3e_data$VIP, decreasing = TRUE), ]
-  fig3e_data <- fig3e_data[order(fig3e_data$Loading), ]  # Then sort by loading for visualization
+  # Sort by absolute loading magnitude (descending) - highest magnitude first
+  fig3e_data <- fig3e_data[order(abs(fig3e_data$Loading), decreasing = TRUE), ]
+  fig3e_data <- fig3e_data[order(fig3e_data$Loading), ]  # Then sort by signed loading for visualization
   fig3e_data$Variable <- factor(fig3e_data$Variable, levels = fig3e_data$Variable)
 
   # Normalize VIP for color scaling (0-1)
