@@ -1080,7 +1080,7 @@ if ("Streptophyta" %in% colnames(phylum_data_3e_comp) && "Chordata" %in% colname
 demographic_vars <- c("Population_density", "Per_capita_income_k", "Bachelor_percent",
                       "Foreign_born_percent", "DistancetoCoast", "CityBrewery",
                       "HealthInsured_19less", "RuralArea_percent", "Poverty_percent",
-                      "FoodInsecure_percent")
+                      "FoodInsecure_rate")
 
 # Keep only available variables
 available_demographics <- intersect(demographic_vars, colnames(metadata_3e))
