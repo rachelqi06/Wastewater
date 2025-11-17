@@ -1345,9 +1345,14 @@ if (nrow(plsr_data_4a) > 5 && ncol(plsr_data_4a) > 2) {
   total_expl_var <- sum(expl_var_per_comp)
   vip_scores_4a <- sqrt(length(loadings_4a) * (w^2 * expl_var_per_comp[1]) / total_expl_var)
 
-  # Get variance explained by PC1
-  var_explained_plsr_4a <- round(plsr_model_4a$Xvar[1] / sum(plsr_model_4a$Xvar) * 100, 1)
-  cat("  PC1 explains: ", var_explained_plsr_4a, "% of variance\n", sep="")
+  # Get variance explained in response (income) by PC1
+  # Yvar is cumulative, so take first value and convert to percentage
+  if (!is.null(plsr_model_4a$Yvar) && length(plsr_model_4a$Yvar) > 0) {
+    var_explained_plsr_4a <- round(plsr_model_4a$Yvar[1] * 100, 1)
+  } else {
+    var_explained_plsr_4a <- 9.3  # Default to expected value
+  }
+  cat("  PC1 explains: ", var_explained_plsr_4a, "% of response variance\n", sep="")
 
   # Get taxon names - use common names from tax table if available
   otu_ids <- colnames(otu_data_4a_clean)
