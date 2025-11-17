@@ -1051,7 +1051,129 @@ fig3d <- ggplot(plant_richness, aes(x = Coast_Inland, y = Shannon, fill = Coast_
   )
 
 ggsave(paste0(output_path, "Figure_3D_plant_diversity_location.png"), fig3d, width = 8, height = 6, dpi = 300)
-cat("✓ Figure 3D saved\n\n")
+cat("✓ Figure 3D saved\n")
+
+# Figure 3E: Demographic factors predicting PAR by PLSR
+cat("Creating Figure 3E: Demographic factors predicting PAR by PLSR...\n")
+
+# Get sample metadata and PAR values
+metadata_3e <- data.frame(sample_data(NCWW_2021))
+otu_data_3e <- as.data.frame(otu_table(NCWW_2021))
+
+# Ensure otu_data is numeric and rounded (phyloseq requirement for richness)
+otu_data_int <- round(otu_data_3e)
+
+# Calculate alpha diversity (Shannon and Observed)
+alpha_div_3e <- estimate_richness(phyloseq(otu_table(otu_data_int, taxa_are_rows = FALSE),
+                                            sample_data(metadata_3e),
+                                            tax_table(NCWW_2021)),
+                                   measures = c("Shannon", "Observed"))
+
+# Calculate PAR (Plant-to-Animal Ratio)
+phylum_data_3e <- data.frame(otu_table(tax_glom(NCWW_2021, taxrank = "phylum")))
+phylum_data_3e_comp <- sweep(phylum_data_3e, 1, rowSums(phylum_data_3e), "/")
+colnames_phylum <- as.character(tax_table(tax_glom(NCWW_2021, taxrank = "phylum"))[, "phylum"])
+colnames(phylum_data_3e_comp) <- colnames_phylum
+
+# Calculate PAR safely
+par_3e <- rep(NA, nrow(phylum_data_3e_comp))
+if ("Streptophyta" %in% colnames(phylum_data_3e_comp) && "Chordata" %in% colnames(phylum_data_3e_comp)) {
+  par_3e <- phylum_data_3e_comp[, "Streptophyta"] / phylum_data_3e_comp[, "Chordata"]
+}
+
+# Select demographic variables for PLSR
+demographic_vars <- c("PopulationServedK", "DistancetoCoast", "Per_capita_income_k",
+                      "Poverty_percent", "Bachelor_percent", "Foreign_born_percent",
+                      "Black_AA_percent", "HispanicLatino_percent", "Population_density",
+                      "HealthInsured_18_64", "FoodInsecure_percent", "LimitedHealthyFoodsAccess_percent",
+                      "Obesity_20yr_percent", "FoodEnvironmentIndex")
+
+# Keep only available variables
+available_demographics <- intersect(demographic_vars, colnames(metadata_3e))
+demo_data_3e <- metadata_3e[, available_demographics, drop = FALSE]
+
+# Remove rows with missing data
+complete_rows <- complete.cases(demo_data_3e) & !is.na(par_3e)
+demo_data_3e <- demo_data_3e[complete_rows, ]
+par_3e_clean <- par_3e[complete_rows]
+
+# Prepare PLSR data
+plsr_data_3e <- cbind(PAR = par_3e_clean, demo_data_3e)
+
+if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
+  cat("  PLSR data: ", nrow(plsr_data_3e), " samples x ", ncol(plsr_data_3e)-1, " demographic variables\n", sep="")
+
+  # Perform PLSR
+  plsr_model_3e <- plsr(PAR ~ ., data = plsr_data_3e, scale = TRUE, ncomp = 1, na.action = na.omit)
+
+  # Extract loadings and calculate VIP scores
+  loadings_3e <- plsr_model_3e$loadings[, 1, drop = TRUE]
+
+  # Calculate VIP scores
+  # VIP = sqrt(p * sum(w^2 * expl_var) / sum(expl_var))
+  # where w are weights, p is number of variables, expl_var is explained variance
+  w <- plsr_model_3e$loading.weights[, 1, drop = TRUE]
+  expl_var <- plsr_model_3e$Xvar[1]
+  vip_scores <- sqrt(length(loadings_3e) * cumsum(w^2 * expl_var) / sum(expl_var))
+
+  # Verify variance explained
+  var_explained_plsr <- round(100 * plsr_model_3e$Xvar[1] / sum(plsr_model_3e$Xvar), 2)
+  cat("  PC1 explains: ", var_explained_plsr, "% of variance\n", sep="")
+
+  # Create dataframe for plotting
+  fig3e_data <- data.frame(
+    Variable = names(loadings_3e),
+    Loading = as.numeric(loadings_3e),
+    VIP = as.numeric(vip_scores),
+    stringsAsFactors = FALSE
+  )
+
+  # Sort by absolute loading and get top 10
+  fig3e_data <- fig3e_data[order(abs(fig3e_data$Loading), decreasing = TRUE), ]
+  fig3e_data <- head(fig3e_data, 10)
+  fig3e_data <- fig3e_data[order(fig3e_data$Loading), ]  # Sort for visualization
+  fig3e_data$Variable <- factor(fig3e_data$Variable, levels = fig3e_data$Variable)
+
+  # Normalize VIP for color scaling (0-1)
+  fig3e_data$VIP_normalized <- (fig3e_data$VIP - min(fig3e_data$VIP)) /
+                               (max(fig3e_data$VIP) - min(fig3e_data$VIP))
+
+  # Create bar plot
+  fig3e <- ggplot(fig3e_data, aes(x = Variable, y = Loading, fill = VIP)) +
+    geom_col(color = "black", linewidth = 0.3, alpha = 0.85) +
+    scale_fill_gradient(low = "#FEE5D9", high = "#A1D99B",
+                       name = "VIP Score",
+                       limits = c(min(fig3e_data$VIP), max(fig3e_data$VIP))) +
+    coord_flip() +
+    labs(
+      title = "Figure 3E: Top 10 Demographic Factors Predicting Plant-to-Animal Ratio",
+      subtitle = paste0("PLSR Component 1 (Plant-to-Animal Ratio) explains ", var_explained_plsr, "% of variance"),
+      x = "Demographic Variable",
+      y = "PLS Loading (Component 1)",
+      fill = "VIP Score"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 14, face = "bold"),
+      plot.subtitle = element_text(size = 11),
+      axis.text.y = element_text(size = 10),
+      axis.title = element_text(size = 11),
+      legend.position = "right"
+    )
+
+  ggsave(paste0(output_path, "Figure_3E_demographic_PAR_PLSR.png"), fig3e, width = 10, height = 7, dpi = 300)
+  cat("✓ Figure 3E saved\n\n")
+
+  # Print summary
+  cat("  Top 10 demographic factors:\n")
+  for (i in 1:nrow(fig3e_data)) {
+    cat("    ", i, ". ", fig3e_data$Variable[i],
+        " (Loading: ", round(fig3e_data$Loading[i], 4),
+        ", VIP: ", round(fig3e_data$VIP[i], 4), ")\n", sep="")
+  }
+} else {
+  cat("Warning: Insufficient data for PLSR analysis\n")
+}
 
 ###############################################################################
 # 13. FIGURE 4: PLANT FOOD SIGNALS
