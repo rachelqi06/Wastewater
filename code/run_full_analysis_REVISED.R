@@ -1157,9 +1157,14 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
       legend.position = "right"
     )
 
+  fig3e_path <- paste0(output_path, "Figure_3E_demographic_PAR_PLSR.png")
+  cat("  Saving Figure 3E to: ", fig3e_path, "\n", sep="")
+  cat("  Output path exists: ", dir.exists(output_path), "\n", sep="")
+
   tryCatch({
-    ggsave(paste0(output_path, "Figure_3E_demographic_PAR_PLSR.png"), fig3e, width = 10, height = 7, dpi = 300)
-    cat("✓ Figure 3E saved\n\n")
+    ggsave(fig3e_path, fig3e, width = 10, height = 7, dpi = 300)
+    cat("✓ Figure 3E saved\n")
+    cat("  File exists after save: ", file.exists(fig3e_path), "\n\n", sep="")
   }, error = function(e) {
     cat("ERROR saving Figure 3E: ", e$message, "\n\n", sep="")
   })
