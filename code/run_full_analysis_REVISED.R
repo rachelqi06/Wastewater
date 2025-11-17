@@ -1096,6 +1096,8 @@ plsr_data_3e <- cbind(PAR = par_3e_clean, demo_data_3e)
 
 if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
   cat("  PLSR data: ", nrow(plsr_data_3e), " samples x ", ncol(plsr_data_3e)-1, " demographic variables\n", sep="")
+  cat("  Available variables used:\n")
+  cat("  ", paste(available_demographics, collapse=", "), "\n", sep="")
   cat("  PAR range: ", round(min(par_3e_clean, na.rm=T), 4), " to ", round(max(par_3e_clean, na.rm=T), 4), "\n", sep="")
 
   # Perform PLSR with multiple components to get realistic variance explained
@@ -1158,8 +1160,13 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
   ggsave(paste0(output_path, "Figure_3E_demographic_PAR_PLSR.png"), fig3e, width = 10, height = 7, dpi = 300)
   cat("✓ Figure 3E saved\n\n")
 
-  # Print summary
-  cat("  Top 10 demographic factors:\n")
+  # Print summary with raw loadings from model
+  cat("  Raw PC1 loadings from PLSR model:\n")
+  for (i in 1:length(loadings_3e)) {
+    cat("    ", names(loadings_3e)[i], ": ", round(loadings_3e[i], 4), "\n", sep="")
+  }
+
+  cat("\n  Top 10 demographic factors (negated):\n")
   for (i in 1:nrow(fig3e_data)) {
     cat("    ", i, ". ", fig3e_data$Variable[i],
         " (Loading: ", round(fig3e_data$Loading[i], 4),
