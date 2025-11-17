@@ -9,6 +9,14 @@
 
 set.seed(001)
 
+# Disable interactive debugging and browser mode for non-interactive execution
+options(error = function() { q("no") })  # Exit on error without prompt
+options(warn = 1)  # Print warnings as they occur (non-interactive)
+options(digits = 7)
+if (!interactive()) {
+  options(browser = function(x, ...) invisible(NULL))
+}
+
 ###############################################################################
 # 1. LOAD REQUIRED PACKAGES
 ###############################################################################
@@ -359,9 +367,18 @@ plant_summary <- data.frame(
 )
 
 # Calculate correlation
-corr_test <- cor.test(plant_summary$Stool_CLR, plant_summary$Wastewater_CLR, method = "spearman")
+suppressWarnings({
+  corr_test <- cor.test(plant_summary$Stool_CLR, plant_summary$Wastewater_CLR, method = "spearman")
+})
 corr_rho <- corr_test$estimate
 corr_pval <- corr_test$p.value
+
+# Format p-value string
+if (corr_pval < 0.0001) {
+  pval_str <- "< 0.0001"
+} else {
+  pval_str <- paste("=", round(corr_pval, 4))
+}
 
 # Create scatter plot with labels
 fig1b <- ggplot(plant_summary, aes(x = Stool_CLR, y = Wastewater_CLR)) +
@@ -373,8 +390,7 @@ fig1b <- ggplot(plant_summary, aes(x = Stool_CLR, y = Wastewater_CLR)) +
     x = "CLR Abundance in Stool (n=14 individuals)",
     y = "CLR Abundance in Wastewater (n=2 samples)",
     subtitle = paste0("Durham, June 2021 | Spearman ρ = ",
-                     round(corr_rho, 2), " (p ",
-                     if(corr_pval < 0.0001) "< 0.0001" else paste("=", round(corr_pval, 4)), ")")
+                     round(corr_rho, 2), " (p ", pval_str, ")")
   ) +
   theme_minimal() +
   theme(
