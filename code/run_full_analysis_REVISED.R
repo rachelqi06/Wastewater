@@ -1072,11 +1072,11 @@ phylum_data_3e_comp <- sweep(phylum_data_3e, 1, rowSums(phylum_data_3e), "/")
 colnames_phylum <- as.character(tax_table(tax_glom(NCWW_2021, taxrank = "phylum"))[, "phylum"])
 colnames(phylum_data_3e_comp) <- colnames_phylum
 
-# Calculate inverse PAR (Animal-to-Plant Ratio) so higher values = more plant consumption
-# This makes the interpretation more intuitive: high density areas eat more animal (lower PAR)
+# Calculate PAR (Plant-to-Animal Ratio)
+# Higher values = more plant consumption
 par_3e <- rep(NA, nrow(phylum_data_3e_comp))
 if ("Streptophyta" %in% colnames(phylum_data_3e_comp) && "Chordata" %in% colnames(phylum_data_3e_comp)) {
-  par_3e <- phylum_data_3e_comp[, "Chordata"] / phylum_data_3e_comp[, "Streptophyta"]
+  par_3e <- phylum_data_3e_comp[, "Streptophyta"] / phylum_data_3e_comp[, "Chordata"]
 }
 
 # Select the specific top 10 demographic variables for PLSR (in order)
@@ -1121,10 +1121,10 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
   var_explained_plsr <- 38
   cat("  PC1 explains: ", var_explained_plsr, "% of variance\n", sep="")
 
-  # Create dataframe for plotting using actual PLSR loadings (negate for intuitive interpretation)
+  # Create dataframe for plotting using actual PLSR loadings
   fig3e_data <- data.frame(
     Variable = names(loadings_3e),
-    Loading = -as.numeric(loadings_3e),
+    Loading = as.numeric(loadings_3e),
     VIP = as.numeric(vip_scores),
     stringsAsFactors = FALSE
   )
@@ -1183,6 +1183,126 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
     cat("    ", i, ". ", fig3e_data$Variable[i],
         " (Loading: ", round(fig3e_data$Loading[i], 4),
         ", VIP: ", round(fig3e_data$VIP[i], 4), ")\n", sep="")
+  }
+} else {
+  cat("Warning: Insufficient data for PLSR analysis\n")
+}
+
+###############################################################################
+# Figure 3F: Demographic factors predicting Species Richness by PLSR
+###############################################################################
+
+cat("Creating Figure 3F: Demographic factors predicting Species Richness by PLSR...\n")
+
+# Use 2021 spatial dataset (most complete demographic coverage)
+metadata_3f <- data.frame(sample_data(NCWW_2021))
+otu_data_3f <- as.data.frame(otu_table(NCWW_2021))
+
+# Calculate species richness (number of species with abundance > 0)
+richness_3f <- colSums(otu_data_3f > 0)
+
+# Select the specific demographic variables for Figure 3F (species richness PLSR)
+demographic_vars <- c("Bachelor_percent", "Foreign_born_percent", "Asian_percent",
+                      "Capacity_mgd", "Per_capita_income_k", "PopulationServedK",
+                      "Population_density", "DrunkDrivingDeaths_percent", "DistancetoCoast",
+                      "FoodInsecure_rate")
+
+# Keep only available variables
+available_demographics <- intersect(demographic_vars, colnames(metadata_3f))
+demo_data_3f <- metadata_3f[, available_demographics, drop = FALSE]
+
+# Remove rows with missing data
+complete_rows <- complete.cases(demo_data_3f) & !is.na(richness_3f)
+demo_data_3f <- demo_data_3f[complete_rows, ]
+richness_3f_clean <- richness_3f[complete_rows]
+
+# Prepare PLSR data
+plsr_data_3f <- cbind(Richness = richness_3f_clean, demo_data_3f)
+
+if (nrow(plsr_data_3f) > 5 && ncol(plsr_data_3f) > 2) {
+  cat("  PLSR data: ", nrow(plsr_data_3f), " samples x ", ncol(plsr_data_3f)-1, " demographic variables\n", sep="")
+  cat("  Available variables used:\n")
+  cat("  ", paste(available_demographics, collapse=", "), "\n", sep="")
+  cat("  Species richness range: ", round(min(richness_3f_clean, na.rm=T), 4), " to ", round(max(richness_3f_clean, na.rm=T), 4), "\n", sep="")
+
+  # Perform PLSR with multiple components
+  plsr_model_3f <- plsr(Richness ~ ., data = plsr_data_3f, scale = TRUE, ncomp = min(5, ncol(plsr_data_3f)-1), na.action = na.omit)
+
+  # Extract loadings for first component
+  loadings_3f <- plsr_model_3f$loadings[, 1, drop = TRUE]
+
+  # Calculate VIP scores
+  w <- plsr_model_3f$loading.weights[, 1, drop = TRUE]
+  expl_var_per_comp <- plsr_model_3f$Xvar
+  total_expl_var <- sum(expl_var_per_comp)
+  vip_scores_3f <- sqrt(length(loadings_3f) * (w^2 * expl_var_per_comp[1]) / total_expl_var)
+
+  # Get variance explained by PC1
+  var_explained_plsr_3f <- round(plsr_model_3f$Xvar[1] / sum(plsr_model_3f$Xvar) * 100, 1)
+  cat("  PC1 explains: ", var_explained_plsr_3f, "% of variance\n", sep="")
+
+  # Create dataframe for plotting using actual PLSR loadings
+  fig3f_data <- data.frame(
+    Variable = names(loadings_3f),
+    Loading = as.numeric(loadings_3f),
+    VIP = as.numeric(vip_scores_3f),
+    stringsAsFactors = FALSE
+  )
+
+  # Sort by loading for visualization (most negative to most positive)
+  fig3f_data <- fig3f_data[order(fig3f_data$Loading), ]
+  fig3f_data$Variable <- factor(fig3f_data$Variable, levels = fig3f_data$Variable)
+
+  # Normalize VIP for color scaling (0-1)
+  fig3f_data$VIP_normalized <- (fig3f_data$VIP - min(fig3f_data$VIP)) /
+                               (max(fig3f_data$VIP) - min(fig3f_data$VIP))
+
+  # Create bar plot
+  fig3f <- ggplot(fig3f_data, aes(x = Variable, y = Loading, fill = VIP)) +
+    geom_col(color = "black", linewidth = 0.3, alpha = 0.85) +
+    scale_fill_gradient(low = "#FEE5D9", high = "#A1D99B",
+                       name = "VIP Score",
+                       limits = c(min(fig3f_data$VIP), max(fig3f_data$VIP))) +
+    coord_flip() +
+    labs(
+      title = "Figure 3F: Top 10 Demographic Factors Predicting Species Richness",
+      subtitle = paste0("PLSR Component 1 explains ", var_explained_plsr_3f, "% of variance"),
+      x = "Demographic Variable",
+      y = "PLS Loading (Component 1)",
+      fill = "VIP Score"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 14, face = "bold"),
+      plot.subtitle = element_text(size = 11),
+      axis.text.y = element_text(size = 10),
+      axis.title = element_text(size = 11),
+      legend.position = "right"
+    )
+
+  fig3f_path <- paste0(output_path, "Figure_3F_demographic_richness_PLSR.png")
+  cat("  Saving Figure 3F to: ", fig3f_path, "\n", sep="")
+  cat("  Output path exists: ", dir.exists(output_path), "\n", sep="")
+
+  tryCatch({
+    ggsave(fig3f_path, fig3f, width = 10, height = 7, dpi = 300)
+    cat("✓ Figure 3F saved\n")
+    cat("  File exists after save: ", file.exists(fig3f_path), "\n\n", sep="")
+  }, error = function(e) {
+    cat("ERROR saving Figure 3F: ", e$message, "\n\n", sep="")
+  })
+
+  # Print summary with raw loadings from model
+  cat("  Raw PC1 loadings from PLSR model:\n")
+  for (i in 1:length(loadings_3f)) {
+    cat("    ", names(loadings_3f)[i], ": ", round(loadings_3f[i], 4), "\n", sep="")
+  }
+
+  cat("\n  Top 10 demographic factors predicting species richness:\n")
+  for (i in 1:nrow(fig3f_data)) {
+    cat("    ", i, ". ", fig3f_data$Variable[i],
+        " (Loading: ", round(fig3f_data$Loading[i], 4),
+        ", VIP: ", round(fig3f_data$VIP[i], 4), ")\n", sep="")
   }
 } else {
   cat("Warning: Insufficient data for PLSR analysis\n")
