@@ -1604,34 +1604,101 @@ fig5d <- ggplot(fish_metadata, aes(x = DistancetoCoast, y = PC1, color = Coast_I
 ggsave(paste0(output_path, "Figure_5D_distance_correlation.png"), fig5d, width = 10, height = 6, dpi = 300)
 cat("✓ Figure 5D saved\n")
 
-# Figure 5E: Fish PC1 colored by Coast/Inland location
-cat("Creating Figure 5E: Fish PC1 vs distance to coast...\n")
+# Figure 5E: Demographic predictors of fish consumption patterns by PLSR
+###############################################################################
+cat("Creating Figure 5E: Demographic factors predicting fish consumption patterns by PLSR...\n")
 
+# Get fish metadata and OTU data
 fish_metadata_5e <- data.frame(sample_data(NCWW_2021_fish_clr))
-fish_pca_data <- data.frame(PC1 = pca_result_fish$x[,1],
-                             PC2 = pca_result_fish$x[,2],
-                             Coast_Inland = fish_metadata_5e$Coast_Inland,
-                             DistancetoCoast = fish_metadata_5e$DistancetoCoast)
+otu_data_fish_5e <- as.data.frame(otu_table(NCWW_2021_fish_clr))
 
-fig5e <- ggplot(fish_pca_data, aes(x = DistancetoCoast, y = PC1, color = Coast_Inland)) +
-  geom_point(size = 3, alpha = 0.7) +
-  geom_smooth(method = "loess", se = TRUE, color = "black", alpha = 0.2) +
-  scale_color_manual(values = c("Coastal_Urban" = "#0072B2", "Inland_Urban" = "#D55E00")) +
-  labs(
-    title = "Figure 5E: Fish PC1 vs Distance to Coast",
-    x = "Distance to Coast (km)",
-    y = "PC1 Score",
-    color = "Location Type",
-    subtitle = "Geographic gradient in fish species composition"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    legend.position = "right"
+# Select demographic variables for Figure 5E (fish consumption PLSR)
+demographic_vars_5e <- c("Bachelor_percent", "Foreign_born_percent", "Asian_percent",
+                         "Capacity_mgd", "Per_capita_income_k", "PopulationServedK",
+                         "Population_density", "DrunkDrivingDeaths_percent", "DistancetoCoast",
+                         "FoodInsecure_rate")
+
+# Keep only available variables
+available_demographics_5e <- intersect(demographic_vars_5e, colnames(fish_metadata_5e))
+demo_data_5e <- fish_metadata_5e[, available_demographics_5e, drop = FALSE]
+
+# Remove rows with missing data
+complete_rows_5e <- complete.cases(demo_data_5e)
+demo_data_5e_clean <- demo_data_5e[complete_rows_5e, ]
+otu_data_fish_5e_clean <- otu_data_fish_5e[complete_rows_5e, ]
+
+# Prepare PLSR data
+plsr_data_5e <- cbind(demo_data_5e_clean, otu_data_fish_5e_clean)
+
+if (nrow(plsr_data_5e) > 5 && ncol(demo_data_5e_clean) > 1) {
+  cat("  PLSR data: ", nrow(plsr_data_5e), " samples x ", ncol(demo_data_5e_clean), " demographic predictors\n", sep="")
+  cat("  Demographic predictors used:\n")
+  cat("  ", paste(available_demographics_5e, collapse=", "), "\n", sep="")
+
+  # Perform PLSR with centered and scaled demographic factors
+  # Model selects optimal components by minimizing PRESS value
+  plsr_model_5e <- plsr(as.matrix(otu_data_fish_5e_clean) ~ .,
+                        data = plsr_data_5e,
+                        scale = TRUE,
+                        ncomp = min(5, ncol(demo_data_5e_clean)),
+                        na.action = na.omit,
+                        validation = "CV")
+
+  # Extract X-loadings (demographic loadings) for first component
+  # For multivariate response, use X-loadings which show demographic contributions
+  loadings_5e <- plsr_model_5e$loadings[available_demographics_5e, 1, drop = TRUE]
+
+  # Calculate VIP scores for demographic variables
+  w_5e <- plsr_model_5e$loading.weights[available_demographics_5e, 1, drop = TRUE]
+  expl_var_per_comp_5e <- plsr_model_5e$Xvar
+  total_expl_var_5e <- sum(expl_var_per_comp_5e)
+  vip_scores_5e <- sqrt(length(loadings_5e) * (w_5e^2 * expl_var_per_comp_5e[1]) / total_expl_var_5e)
+
+  # Get variance explained by PC1 (use X variance - demographic predictor variance)
+  var_explained_plsr_5e <- round(plsr_model_5e$Xvar[1] / sum(plsr_model_5e$Xvar) * 100, 1)
+  cat("  PC1 explains: ", var_explained_plsr_5e, "% of variance\n", sep="")
+
+  # Create dataframe for plotting
+  fig5e_data <- data.frame(
+    Variable = names(loadings_5e),
+    Loading = as.numeric(loadings_5e),
+    VIP = as.numeric(vip_scores_5e),
+    stringsAsFactors = FALSE
   )
 
-ggsave(paste0(output_path, "Figure_5E_fish_distance_gradient.png"), fig5e, width = 10, height = 6, dpi = 300)
-cat("✓ Figure 5E saved\n\n")
+  # Sort by loading for visualization
+  fig5e_data <- fig5e_data[order(fig5e_data$Loading), ]
+  fig5e_data$Variable <- factor(fig5e_data$Variable, levels = fig5e_data$Variable)
+
+  # Create bar plot with VIP scores as text labels
+  fig5e <- ggplot(fig5e_data, aes(x = Variable, y = Loading, fill = Loading > 0)) +
+    geom_col(color = "black", linewidth = 0.3, alpha = 0.85) +
+    scale_fill_manual(values = c("TRUE" = "#1f77b4", "FALSE" = "#ff7f0e"), guide = "none") +
+    geom_text(aes(label = round(VIP, 2)),
+              hjust = ifelse(fig5e_data$Loading > 0, -0.1, 1.1),
+              size = 3.5, fontface = "bold") +
+    coord_flip() +
+    labs(
+      title = "Figure 5E: Demographic Predictors of Fish Consumption Patterns",
+      subtitle = paste0("PLSR Component 1 explains [", var_explained_plsr_5e, "%] of variance"),
+      x = "Demographic Variable",
+      y = "PLS Loading (Component 1)",
+      caption = "VIP scores labeled on bars | PLSR model uses centered and scaled demographic values"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 14, face = "bold"),
+      plot.subtitle = element_text(size = 11),
+      axis.text.y = element_text(size = 10),
+      axis.title = element_text(size = 11),
+      plot.caption = element_text(size = 9, hjust = 0)
+    )
+
+  ggsave(paste0(output_path, "Figure_5E_demographic_fish_PLSR.png"), fig5e, width = 10, height = 6, dpi = 300)
+  cat("✓ Figure 5E saved\n\n")
+} else {
+  cat("  Not enough data for Figure 5E PLSR model\n\n")
+}
 
 ###############################################################################
 # 15. FINAL SUMMARY
