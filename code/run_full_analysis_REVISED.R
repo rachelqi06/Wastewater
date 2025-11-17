@@ -1484,30 +1484,52 @@ if (!is.null(tax_table(NCWW_2021_plant_clr))) {
   tax_tab_4b <- tax_table(NCWW_2021_plant_clr)
   tax_cols <- colnames(tax_tab_4b)
 
-  # Look for a "Local" or "Origin" column
-  if ("Local" %in% tax_cols) {
-    local_status <- as.character(tax_tab_4b[, "Local"])
-  } else if ("Origin" %in% tax_cols) {
-    local_status <- as.character(tax_tab_4b[, "Origin"])
-  } else if ("local_status" %in% tax_cols) {
-    local_status <- as.character(tax_tab_4b[, "local_status"])
+  cat("  Tax table columns: ", paste(tax_cols, collapse=", "), "\n", sep="")
+
+  # Look for a "Local" or "Origin" column (case-insensitive)
+  local_col <- tax_cols[tolower(tax_cols) %in% c("local", "origin", "local_status", "locallygrownstatus")]
+
+  if (length(local_col) > 0) {
+    cat("  Found local status column: ", local_col, "\n", sep="")
+    local_status <- as.character(tax_tab_4b[, local_col])
   }
 }
 
-# If no local status column exists, create one based on common knowledge
+# If no local status column exists, check other columns or create classification
 if (is.null(local_status)) {
-  cat("  No 'Local' column found in taxonomy - creating based on plant origin...\n")
+  cat("  No 'Local' column found in taxonomy\n")
 
-  # Get common names
-  common_names <- as.character(tax_tab_4b[, ncol(tax_tab_4b)])
+  # Try checking "BigGroup" or "FoodGroup" or "Tissue" for clues
+  if ("BigGroup" %in% tax_cols) {
+    cat("  BigGroup values:", paste(unique(as.character(tax_tab_4b[, "BigGroup"])), collapse=", "), "\n")
+  }
+  if ("FoodGroup" %in% tax_cols) {
+    cat("  FoodGroup values:", paste(unique(as.character(tax_tab_4b[, "FoodGroup"])), collapse=", "), "\n")
+  }
+  if ("Tissue" %in% tax_cols) {
+    cat("  Tissue values:", paste(unique(as.character(tax_tab_4b[, "Tissue"])), collapse=", "), "\n")
+  }
 
-  # Plants typically grown in NC (locally grown)
+  # Get common names and BigGroup
+  common_names <- as.character(tax_tab_4b[, "CommonName"])
+  big_groups <- as.character(tax_tab_4b[, "BigGroup"])
+
+  # Classify based on BigGroup: B_Grains and C_Legume are major NC crops
+  # Plus specific vegetables known to be grown locally
   local_plants <- c("Corn", "Tobacco", "Soybeans", "Wheat", "Barley", "Peanuts",
                     "Sweet potato", "Cabbage", "Lettuce", "Spinach", "Kale", "Tomato",
                     "Cucumber", "Squash", "Beans", "Peas", "Carrot", "Potato", "Onion",
-                    "Peach", "Blueberry", "Strawberry", "Apple", "Pear")
+                    "Peach", "Blueberry", "Strawberry", "Apple", "Pear", "Okra", "Collard",
+                    "Turnip", "Radish", "Kohlrabi", "Broccoli", "Cauliflower", "Sesame", "Rape",
+                    "Oat", "Rye", "Sorghum", "Flax", "Sunflower")
 
-  local_status <- ifelse(common_names %in% local_plants, "Locally Grown", "Non-Local")
+  # Classify: locally grown if in list OR in B_Grains or C_Legume BigGroups
+  local_status <- ifelse(
+    (common_names %in% local_plants) | (big_groups %in% c("B_Grains", "C_Legume")),
+    "Locally Grown",
+    "Non-Local"
+  )
+  cat("  Classified ", sum(local_status == "Locally Grown"), " as Locally Grown, ", sum(local_status == "Non-Local"), " as Non-Local\n")
 }
 
 # Create contingency table: which taxa are abundant in high vs low income areas?
