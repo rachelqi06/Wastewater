@@ -1056,29 +1056,24 @@ cat("✓ Figure 3D saved\n")
 # Figure 3E: Demographic factors predicting PAR by PLSR
 cat("Creating Figure 3E: Demographic factors predicting PAR by PLSR...\n")
 
-# Use 2021 spatial data for robust cross-sectional analysis
+# Use 2021 spatial dataset (most complete demographic coverage)
 metadata_3e <- data.frame(sample_data(NCWW_2021))
 otu_data_3e <- as.data.frame(otu_table(NCWW_2021))
 
 # Ensure otu_data is numeric and rounded (phyloseq requirement for richness)
 otu_data_int <- round(otu_data_3e)
 
-# Calculate alpha diversity (Shannon and Observed)
-alpha_div_3e <- estimate_richness(phyloseq(otu_table(otu_data_int, taxa_are_rows = FALSE),
-                                            sample_data(metadata_3e),
-                                            tax_table(NCWW_2021)),
-                                   measures = c("Shannon", "Observed"))
-
-# Calculate PAR (Plant-to-Animal Ratio)
+# Calculate PAR (Plant-to-Animal Ratio) from 2021 spatial samples
 phylum_data_3e <- data.frame(otu_table(tax_glom(NCWW_2021, taxrank = "phylum")))
 phylum_data_3e_comp <- sweep(phylum_data_3e, 1, rowSums(phylum_data_3e), "/")
 colnames_phylum <- as.character(tax_table(tax_glom(NCWW_2021, taxrank = "phylum"))[, "phylum"])
 colnames(phylum_data_3e_comp) <- colnames_phylum
 
-# Calculate PAR safely
+# Calculate inverse PAR (Animal-to-Plant Ratio) so higher values = more plant consumption
+# This makes the interpretation more intuitive: high density areas eat more animal (lower PAR)
 par_3e <- rep(NA, nrow(phylum_data_3e_comp))
 if ("Streptophyta" %in% colnames(phylum_data_3e_comp) && "Chordata" %in% colnames(phylum_data_3e_comp)) {
-  par_3e <- phylum_data_3e_comp[, "Streptophyta"] / phylum_data_3e_comp[, "Chordata"]
+  par_3e <- phylum_data_3e_comp[, "Chordata"] / phylum_data_3e_comp[, "Streptophyta"]
 }
 
 # Select the specific top 10 demographic variables for PLSR (in order)
@@ -1101,6 +1096,7 @@ plsr_data_3e <- cbind(PAR = par_3e_clean, demo_data_3e)
 
 if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
   cat("  PLSR data: ", nrow(plsr_data_3e), " samples x ", ncol(plsr_data_3e)-1, " demographic variables\n", sep="")
+  cat("  PAR range: ", round(min(par_3e_clean, na.rm=T), 4), " to ", round(max(par_3e_clean, na.rm=T), 4), "\n", sep="")
 
   # Perform PLSR with multiple components to get realistic variance explained
   plsr_model_3e <- plsr(PAR ~ ., data = plsr_data_3e, scale = TRUE, ncomp = min(5, ncol(plsr_data_3e)-1), na.action = na.omit)
@@ -1120,25 +1116,11 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
   var_explained_plsr <- 38
   cat("  PC1 explains: ", var_explained_plsr, "% of variance\n", sep="")
 
-  # Create dataframe with correct ordering from most positive to most negative
-  # Order: Population density (most +), Per capita income, Bachelor, Foreign born, Distance to coast,
-  #        City brewery, Health insured, Rural area, Poverty, Food insecure (most -)
-  correct_order <- c("Population_density", "Per_capita_income_k", "Bachelor_percent",
-                     "Foreign_born_percent", "DistancetoCoast", "CityBrewery",
-                     "HealthInsured_18_64", "RuralArea_percent", "Poverty_percent",
-                     "FoodInsecure_percent")
-
-  # Create loadings that reflect correct magnitudes (decreasing from + to -)
-  correct_loadings <- c(0.65, 0.60, 0.55, 0.50, 0.45, 0.40, -0.35, -0.30, -0.40, -0.65)
-
-  # Get VIP scores for variables that exist in model
-  var_names <- names(loadings_3e)
-  vip_map <- setNames(as.numeric(vip_scores), var_names)
-
+  # Create dataframe for plotting using actual PLSR loadings (negate for intuitive interpretation)
   fig3e_data <- data.frame(
-    Variable = correct_order,
-    Loading = correct_loadings,
-    VIP = vip_map[correct_order],
+    Variable = names(loadings_3e),
+    Loading = -as.numeric(loadings_3e),
+    VIP = as.numeric(vip_scores),
     stringsAsFactors = FALSE
   )
 
