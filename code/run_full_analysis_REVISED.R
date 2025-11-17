@@ -1157,8 +1157,12 @@ if (nrow(plsr_data_3e) > 5 && ncol(plsr_data_3e) > 2) {
       legend.position = "right"
     )
 
-  ggsave(paste0(output_path, "Figure_3E_demographic_PAR_PLSR.png"), fig3e, width = 10, height = 7, dpi = 300)
-  cat("✓ Figure 3E saved\n\n")
+  tryCatch({
+    ggsave(paste0(output_path, "Figure_3E_demographic_PAR_PLSR.png"), fig3e, width = 10, height = 7, dpi = 300)
+    cat("✓ Figure 3E saved\n\n")
+  }, error = function(e) {
+    cat("ERROR saving Figure 3E: ", e$message, "\n\n", sep="")
+  })
 
   # Print summary with raw loadings from model
   cat("  Raw PC1 loadings from PLSR model:\n")
