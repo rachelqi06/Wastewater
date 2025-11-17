@@ -1477,6 +1477,14 @@ fish_metadata <- data.frame(sample_data(ps_fish_2021))
 pca_scores_fish <- data.frame(PC1 = pca_result_fish$x[,1], PC2 = pca_result_fish$x[,2])
 fish_metadata <- cbind(fish_metadata, pca_scores_fish)
 
+# Debug: Check DistancetoCoast range
+cat("Fish metadata - DistancetoCoast (km) range:\n")
+cat("  Min:", min(fish_metadata$DistancetoCoast, na.rm=TRUE), "km\n")
+cat("  Max:", max(fish_metadata$DistancetoCoast, na.rm=TRUE), "km\n")
+cat("Fish metadata - DistancetoCoast (miles) range:\n")
+cat("  Min:", min(fish_metadata$DistancetoCoast, na.rm=TRUE) * 0.621371, "miles\n")
+cat("  Max:", max(fish_metadata$DistancetoCoast, na.rm=TRUE) * 0.621371, "miles\n")
+
 var_explained_fish <- pca_result_fish$sdev^2 / sum(pca_result_fish$sdev^2) * 100
 
 # Figure 5A: Fish PCA biplot with arrows for top taxa
@@ -1575,11 +1583,10 @@ ggsave(paste0(output_path, "Figure_5C_fish_PC2_loadings.png"), fig5c, width = 10
 cat("✓ Figure 5C saved\n")
 
 # Figure 5D: Distance to Coast correlation
-fig5d <- ggplot(fish_metadata, aes(x = DistancetoCoast * 0.621371, y = PC1, color = Coast_Inland)) +
+fig5d <- ggplot(fish_metadata, aes(x = DistancetoCoast, y = PC1, color = Coast_Inland)) +
   geom_point(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE, color = "black", alpha = 0.3) +
   scale_color_manual(values = c("Coastal_Urban" = "#0072B2", "Inland_Urban" = "#D55E00")) +
-  scale_x_continuous(limits = c(0, 200)) +
   scale_y_continuous(limits = c(-6, NA)) +
   labs(
     title = "Figure 5D: Fish PC1 vs Distance to Coast",
