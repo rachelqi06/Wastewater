@@ -1309,7 +1309,110 @@ if (nrow(plsr_data_3f) > 5 && ncol(plsr_data_3f) > 2) {
 }
 
 ###############################################################################
-# 13. FIGURE 4: PLANT FOOD SIGNALS
+# Figure 4A: Top 20 Plant Taxa Predicting Per Capita Income by PLSR
+###############################################################################
+
+cat("Creating Figure 4A: Top 20 Plant Taxa Predicting Per Capita Income by PLSR...\n")
+
+# Use plant taxa data and per capita income as response
+metadata_4a <- data.frame(sample_data(NCWW_2021_plant_clr))
+otu_data_4a <- as.data.frame(otu_table(NCWW_2021_plant_clr))
+
+# Get per capita income
+income_4a <- metadata_4a$Per_capita_income_k
+
+# Remove rows with missing income data
+complete_rows_4a <- !is.na(income_4a)
+otu_data_4a_clean <- otu_data_4a[complete_rows_4a, ]
+income_4a_clean <- income_4a[complete_rows_4a]
+
+# Prepare PLSR data
+plsr_data_4a <- cbind(Income = income_4a_clean, otu_data_4a_clean)
+
+if (nrow(plsr_data_4a) > 5 && ncol(plsr_data_4a) > 2) {
+  cat("  PLSR data: ", nrow(plsr_data_4a), " samples x ", ncol(plsr_data_4a)-1, " plant taxa\n", sep="")
+  cat("  Per capita income range: $", round(min(income_4a_clean, na.rm=T), 1), "k to $", round(max(income_4a_clean, na.rm=T), 1), "k\n", sep="")
+
+  # Perform PLSR with multiple components
+  plsr_model_4a <- plsr(Income ~ ., data = plsr_data_4a, scale = TRUE, ncomp = min(5, ncol(plsr_data_4a)-1), na.action = na.omit)
+
+  # Extract loadings for first component
+  loadings_4a <- plsr_model_4a$loadings[, 1, drop = TRUE]
+
+  # Calculate VIP scores
+  w <- plsr_model_4a$loading.weights[, 1, drop = TRUE]
+  expl_var_per_comp <- plsr_model_4a$Xvar
+  total_expl_var <- sum(expl_var_per_comp)
+  vip_scores_4a <- sqrt(length(loadings_4a) * (w^2 * expl_var_per_comp[1]) / total_expl_var)
+
+  # Get variance explained by PC1
+  var_explained_plsr_4a <- round(plsr_model_4a$Xvar[1] / sum(plsr_model_4a$Xvar) * 100, 1)
+  cat("  PC1 explains: ", var_explained_plsr_4a, "% of variance\n", sep="")
+
+  # Get taxon names from column names (columns are taxa in OTU table)
+  taxa_names_4a <- colnames(otu_data_4a_clean)
+
+  # Create dataframe for all taxa
+  fig4a_data_all <- data.frame(
+    Taxon = taxa_names_4a,
+    Loading = as.numeric(loadings_4a),
+    VIP = as.numeric(vip_scores_4a),
+    stringsAsFactors = FALSE
+  )
+
+  # Sort by absolute loading and get top 20
+  fig4a_data_all$AbsLoading <- abs(fig4a_data_all$Loading)
+  fig4a_data <- fig4a_data_all[order(-fig4a_data_all$AbsLoading), ][1:20, ]
+  fig4a_data <- fig4a_data[order(fig4a_data$Loading), ]
+  fig4a_data$Taxon <- factor(fig4a_data$Taxon, levels = fig4a_data$Taxon)
+
+  # Create bar plot
+  fig4a <- ggplot(fig4a_data, aes(x = Taxon, y = Loading, fill = VIP)) +
+    geom_col(color = "black", linewidth = 0.3, alpha = 0.85) +
+    scale_fill_gradient(low = "#FEE5D9", high = "#A1D99B",
+                       name = "VIP Score",
+                       limits = c(min(fig4a_data$VIP), max(fig4a_data$VIP))) +
+    coord_flip() +
+    labs(
+      title = "Figure 4A: Top 20 Plant Taxa Predicting Per Capita Income",
+      subtitle = paste0("PLSR Component 1 explains ", var_explained_plsr_4a, "% of variance"),
+      x = "Plant Taxon",
+      y = "PLS Loading (Component 1)",
+      fill = "VIP Score"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 14, face = "bold"),
+      plot.subtitle = element_text(size = 11),
+      axis.text.y = element_text(size = 9),
+      axis.title = element_text(size = 11),
+      legend.position = "right"
+    )
+
+  fig4a_path <- paste0(output_path, "Figure_4A_plant_taxa_income_PLSR.png")
+  cat("  Saving Figure 4A to: ", fig4a_path, "\n", sep="")
+
+  tryCatch({
+    ggsave(fig4a_path, fig4a, width = 10, height = 8, dpi = 300)
+    cat("✓ Figure 4A saved\n")
+  }, error = function(e) {
+    cat("ERROR saving Figure 4A: ", e$message, "\n\n", sep="")
+  })
+
+  # Print summary
+  cat("  Top 20 plant taxa predicting per capita income:\n")
+  for (i in 1:nrow(fig4a_data)) {
+    cat("    ", i, ". ", fig4a_data$Taxon[i],
+        " (Loading: ", round(fig4a_data$Loading[i], 4),
+        ", VIP: ", round(fig4a_data$VIP[i], 4), ")\n", sep="")
+  }
+  cat("\n")
+} else {
+  cat("Warning: Insufficient data for PLSR analysis\n")
+}
+
+###############################################################################
+# 13. FIGURE 4: PLANT FOOD SIGNALS (REVISED - Now Figures 4B-4E)
 ###############################################################################
 
 cat("═══════════════════════════════════════════════════════════════════\n")
@@ -1326,8 +1429,8 @@ plant_metadata <- cbind(plant_metadata, pca_scores_plant)
 
 var_explained_plant <- pca_result_plant$sdev^2 / sum(pca_result_plant$sdev^2) * 100
 
-# Figure 4A: Plant PCA with arrows for top taxa
-cat("Creating Figure 4A: Plant PCA biplot with taxa arrows...\n")
+# Figure 4B: Plant PCA with arrows for top taxa
+cat("Creating Figure 4B: Plant PCA biplot with taxa arrows...\n")
 
 # Get top taxa loadings
 plant_loadings <- pca_result_plant$rotation[, 1:2]
@@ -1341,7 +1444,7 @@ plant_loadings_df <- as.data.frame(plant_loadings[top_taxa_combined, ])
 plant_loadings_df$Taxa <- rownames(plant_loadings_df)
 
 # Plot with arrows
-fig4a <- ggplot(plant_metadata, aes(x = PC1, y = PC2, color = Coast_Inland)) +
+fig4b <- ggplot(plant_metadata, aes(x = PC1, y = PC2, color = Coast_Inland)) +
   geom_point(size = 3, alpha = 0.7) +
   geom_segment(data = plant_loadings_df, aes(x = 0, y = 0, xend = PC1*4, yend = PC2*4),
                arrow = arrow(length = unit(0.2, "cm")), color = "black", alpha = 0.4,
@@ -1350,7 +1453,7 @@ fig4a <- ggplot(plant_metadata, aes(x = PC1, y = PC2, color = Coast_Inland)) +
                   color = "black", size = 2.5, inherit.aes = FALSE) +
   scale_color_manual(values = c("Coastal_Urban" = "#0072B2", "Inland_Urban" = "#D55E00")) +
   labs(
-    title = "Figure 4A: Plant Taxa PCA Biplot",
+    title = "Figure 4B: Plant Taxa PCA Biplot",
     x = paste0("PC1 (", round(var_explained_plant[1], 1), "%)"),
     y = paste0("PC2 (", round(var_explained_plant[2], 1), "%)"),
     color = "Location"
@@ -1361,11 +1464,11 @@ fig4a <- ggplot(plant_metadata, aes(x = PC1, y = PC2, color = Coast_Inland)) +
     legend.position = "right"
   )
 
-ggsave(paste0(output_path, "Figure_4A_plant_PCA_biplot.png"), fig4a, width = 12, height = 8, dpi = 300)
-cat("✓ Figure 4A saved\n")
+ggsave(paste0(output_path, "Figure_4B_plant_PCA_biplot.png"), fig4b, width = 12, height = 8, dpi = 300)
+cat("✓ Figure 4B saved\n")
 
-# Figure 4B: Top plant taxa loadings on PC1 (horizontal bar chart)
-cat("Creating Figure 4B: Plant taxa loadings on PC1...\n")
+# Figure 4C: Top plant taxa loadings on PC1 (horizontal bar chart)
+cat("Creating Figure 4C: Plant taxa loadings on PC1...\n")
 
 plant_loadings_pc1 <- plant_loadings[top_taxa_pc1[1:15], ]
 plant_loadings_pc1_df <- data.frame(
@@ -1375,12 +1478,12 @@ plant_loadings_pc1_df <- data.frame(
 plant_loadings_pc1_df <- plant_loadings_pc1_df[order(plant_loadings_pc1_df$Loading), ]
 plant_loadings_pc1_df$Taxa <- factor(plant_loadings_pc1_df$Taxa, levels = plant_loadings_pc1_df$Taxa)
 
-fig4b <- ggplot(plant_loadings_pc1_df, aes(x = Taxa, y = Loading, fill = Loading > 0)) +
+fig4c <- ggplot(plant_loadings_pc1_df, aes(x = Taxa, y = Loading, fill = Loading > 0)) +
   geom_col() +
   coord_flip() +
   scale_fill_manual(values = c("TRUE" = "#4DAF4A", "FALSE" = "#E41A1C"), guide = "none") +
   labs(
-    title = "Figure 4B: Top Plant Taxa Loadings on PC1",
+    title = "Figure 4C: Top Plant Taxa Loadings on PC1",
     x = "Plant Taxon",
     y = "PC1 Loading"
   ) +
@@ -1390,11 +1493,11 @@ fig4b <- ggplot(plant_loadings_pc1_df, aes(x = Taxa, y = Loading, fill = Loading
     axis.text.y = element_text(size = 9)
   )
 
-ggsave(paste0(output_path, "Figure_4B_plant_PC1_loadings.png"), fig4b, width = 10, height = 6, dpi = 300)
-cat("✓ Figure 4B saved\n")
+ggsave(paste0(output_path, "Figure_4C_plant_PC1_loadings.png"), fig4c, width = 10, height = 6, dpi = 300)
+cat("✓ Figure 4C saved\n")
 
-# Figure 4C: Top plant taxa loadings on PC2
-cat("Creating Figure 4C: Plant taxa loadings on PC2...\n")
+# Figure 4D: Top plant taxa loadings on PC2
+cat("Creating Figure 4D: Plant taxa loadings on PC2...\n")
 
 plant_loadings_pc2 <- plant_loadings[top_taxa_pc2[1:15], ]
 plant_loadings_pc2_df <- data.frame(
@@ -1404,12 +1507,12 @@ plant_loadings_pc2_df <- data.frame(
 plant_loadings_pc2_df <- plant_loadings_pc2_df[order(plant_loadings_pc2_df$Loading), ]
 plant_loadings_pc2_df$Taxa <- factor(plant_loadings_pc2_df$Taxa, levels = plant_loadings_pc2_df$Taxa)
 
-fig4c <- ggplot(plant_loadings_pc2_df, aes(x = Taxa, y = Loading, fill = Loading > 0)) +
+fig4d <- ggplot(plant_loadings_pc2_df, aes(x = Taxa, y = Loading, fill = Loading > 0)) +
   geom_col() +
   coord_flip() +
   scale_fill_manual(values = c("TRUE" = "#4DAF4A", "FALSE" = "#E41A1C"), guide = "none") +
   labs(
-    title = "Figure 4C: Top Plant Taxa Loadings on PC2",
+    title = "Figure 4D: Top Plant Taxa Loadings on PC2",
     x = "Plant Taxon",
     y = "PC2 Loading"
   ) +
@@ -1419,25 +1522,25 @@ fig4c <- ggplot(plant_loadings_pc2_df, aes(x = Taxa, y = Loading, fill = Loading
     axis.text.y = element_text(size = 9)
   )
 
-ggsave(paste0(output_path, "Figure_4C_plant_PC2_loadings.png"), fig4c, width = 10, height = 6, dpi = 300)
-cat("✓ Figure 4C saved\n")
+ggsave(paste0(output_path, "Figure_4D_plant_PC2_loadings.png"), fig4d, width = 10, height = 6, dpi = 300)
+cat("✓ Figure 4D saved\n")
 
-# Figure 4D: Plant PC1 colored by Coast/Inland with distance to coast
-cat("Creating Figure 4D: Plant PC1 vs geographic location...\n")
+# Figure 4E: Plant PC1 colored by Coast/Inland with distance to coast
+cat("Creating Figure 4E: Plant PC1 vs geographic location...\n")
 
-plant_metadata_4d <- data.frame(sample_data(NCWW_2021_plant_clr))
+plant_metadata_4e <- data.frame(sample_data(NCWW_2021_plant_clr))
 plant_pca_data <- data.frame(PC1 = pca_result_plant$x[,1],
                               PC2 = pca_result_plant$x[,2],
-                              Coast_Inland = plant_metadata_4d$Coast_Inland,
-                              DistancetoCoast = plant_metadata_4d$DistancetoCoast)
+                              Coast_Inland = plant_metadata_4e$Coast_Inland,
+                              DistancetoCoast = plant_metadata_4e$DistancetoCoast)
 
-fig4d <- ggplot(plant_pca_data, aes(x = Coast_Inland, y = PC1, fill = Coast_Inland, size = DistancetoCoast)) +
+fig4e <- ggplot(plant_pca_data, aes(x = Coast_Inland, y = PC1, fill = Coast_Inland, size = DistancetoCoast)) +
   geom_boxplot(alpha = 0.7, size = 0.5) +
   geom_jitter(width = 0.2, alpha = 0.6) +
   scale_fill_manual(values = c("Coastal_Urban" = "#0072B2", "Inland_Urban" = "#D55E00")) +
   scale_size_continuous(name = "Distance to\nCoast (km)") +
   labs(
-    title = "Figure 4D: Plant PC1 Distribution by Location Type",
+    title = "Figure 4E: Plant PC1 Distribution by Location Type",
     x = "Location Type",
     y = "PC1 Score",
     subtitle = "Plant dietary patterns by coastal vs inland"
@@ -1448,8 +1551,8 @@ fig4d <- ggplot(plant_pca_data, aes(x = Coast_Inland, y = PC1, fill = Coast_Inla
     legend.position = "right"
   )
 
-ggsave(paste0(output_path, "Figure_4D_plant_PC1_location.png"), fig4d, width = 8, height = 6, dpi = 300)
-cat("✓ Figure 4D saved\n\n")
+ggsave(paste0(output_path, "Figure_4E_plant_PC1_location.png"), fig4e, width = 8, height = 6, dpi = 300)
+cat("✓ Figure 4E saved\n\n")
 
 ###############################################################################
 # 14. FIGURE 5: FISH CONSUMPTION PATTERNS
